@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+:root {
+  /* Palette aligned to PEBS logo:
+     - primary: deep indigo from "PEBS" lettering (#2D2A8E)
+     - accent:  teal-blue from the orb highlight (#4A90D9)
+     - deep:    navy from orb shadow (#1A2369) used in gradients
+  */
+  --background: #f5f6fb;
+  --foreground: #0f1334;
+  --card: #ffffff;
+  --card-foreground: #0f1334;
+  --muted: #eef0f8;
+  --muted-foreground: #5e6586;
+  --border: #e1e4ef;
+  --primary: #2d2a8e;
+  --primary-foreground: #ffffff;
+  --primary-deep: #1a2369;
+  --accent: #4a90d9;
+  --accent-light: #9ed4f6;
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --ring: rgba(45, 42, 142, 0.32);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-deep: var(--primary-deep);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+}
+
+/* Brand gradient used in login hero, headers, etc. */
+.brand-gradient {
+  background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 45%, var(--accent) 100%);
+}
+.brand-gradient-soft {
+  background: linear-gradient(135deg, rgba(45,42,142,0.04) 0%, rgba(74,144,217,0.06) 100%);
+}
+
+/* =========================================================
+   Animation utilities for demo pages
+   ========================================================= */
+@keyframes amiba-fade-up {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes amiba-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes amiba-pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.45); }
+  60%  { box-shadow: 0 0 0 18px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+@keyframes amiba-pulse-ring-warn {
+  0%   { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.45); }
+  60%  { box-shadow: 0 0 0 18px rgba(217, 119, 6, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+}
+@keyframes amiba-pulse-ring-success {
+  0%   { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45); }
+  60%  { box-shadow: 0 0 0 18px rgba(22, 163, 74, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+}
+@keyframes amiba-bar-grow {
+  0% { width: 0; }
+  100% { width: var(--bar-target, 0%); }
+}
+@keyframes amiba-shimmer {
+  0%   { background-position: -300px 0; }
+  100% { background-position: 300px 0; }
+}
+
+.animate-fade-up { animation: amiba-fade-up 0.6s ease-out both; }
+.animate-fade-in { animation: amiba-fade-in 0.6s ease-out both; }
+.animate-pulse-ring         { animation: amiba-pulse-ring 1.8s ease-out infinite; }
+.animate-pulse-ring-warn    { animation: amiba-pulse-ring-warn 1.8s ease-out infinite; }
+.animate-pulse-ring-success { animation: amiba-pulse-ring-success 1.8s ease-out infinite; }
+.animate-bar-grow { animation: amiba-bar-grow 1.2s ease-out both; }
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(74,144,217,0.18) 50%, transparent 100%);
+  background-size: 300px 100%;
+  animation: amiba-shimmer 2.5s linear infinite;
+}
+
+/* Stagger helper: child gets --i set inline, delay = i * 80ms */
+[data-stagger] > * { animation-delay: calc(var(--i, 0) * 80ms); }
+
+* {
+  border-color: var(--border);
+}
+
+html, body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Logo gradient orb (fallback when /logo.png is missing) */
+.logo-orb {
+  background: radial-gradient(circle at 30% 30%, var(--accent-light) 0%, var(--accent) 45%, var(--primary-deep) 100%);
+  box-shadow: inset -2px -3px 6px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.logo-orb::before {
+  content: "";
+  position: absolute;
+  top: 14%;
+  left: 18%;
+  width: 35%;
+  height: 35%;
+  background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
+}
+
+/* Scrollbar polish */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4d8e1; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #b6bccb; }

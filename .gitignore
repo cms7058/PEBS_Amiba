@@ -1,0 +1,53 @@
+# =====================================================================
+# Amoeba Copilot · root .gitignore
+# =====================================================================
+
+# Node / Next.js
+**/node_modules/
+**/.next/
+**/.turbo/
+**/.cache/
+**/out/
+**/dist/
+
+# Local secrets & runtime data — NEVER commit
+**/.env
+**/.env.*
+!**/.env.example
+# Persistent JSON storage (users / convs / enterprises ...)
+/app/data/
+/data/
+*.local
+
+# Build artifacts
+*.tsbuildinfo
+**/next-env.d.ts
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Test
+coverage/
+.nyc_output/
+
+# OS junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Editor
+.vscode/
+.idea/
+*.iml
+
+# Backups produced by deploy.sh
+amoeba-backup-*.tgz
+
+# Local agent / scratch
+.claude/
+.claude_local/

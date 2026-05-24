@@ -1,0 +1,66 @@
+services:
+  amoeba-copilot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Baked into the client bundle. Set in .env to your public domain so the
+        # mobile QR code on the home page works correctly behind a reverse proxy.
+        NEXT_PUBLIC_PUBLIC_URL: "${NEXT_PUBLIC_PUBLIC_URL:-}"
+    image: amoeba-copilot:latest
+    container_name: amoeba-copilot
+    restart: unless-stopped
+
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+
+    environment:
+      # MUST be set in production — used to sign session JWTs.
+      # Generate with: openssl rand -base64 48
+      AMIBA_AUTH_SECRET: "${AMIBA_AUTH_SECRET:?Please set AMIBA_AUTH_SECRET in .env}"
+
+      # Used to seed the initial admin user on FIRST boot of an empty data dir.
+      # After users.json exists this env has no effect.
+      AMIBA_ADMIN_PASSWORD: "${AMIBA_ADMIN_PASSWORD:-admin123}"
+
+      # Where the persistent JSON store lives inside the container.
+      AMIBA_DATA_DIR: "/app/data"
+
+      NODE_ENV: "production"
+
+    volumes:
+      # Persists users / enterprises / conversations / questions / benchmark
+      # across container restarts and image rebuilds.
+      - amoeba-data:/app/data
+
+    # Healthcheck mirrors the Dockerfile so `docker compose ps` shows healthy.
+    healthcheck:
+      test:
+        - "CMD"
+        - "node"
+        - "-e"
+        - "fetch('http://127.0.0.1:3000/login').then(r=>process.exit(r.status<500?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+    # Sensible defaults for a 2 GB VM. Override in compose.override.yml if needed.
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: 1024M
+        reservations:
+          memory: 256M
+
+    # Bound log retention so a runaway container doesn't fill disk.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+volumes:
+  amoeba-data:
+    driver: local
