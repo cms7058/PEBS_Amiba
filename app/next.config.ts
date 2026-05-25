@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  // Hide the small Next.js "N" floating indicator in dev mode
+  devIndicators: false,
 };
 
 export default nextConfig;

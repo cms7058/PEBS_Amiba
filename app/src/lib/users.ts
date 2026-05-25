@@ -127,6 +127,40 @@ export async function verifyPassword(username: string, password: string): Promis
   return u;
 }
 
+/**
+ * Find an existing user by email-as-username, or create a new one when an
+ * external auth source (PEBS cloud function) just validated the user.
+ * Invite users get a random unguessable password hash — they cannot log in
+ * via username/password, only via the cloud function flow.
+ */
+export async function findOrCreateInviteUser(input: {
+  email: string;
+  displayName?: string;
+  role?: Role;
+}): Promise<User> {
+  const email = input.email.trim().toLowerCase();
+  const all = await readAll();
+
+  // Find by username (we use email as username for invite users)
+  let existing = all.find((u) => u.username === email);
+  if (existing) return existing;
+
+  // Create new
+  const random = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+  const now = new Date().toISOString();
+  const u: User = {
+    id: "u_" + Math.random().toString(36).slice(2, 10),
+    username: email,
+    displayName: input.displayName?.trim() || email.split("@")[0],
+    role: input.role || "consultant",
+    passwordHash: await bcrypt.hash(random + Date.now(), 4),
+    createdAt: now,
+    updatedAt: now,
+  };
+  await atomicWrite([...all, u]);
+  return u;
+}
+
 export async function recordLogin(id: string) {
   const all = await readAll();
   const i = all.findIndex((u) => u.id === id);

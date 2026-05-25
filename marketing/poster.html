@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>Amoeba Copilot · 阿米巴动态智能体</title>
+<style>
+  /* ------------- Fonts ------------- */
+  @font-face { font-family: "IS"; src: url("assets/fonts/InstrumentSerif-Regular.ttf") format("truetype"); font-weight: 400; }
+  @font-face { font-family: "ISi"; src: url("assets/fonts/InstrumentSerif-Italic.ttf") format("truetype"); font-weight: 400; font-style: italic; }
+  @font-face { font-family: "In"; src: url("assets/fonts/InstrumentSans-Regular.ttf") format("truetype"); font-weight: 400; }
+  @font-face { font-family: "In"; src: url("assets/fonts/InstrumentSans-Bold.ttf") format("truetype"); font-weight: 700; }
+  @font-face { font-family: "Mono"; src: url("assets/fonts/JetBrainsMono-Regular.ttf") format("truetype"); font-weight: 400; }
+  @font-face { font-family: "Mono"; src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-weight: 700; }
+
+  :root {
+    --paper: #f6f3ec;
+    --ink: #15182d;
+    --ink-2: #2a2d44;
+    --ink-3: #4a4d63;
+    --indigo: #2d2a8e;
+    --indigo-deep: #1a2369;
+    --blue: #4a90d9;
+    --violet: #a855f7;
+    --amber: #b07f4a;
+    --rust: #9d4a3a;
+    --rule: #c9c2b2;
+    --hairline: #45475e;
+    --han: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+
+  @page { size: 210mm 297mm; margin: 0; }
+  html, body { margin: 0; padding: 0; background: #1a1614; }
+  body {
+    -webkit-font-smoothing: antialiased;
+    font-family: "In", var(--han);
+    color: var(--ink);
+  }
+
+  .page {
+    width: 210mm; height: 297mm;
+    padding: 12mm 14mm 10mm 14mm;
+    box-sizing: border-box;
+    background: var(--paper);
+    position: relative;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* subtle paper grain */
+  .page::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.55; mix-blend-mode: multiply;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(60,55,40,0.018) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(60,55,40,0.012) 0 1px, transparent 1px 4px);
+  }
+
+  /* trim marks */
+  .trim { position: absolute; width: 4mm; height: 4mm; }
+  .trim::before, .trim::after { content: ""; position: absolute; background: var(--hairline); }
+  .trim::before { left: 0; top: 50%; width: 4mm; height: 0.4mm; }
+  .trim::after { left: 50%; top: 0; width: 0.4mm; height: 4mm; }
+  .tl { top: 4mm; left: 4mm; } .tr { top: 4mm; right: 4mm; }
+  .bl { bottom: 4mm; left: 4mm; } .br { bottom: 4mm; right: 4mm; }
+
+  /* ------------- Masthead ------------- */
+  .mast {
+    flex: 0 0 auto;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding-bottom: 4mm;
+    border-bottom: 0.4mm solid var(--hairline);
+  }
+  .mast-left { display: flex; align-items: center; gap: 6mm; }
+  .mast-left img { display: block; height: 11mm; width: auto; }
+  .ident { font-family: "Mono"; font-size: 6.5pt; color: var(--ink-2); letter-spacing: 0.08em; line-height: 1.4; }
+  .ident .small { display: block; font-size: 5.5pt; opacity: 0.7; margin-top: 0.8mm; }
+  .mast-right { text-align: right; }
+  .mast-right .docno { font-family: "Mono"; font-size: 6.5pt; color: var(--ink-2); letter-spacing: 0.1em; }
+  .mast-right .vol { font-family: "ISi"; font-style: italic; font-size: 9pt; color: var(--ink-2); margin-top: 0.5mm; }
+
+  /* Runmark */
+  .runmark {
+    flex: 0 0 auto; margin-top: 3mm;
+    font-family: "Mono"; font-size: 5.5pt; color: var(--ink-2);
+    letter-spacing: 0.36em; opacity: 0.55; text-transform: uppercase;
+  }
+
+  /* ------------- Hero ------------- */
+  .hero {
+    flex: 0 0 auto;
+    margin-top: 7mm;
+    display: grid;
+    grid-template-columns: 1fr 55mm;
+    gap: 8mm;
+    align-items: end;
+  }
+  .hero-left { min-width: 0; }
+  .eyebrow {
+    font-family: "Mono"; font-size: 7pt; color: var(--indigo);
+    letter-spacing: 0.4em; text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: "IS"; font-weight: 400;
+    font-size: 52pt; line-height: 0.95;
+    color: var(--ink); margin: 3mm 0 0 0; letter-spacing: -0.025em;
+  }
+  .hero h1 .accent { color: var(--indigo); font-family: "ISi"; font-style: italic; }
+  .tag {
+    font-family: var(--han); font-weight: 500;
+    font-size: 11.5pt; color: var(--ink-2); margin-top: 4mm; letter-spacing: 0.04em;
+  }
+  .tag .dot { color: var(--violet); margin: 0 2mm; }
+
+  .pulled { text-align: right; }
+  .pulled .label {
+    font-family: "Mono"; font-size: 6.5pt; color: var(--ink-2);
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .pulled .num {
+    font-family: "IS"; font-size: 56pt; line-height: 1;
+    color: var(--indigo); margin: 1mm 0 1.5mm 0;
+  }
+  .pulled .num .small { font-size: 24pt; color: var(--ink-2); }
+  .pulled .cap {
+    font-family: var(--han); font-size: 7.5pt; color: var(--ink-2);
+    line-height: 1.45;
+  }
+
+  /* ------------- Comparison band ------------- */
+  .band {
+    flex: 0 0 auto;
+    margin-top: 9mm;
+    display: grid; grid-template-columns: 1fr 8mm 1fr; gap: 0;
+  }
+  .col h2 {
+    font-family: "IS"; font-style: italic; font-size: 13pt; font-weight: 400;
+    color: var(--ink); margin: 0 0 4mm 0; letter-spacing: 0;
+    display: flex; align-items: baseline; gap: 4mm;
+  }
+  .col h2 .kanji {
+    font-family: var(--han); font-style: normal; font-size: 18pt;
+    color: var(--ink); font-weight: 500;
+  }
+  .col h2 .stamp {
+    font-family: "Mono"; font-size: 6pt; letter-spacing: 0.2em;
+    color: var(--ink-2); text-transform: uppercase; margin-left: auto;
+  }
+  .col.left h2 .stamp { color: var(--amber); }
+  .col.right h2 .stamp { color: var(--indigo); }
+
+  .item {
+    display: grid; grid-template-columns: 7mm 1fr;
+    column-gap: 2mm;
+    padding: 1.8mm 0;
+    border-top: 0.2mm solid rgba(20,20,40,0.12);
+    align-items: baseline;
+  }
+  .item:first-of-type { border-top-color: transparent; padding-top: 0.5mm; }
+  .item .idx {
+    font-family: "Mono"; font-size: 6.5pt; color: var(--ink-2);
+    letter-spacing: 0.08em;
+  }
+  .ti {
+    font-family: var(--han); font-weight: 600; font-size: 9pt;
+    color: var(--ink); line-height: 1.25;
+  }
+  .desc {
+    font-family: var(--han); font-size: 7.2pt; color: var(--ink-2);
+    margin-top: 0.6mm; line-height: 1.45;
+  }
+  .col.left .ti { color: var(--rust); }
+
+  /* divider */
+  .divider {
+    position: relative;
+    border-left: 0.2mm solid var(--hairline);
+    margin: 6mm 0 0 0;
+  }
+  .divider::after {
+    content: ""; position: absolute;
+    left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(45deg);
+    width: 3.5mm; height: 3.5mm;
+    border-top: 0.4mm solid var(--indigo);
+    border-right: 0.4mm solid var(--indigo);
+  }
+  .divider .lbl {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    font-family: "Mono"; font-size: 5.5pt; letter-spacing: 0.16em;
+    text-transform: uppercase; white-space: nowrap;
+    writing-mode: vertical-rl;
+  }
+  .divider .lbl.from { top: 8mm; color: var(--amber); }
+  .divider .lbl.to { bottom: 8mm; color: var(--indigo); }
+
+  /* ------------- Engines panel ------------- */
+  .engines {
+    flex: 0 0 auto;
+    margin-top: 7mm;
+  }
+  .engines .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 3mm;
+  }
+  .engines .head h3 {
+    margin: 0; font-family: "IS"; font-weight: 400; font-size: 14pt;
+    color: var(--ink); font-style: italic;
+    display: flex; align-items: baseline; gap: 4mm;
+  }
+  .engines .head h3 .han {
+    font-family: var(--han); font-style: normal; font-weight: 500;
+    font-size: 13pt; color: var(--ink);
+  }
+  .engines .head .stamp {
+    font-family: "Mono"; font-size: 6pt; color: var(--ink-2);
+    letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .engines .grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-top: 0.4mm solid var(--hairline);
+  }
+  .eng {
+    padding: 3mm 4mm 1mm 0;
+    border-right: 0.2mm solid rgba(20,20,40,0.10);
+    min-width: 0;
+  }
+  .eng:last-child { border-right: none; padding-right: 0; }
+  .eng .no {
+    font-family: "Mono"; font-size: 6.5pt; color: var(--ink-2);
+    letter-spacing: 0.16em;
+  }
+  .eng .name {
+    font-family: var(--han); font-weight: 600; font-size: 12pt; color: var(--ink);
+    margin-top: 2.5mm;
+  }
+  .eng .latin {
+    font-family: "ISi"; font-style: italic; font-size: 9pt; color: var(--ink-2);
+    margin-top: 0.5mm;
+  }
+  .eng .desc {
+    font-family: var(--han); font-size: 7.5pt; color: var(--ink-2);
+    margin-top: 2.5mm; line-height: 1.55;
+  }
+  .eng.e1 .name { color: var(--indigo); }
+  .eng.e2 .name { color: var(--blue); }
+  .eng.e3 .name { color: var(--violet); }
+  .eng.e4 .name { color: var(--indigo-deep); }
+
+  /* ------------- Stats ribbon ------------- */
+  .ribbon {
+    flex: 0 0 auto;
+    margin-top: 6mm; padding: 3.5mm 0;
+    border-top: 0.4mm solid var(--hairline);
+    border-bottom: 0.4mm solid var(--hairline);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  }
+  .stat {
+    padding: 0 4mm;
+    border-right: 0.2mm solid rgba(20,20,40,0.10);
+  }
+  .stat:first-child { padding-left: 0; }
+  .stat:last-child { padding-right: 0; border-right: none; }
+  .stat .l {
+    font-family: "Mono"; font-size: 6pt; color: var(--ink-2);
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .stat .v {
+    font-family: "IS"; font-size: 20pt; color: var(--ink); margin-top: 0.5mm;
+    line-height: 1;
+  }
+  .stat .v .small { font-family: "IS"; font-size: 11pt; color: var(--ink-2); margin-left: 0.5mm; }
+  .stat .c {
+    font-family: var(--han); font-size: 6.8pt; color: var(--ink-2); margin-top: 1mm;
+    line-height: 1.35;
+  }
+  .stat.hl .v { color: var(--indigo); }
+
+  /* ------------- Colophon ------------- */
+  .colophon {
+    flex: 0 0 auto;
+    margin-top: 4mm;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: "Mono"; font-size: 6pt; color: var(--ink-2);
+    letter-spacing: 0.12em; line-height: 1.5;
+  }
+  .colophon .han { font-family: var(--han); letter-spacing: 0.04em; font-size: 7pt; color: var(--ink); font-weight: 600; }
+  .colophon .right { text-align: right; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="trim tl"></div><div class="trim tr"></div>
+    <div class="trim bl"></div><div class="trim br"></div>
+
+    <!-- Masthead -->
+    <header class="mast">
+      <div class="mast-left">
+        <img src="assets/pebs-logo.png" alt="PEBS"/>
+        <div class="ident">
+          上海零参科技发展有限公司
+          <span class="small">SHANGHAI LING CAN TECHNOLOGY · EST. 2026</span>
+        </div>
+      </div>
+      <div class="mast-right">
+        <div class="docno">DOC. AMC-001 · 2026/05 · 一页阐释</div>
+        <div class="vol">Volume One — Product Brief</div>
+      </div>
+    </header>
+
+    <div class="runmark">A PRODUCT BRIEF FOR FORWARD-LOOKING MANUFACTURERS · 阿米巴动态智能体 · ONE-PAGE EDITION</div>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-left">
+        <div class="eyebrow">Amoeba · Copilot</div>
+        <h1>The Amoeba,<br/><span class="accent">re-made</span> as software.</h1>
+        <div class="tag">把麦肯锡式的阿米巴咨询能力<span class="dot">·</span>封装成可订阅的数字产品</div>
+      </div>
+      <div class="pulled">
+        <div class="label">Cost Reduction</div>
+        <div class="num">10<span class="small">×</span></div>
+        <div class="cap">同等服务 · 客单价对比传统咨询<br/>5–30 万元 &nbsp;vs&nbsp; 50–300 万元</div>
+      </div>
+    </section>
+
+    <!-- Comparison band -->
+    <section class="band">
+      <div class="col left">
+        <h2><span class="kanji">现状</span> The Status Quo <span class="stamp">FRICTION</span></h2>
+        <div class="item"><div class="idx">01</div><div>
+          <div class="ti">咨询贵、周期长</div>
+          <div class="desc">传统阿米巴导入 50–300 万元，1–2 年才能见到首批结果</div>
+        </div></div>
+        <div class="item"><div class="idx">02</div><div>
+          <div class="ti">中小企业用不起</div>
+          <div class="desc">中国 4000 万家中小企业，真正导入阿米巴的不足 1%</div>
+        </div></div>
+        <div class="item"><div class="idx">03</div><div>
+          <div class="ti">静态模板水土不服</div>
+          <div class="desc">方法论标准化，但企业现状千差万别，模板套不上</div>
+        </div></div>
+        <div class="item"><div class="idx">04</div><div>
+          <div class="ti">系统不打通</div>
+          <div class="desc">ERP / MES / IoT / 钉钉孤岛，成本数据靠手工拼凑</div>
+        </div></div>
+        <div class="item"><div class="idx">05</div><div>
+          <div class="ti">辅料 / 能耗算不清</div>
+          <div class="desc">无法精细归集到工序 / 阿米巴单元，浪费长期隐形</div>
+        </div></div>
+        <div class="item"><div class="idx">06</div><div>
+          <div class="ti">转让定价拍脑袋</div>
+          <div class="desc">缺规则与公式支撑，每月对账争议不断</div>
+        </div></div>
+      </div>
+
+      <div class="divider">
+        <div class="lbl from">FROM · 传统咨询</div>
+        <div class="lbl to">TO · COPILOT</div>
+      </div>
+
+      <div class="col right">
+        <h2><span class="kanji">解法</span> The Copilot <span class="stamp">SYSTEM</span></h2>
+        <div class="item"><div class="idx">01</div><div>
+          <div class="ti">对话式六维诊断</div>
+          <div class="desc">组织 · 财务 · 信息化 · 设备 · 流程 · 文化，一次访谈出画像</div>
+        </div></div>
+        <div class="item"><div class="idx">02</div><div>
+          <div class="ti">动态陪跑，而非交付</div>
+          <div class="desc">从诊断到部署四个引擎，AI 持续陪跑而非一次报告</div>
+        </div></div>
+        <div class="item"><div class="idx">03</div><div>
+          <div class="ti">一企一图，全景思维导图</div>
+          <div class="desc">7 大分支看清"保留 / 改造 / 新建 / 去除 / 规则 / 风险"</div>
+        </div></div>
+        <div class="item"><div class="idx">04</div><div>
+          <div class="ti">同行业基准对比</div>
+          <div class="desc">12 家匿名样本起步，越用越准，知道自己处在什么分位</div>
+        </div></div>
+        <div class="item"><div class="idx">05</div><div>
+          <div class="ti">页内 AI 助手，按需出工具</div>
+          <div class="desc">点任一节点 → 解释 / 找资料 / 生成 CSV 工作底稿</div>
+        </div></div>
+        <div class="item"><div class="idx">06</div><div>
+          <div class="ti">模型可自配</div>
+          <div class="desc">DeepSeek V4 Pro · MiniMax M2.7 · Kimi K2.5 三家可选</div>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- Engines panel -->
+    <section class="engines">
+      <div class="head">
+        <h3><span class="han">四层引擎</span> Four Engines, One Stack</h3>
+        <span class="stamp">ARCHITECTURE · 01–04</span>
+      </div>
+      <div class="grid">
+        <div class="eng e1">
+          <div class="no">01 / DIAGNOSIS</div>
+          <div class="name">诊断引擎</div>
+          <div class="latin">A conversation, not a survey.</div>
+          <div class="desc">六维深度问询 → 企业落地画像 + 综合就绪度评分</div>
+        </div>
+        <div class="eng e2">
+          <div class="no">02 / PLANNING</div>
+          <div class="name">规划引擎</div>
+          <div class="latin">Rules, made specific.</div>
+          <div class="desc">数据采集 / 制度 / 流程 / 核算 / 风控 五大模块</div>
+        </div>
+        <div class="eng e3">
+          <div class="no">03 / DESIGN</div>
+          <div class="name">设计引擎</div>
+          <div class="latin">The shape of an organization.</div>
+          <div class="desc">阿米巴切割树 · 转让定价矩阵 · 核心 KPI 体系</div>
+        </div>
+        <div class="eng e4">
+          <div class="no">04 / DEPLOYMENT</div>
+          <div class="name">部署引擎</div>
+          <div class="latin">Running with the unit.</div>
+          <div class="desc">实时利润看板 · 浪费识别 · 智能预警与处置闭环</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats ribbon -->
+    <section class="ribbon">
+      <div class="stat hl">
+        <div class="l">客 单 价</div>
+        <div class="v">5–30<span class="small"> 万</span></div>
+        <div class="c">对比传统咨询 50–300 万 · 降至 1/10</div>
+      </div>
+      <div class="stat hl">
+        <div class="l">落 地 周 期</div>
+        <div class="v">3–15<span class="small"> 月</span></div>
+        <div class="c">对比传统 1–2 年 · 见效更快</div>
+      </div>
+      <div class="stat">
+        <div class="l">行 业 聚 焦</div>
+        <div class="v">02</div>
+        <div class="c">汽车零部件 · 项目制非标设备</div>
+      </div>
+      <div class="stat">
+        <div class="l">部 署 方 式</div>
+        <div class="v">Docker</div>
+        <div class="c">私有部署 / SaaS 双选 · 一行命令</div>
+      </div>
+    </section>
+
+    <!-- Colophon -->
+    <footer class="colophon">
+      <div>
+        <span class="han">上海零参科技 · Amoeba Copilot</span><br/>
+        Set in Instrument Serif, Instrument Sans, JetBrains Mono &amp; PingFang SC.
+      </div>
+      <div class="right">
+        <span class="han">v1.0 · 2026/05</span><br/>
+        One page · A4 · Documental Precision Series.
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
