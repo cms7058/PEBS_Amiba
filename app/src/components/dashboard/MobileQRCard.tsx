@@ -1,29 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Smartphone, Copy, Check } from "lucide-react";
+import { useState } from "react";
+import { Smartphone } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { Card, CardBody, CardHeader } from "../ui/Card";
-import { Button } from "../ui/Button";
+
+const MOBILE_ENTRY_URL = "http://121.4.117.45:3100/";
 
 export function MobileQRCard() {
-  const [url, setUrl] = useState<string>("");
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    // Prefer explicit env override (e.g. https://copilot.example.com),
-    // fall back to current origin so it just works after deploy
-    const base =
-      process.env.NEXT_PUBLIC_PUBLIC_URL?.replace(/\/+$/, "") ||
-      (typeof window !== "undefined" ? window.location.origin : "");
-    setUrl(`${base}/m`);
-  }, []);
-
-  async function copy() {
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
+  const [url] = useState<string>(MOBILE_ENTRY_URL);
 
   return (
     <Card>
@@ -52,17 +37,6 @@ export function MobileQRCard() {
               <li>用 PC 端发放的账号登录</li>
               <li>查看对话历史与诊断得分</li>
             </ol>
-          </div>
-          <div>
-            <div className="mb-0.5 text-muted-foreground">链接</div>
-            <div className="flex items-center gap-1.5">
-              <code className="flex-1 truncate rounded bg-muted px-1.5 py-0.5 text-[10px]" title={url}>
-                {url || "..."}
-              </code>
-              <Button size="sm" variant="ghost" onClick={copy} disabled={!url}>
-                {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-              </Button>
-            </div>
           </div>
         </div>
       </CardBody>

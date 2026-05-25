@@ -10,11 +10,10 @@ const CLOUD_API = process.env.PEBS_CLOUD_API
   || "https://fc-mp-ad17509f-ebae-4693-974b-769771dd93c5.next.bspapp.com/pebs-copilot-api";
 
 /**
- * Product key registered in the PEBS cloud function backend. The default
- * `product_1779676634595` is the internal ID for "PEBS Copilot Amoeba".
- * Override via env if the backend re-keys the product.
+ * Product key registered in the PEBS cloud function backend.
+ * The backend validates this string exactly.
  */
-const PRODUCT_KEY = process.env.AMIBA_PRODUCT_KEY || "product_1779676634595";
+const PRODUCT_KEY = "Amoeba-copilot";
 
 interface CloudResp {
   success?: boolean;
