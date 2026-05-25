@@ -46,11 +46,22 @@ export async function getCurrentSession(): Promise<SessionPayload | null> {
   return verifySession(token);
 }
 
-export function sessionCookieOptions() {
+export function sessionCookieOptions(req?: Request) {
+  // Only set the `Secure` flag when the request actually arrived over HTTPS.
+  // Setting it on plain HTTP would make the browser silently drop the cookie
+  // — login appears to succeed but no session is stored, redirecting users
+  // back to /login indefinitely. Detect via x-forwarded-proto (set by
+  // reverse proxies like Nginx / Caddy / Cloudflare) or the request URL scheme.
+  let isHttps = false;
+  if (req) {
+    const proto = req.headers.get("x-forwarded-proto");
+    if (proto === "https") isHttps = true;
+    else if (req.url.startsWith("https://")) isHttps = true;
+  }
   return {
     httpOnly: true,
     sameSite: "lax" as const,
-    secure: process.env.NODE_ENV === "production",
+    secure: isHttps,
     path: "/",
     maxAge: SESSION_TTL,
   };

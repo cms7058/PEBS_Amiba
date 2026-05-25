@@ -126,7 +126,7 @@ export async function POST(req: Request) {
       name: user.displayName,
     });
     const c = await cookies();
-    c.set(SESSION_COOKIE, token, sessionCookieOptions());
+    c.set(SESSION_COOKIE, token, sessionCookieOptions(req));
     await recordLogin(user.id);
 
     return Response.json({
