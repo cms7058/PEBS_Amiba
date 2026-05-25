@@ -8,7 +8,11 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 RUN corepack enable
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile --prod=false
+# pnpm 11+ defaults to refusing to run dependency build scripts ("strict
+# dangerous behaviour"). The whitelist is in package.json's `pnpm.onlyBuiltDependencies`.
+# `--config.strict-dep-builds=false` is the runtime safety net so the install
+# completes even if a future pnpm release tightens this further.
+RUN pnpm install --frozen-lockfile --prod=false --config.strict-dep-builds=false
 
 
 # =====================================================================
