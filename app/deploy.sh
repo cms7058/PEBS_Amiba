@@ -12,7 +12,12 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 SERVICE=amoeba-copilot
-VOLUME=amoeba-data
+# 数据卷真实名：compose 可能给卷加项目名前缀（如 app_amoeba-data）。
+# 从容器 /app/data 挂载点取实际卷名，确保 backup/restore 命中应用真正在用的卷；
+# 容器尚不存在时回退到字面量 amoeba-data。
+VOLUME=$(docker inspect "$SERVICE" \
+  --format '{{ range .Mounts }}{{ if eq .Destination "/app/data" }}{{ .Name }}{{ end }}{{ end }}' 2>/dev/null || true)
+[ -z "${VOLUME:-}" ] && VOLUME=amoeba-data
 
 usage() { sed -n '2,12p' "$0"; }
 
