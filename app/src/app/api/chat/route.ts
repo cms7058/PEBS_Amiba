@@ -31,10 +31,16 @@ export async function POST(req: Request) {
 
   const protocol: Protocol = body.protocol || (/\/anthropic\b/i.test(baseUrl) ? "anthropic" : "openai");
 
-  if (protocol === "anthropic") {
-    return await handleAnthropic({ baseUrl, model, apiKey, messages, maxTokens: maxTokens || 4096 });
+  try {
+    if (protocol === "anthropic") {
+      return await handleAnthropic({ baseUrl, model, apiKey, messages, maxTokens: maxTokens || 4096 });
+    }
+    return await handleOpenAI({ baseUrl, model, apiKey, messages });
+  } catch (e) {
+    // 上游连接失败（如 baseUrl 缺少 https://、网络不可达）——返回可读信息而非 500
+    const msg = (e as Error).message || String(e);
+    return new Response(`无法连接上游模型：${msg}。请检查「模型与设置」的 Base URL（需以 https:// 开头）与网络。`, { status: 502 });
   }
-  return await handleOpenAI({ baseUrl, model, apiKey, messages });
 }
 
 // =====================================================================

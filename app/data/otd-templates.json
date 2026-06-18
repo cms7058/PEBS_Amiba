@@ -1,0 +1,559 @@
+[
+  {
+    "id": "otd_1sehh1ahuptb",
+    "name": "汽车零部件量产 OTD（库模板）",
+    "industry": "auto_parts",
+    "mode": "MTO",
+    "nodes": [
+      {
+        "id": "on_zxymcwxauptc",
+        "seq": 0,
+        "name": "商机/询价 RFQ",
+        "action": "接询价、初判可做性",
+        "inputs": [
+          "客户图纸/规格"
+        ],
+        "outputs": [
+          "询价登记"
+        ],
+        "role": "销售",
+        "kpis": [
+          {
+            "key": "rfq_resp",
+            "label": "询价响应时长",
+            "unit": "h",
+            "betterWhen": "lower",
+            "values": {
+              "baseline": 48,
+              "current": 36,
+              "target": 24
+            }
+          }
+        ],
+        "tools": [],
+        "factor": "method",
+        "riskProp": "completeness",
+        "riskNote": "技术要求是否齐全",
+        "key": "rfq"
+      },
+      {
+        "id": "on_dtf7erd3uptc",
+        "seq": 1,
+        "name": "报价/成本估算",
+        "action": "估 BOM、估工时、定价（含年降测算）",
+        "inputs": [
+          "图纸",
+          "历史成本"
+        ],
+        "outputs": [
+          "报价单",
+          "估算成本"
+        ],
+        "role": "销售+工程",
+        "kpis": [
+          {
+            "key": "quote_acc",
+            "label": "报价准确率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 82,
+              "current": 88,
+              "target": 95
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "bom",
+            "enabled": true
+          }
+        ],
+        "factor": "material",
+        "riskProp": "correctness",
+        "riskNote": "成本估漏（辅料/工装/年降）",
+        "key": "quote"
+      },
+      {
+        "id": "on_bano6lrtuptc",
+        "seq": 2,
+        "name": "订单评审与接单",
+        "action": "合同/技术/交期三评审",
+        "inputs": [
+          "客户 PO/预测",
+          "报价"
+        ],
+        "outputs": [
+          "评审记录",
+          "交期承诺"
+        ],
+        "role": "商务+计划",
+        "kpis": [
+          {
+            "key": "order_acc",
+            "label": "接单准确率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 85,
+              "current": 90,
+              "target": 98
+            }
+          }
+        ],
+        "tools": [],
+        "factor": "method",
+        "riskProp": "rationality",
+        "riskNote": "盲目承诺交期",
+        "key": "order_review"
+      },
+      {
+        "id": "on_nqg9p43luptc",
+        "seq": 3,
+        "name": "工艺与 BOM 准备",
+        "action": "工艺路线、制造 BOM、工装、定额",
+        "inputs": [
+          "设计 BOM/图纸"
+        ],
+        "outputs": [
+          "工艺路线",
+          "制造 BOM",
+          "定额"
+        ],
+        "role": "工艺",
+        "kpis": [
+          {
+            "key": "bom_acc",
+            "label": "BOM 准确率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 88,
+              "current": 92,
+              "target": 99
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "bom",
+            "enabled": true
+          }
+        ],
+        "factor": "material",
+        "riskProp": "completeness",
+        "riskNote": "缺工序/缺定额",
+        "key": "process_bom"
+      },
+      {
+        "id": "on_w4jb5xequptc",
+        "seq": 4,
+        "name": "主计划与排产",
+        "action": "MPS、有限产能排产、换线优化",
+        "inputs": [
+          "订单/看板",
+          "产能",
+          "BOM"
+        ],
+        "outputs": [
+          "生产计划",
+          "工单"
+        ],
+        "role": "计划/PMC",
+        "kpis": [
+          {
+            "key": "plan_attain",
+            "label": "计划达成率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 76,
+              "current": 84,
+              "target": 95
+            }
+          },
+          {
+            "key": "smed",
+            "label": "换线时间",
+            "unit": "min",
+            "betterWhen": "lower",
+            "values": {
+              "baseline": 45,
+              "current": 32,
+              "target": 20
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "aps",
+            "enabled": true
+          }
+        ],
+        "factor": "machine",
+        "riskProp": "rationality",
+        "riskNote": "瓶颈/换线未优化",
+        "key": "planning"
+      },
+      {
+        "id": "on_rc3medmwuptc",
+        "seq": 5,
+        "name": "物料需求与采购",
+        "action": "MRP/看板补货、跟催",
+        "inputs": [
+          "BOM",
+          "库存",
+          "计划"
+        ],
+        "outputs": [
+          "采购订单",
+          "到货计划"
+        ],
+        "role": "采购",
+        "kpis": [
+          {
+            "key": "po_ontime",
+            "label": "采购准时率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 80,
+              "current": 87,
+              "target": 96
+            }
+          },
+          {
+            "key": "dead_stock",
+            "label": "呆滞率",
+            "unit": "%",
+            "betterWhen": "lower",
+            "values": {
+              "baseline": 9,
+              "current": 6,
+              "target": 3
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "aps",
+            "enabled": false
+          }
+        ],
+        "factor": "material",
+        "riskProp": "correctness",
+        "riskNote": "MOQ/提前期错致断料",
+        "key": "procurement"
+      },
+      {
+        "id": "on_ie2ip12muptc",
+        "seq": 6,
+        "name": "齐套与备料/下料",
+        "action": "齐套检查、排料下料",
+        "inputs": [
+          "工单",
+          "物料"
+        ],
+        "outputs": [
+          "齐套报告",
+          "下料件"
+        ],
+        "role": "仓储+下料",
+        "kpis": [
+          {
+            "key": "kit_rate",
+            "label": "齐套率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 78,
+              "current": 85,
+              "target": 97
+            }
+          },
+          {
+            "key": "nest_yield",
+            "label": "套料利用率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 78,
+              "current": 82,
+              "target": 90
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "nesting",
+            "enabled": true
+          },
+          {
+            "tool": "bom",
+            "enabled": false
+          }
+        ],
+        "factor": "material",
+        "riskProp": "rationality",
+        "riskNote": "未齐套先开工",
+        "key": "kitting"
+      },
+      {
+        "id": "on_sanewbdtuptc",
+        "seq": 7,
+        "name": "生产制造",
+        "action": "冲压→焊接→涂装→总装 等多工序",
+        "inputs": [
+          "齐套物料",
+          "工艺"
+        ],
+        "outputs": [
+          "在制品",
+          "完工品"
+        ],
+        "role": "制造各巴",
+        "kpis": [
+          {
+            "key": "oee",
+            "label": "OEE",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 52,
+              "current": 61,
+              "target": 75
+            }
+          },
+          {
+            "key": "labor_value",
+            "label": "单位工时产值",
+            "unit": "元/h",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 120,
+              "current": 138,
+              "target": 165
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "worktime",
+            "enabled": true
+          },
+          {
+            "tool": "aps",
+            "enabled": true
+          }
+        ],
+        "factor": "man",
+        "riskProp": "correctness",
+        "riskNote": "工序参数错",
+        "key": "production"
+      },
+      {
+        "id": "on_mgwsz2qkuptc",
+        "seq": 8,
+        "name": "过程与成品质量",
+        "action": "IPQC/FQC、不良处理",
+        "inputs": [
+          "完工品",
+          "检验标准"
+        ],
+        "outputs": [
+          "检验记录",
+          "不良单"
+        ],
+        "role": "品质",
+        "kpis": [
+          {
+            "key": "fpy",
+            "label": "一次交检合格率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 90,
+              "current": 94,
+              "target": 99
+            }
+          },
+          {
+            "key": "ppm",
+            "label": "客诉 PPM",
+            "unit": "ppm",
+            "betterWhen": "lower",
+            "values": {
+              "baseline": 850,
+              "current": 520,
+              "target": 200
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "lean",
+            "enabled": true
+          }
+        ],
+        "factor": "method",
+        "riskProp": "completeness",
+        "riskNote": "缺检验/缺管控点",
+        "key": "quality"
+      },
+      {
+        "id": "on_bl70mnivuptc",
+        "seq": 9,
+        "name": "入库/包装",
+        "action": "入库、包装、标识",
+        "inputs": [
+          "合格品"
+        ],
+        "outputs": [
+          "入库单",
+          "成品"
+        ],
+        "role": "仓储",
+        "kpis": [
+          {
+            "key": "inv_turn",
+            "label": "库存周转",
+            "unit": "次/年",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 6,
+              "current": 8,
+              "target": 12
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "aps",
+            "enabled": false
+          }
+        ],
+        "factor": "material",
+        "riskProp": "correctness",
+        "riskNote": "错料/错标",
+        "key": "warehouse"
+      },
+      {
+        "id": "on_xf2tsrmfuptc",
+        "seq": 10,
+        "name": "发运/物流",
+        "action": "排车、发运、签收",
+        "inputs": [
+          "成品",
+          "发运计划"
+        ],
+        "outputs": [
+          "发货单",
+          "签收"
+        ],
+        "role": "物流",
+        "kpis": [
+          {
+            "key": "ship_ontime",
+            "label": "发运准时率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 88,
+              "current": 92,
+              "target": 99
+            }
+          }
+        ],
+        "tools": [],
+        "factor": "environment",
+        "riskProp": "rationality",
+        "riskNote": "急运成本失控",
+        "key": "shipping"
+      },
+      {
+        "id": "on_0boqfj1suptc",
+        "seq": 11,
+        "name": "交付确认/开票/回款",
+        "action": "客户验收、开票、催款",
+        "inputs": [
+          "签收",
+          "合同"
+        ],
+        "outputs": [
+          "验收单",
+          "发票",
+          "回款"
+        ],
+        "role": "商务+财务",
+        "kpis": [
+          {
+            "key": "otd",
+            "label": "准时交付率(OTD)",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 82,
+              "current": 89,
+              "target": 98
+            }
+          },
+          {
+            "key": "dso",
+            "label": "回款周期(DSO)",
+            "unit": "天",
+            "betterWhen": "lower",
+            "values": {
+              "baseline": 75,
+              "current": 62,
+              "target": 45
+            }
+          }
+        ],
+        "tools": [],
+        "factor": "method",
+        "riskProp": "completeness",
+        "riskNote": "缺验收致拖款",
+        "key": "delivery"
+      },
+      {
+        "id": "on_g91ypo78uptc",
+        "seq": 12,
+        "name": "售后/复盘/知识沉淀",
+        "action": "客诉处理、复盘",
+        "inputs": [
+          "全流程数据"
+        ],
+        "outputs": [
+          "复盘报告",
+          "知识库"
+        ],
+        "role": "全员",
+        "kpis": [
+          {
+            "key": "review_rate",
+            "label": "复盘录入率",
+            "unit": "%",
+            "betterWhen": "higher",
+            "values": {
+              "baseline": 30,
+              "current": 55,
+              "target": 90
+            }
+          }
+        ],
+        "tools": [
+          {
+            "tool": "lean",
+            "enabled": true
+          }
+        ],
+        "factor": "method",
+        "riskProp": "rationality",
+        "riskNote": "经验不沉淀",
+        "key": "review"
+      }
+    ],
+    "createdAt": "2026-06-15T07:47:38.159Z",
+    "updatedAt": "2026-06-15T09:27:43.067Z"
+  }
+]

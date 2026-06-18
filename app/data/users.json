@@ -1,0 +1,21 @@
+[
+  {
+    "id": "u_admin",
+    "username": "admin",
+    "displayName": "系统管理员",
+    "role": "admin",
+    "passwordHash": "$2b$10$LNmN5SnCH.t5BU.5bHAeQeYtgjyGe15Qs5gCy8EDKWerSGN.mhoFy",
+    "createdAt": "2026-05-22T04:18:02.198Z",
+    "updatedAt": "2026-06-14T04:29:51.368Z",
+    "lastLoginAt": "2026-06-17T20:54:20.637Z"
+  },
+  {
+    "id": "u_g5lty8vd",
+    "username": "user01",
+    "displayName": "user01",
+    "role": "consultant",
+    "passwordHash": "$2b$10$yr/AZPJe2PnattOpXfsrju8fPc.b8oFcy6KTQYpXkwaqDX5/dZKU2",
+    "createdAt": "2026-05-22T05:25:02.443Z",
+    "updatedAt": "2026-05-22T05:25:02.443Z"
+  }
+]

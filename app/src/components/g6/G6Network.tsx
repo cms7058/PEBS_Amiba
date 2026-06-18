@@ -131,55 +131,98 @@ export function G6Network({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         graphRef.current = graph as any;
 
-        // Hover highlight: dim non-neighbors
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const onEnter = (e: any) => {
-          const id = e.itemId || e.target?.id;
-          if (!id) return;
-          const neighbors = new Set<string>([id]);
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          graphData.edges.forEach((edge: any) => {
-            if (edge.source === id) neighbors.add(edge.target);
-            if (edge.target === id) neighbors.add(edge.source);
+        // 选中/悬停状态：点击节点 → 聚焦放大并把名称放大显示在节点右侧（否则密集时看不清）
+        let selected: string | null = null;
+        let hovered: string | null = null;
+        let lastClickAt = 0, lastClickId = "";
+
+        const neighborsOf = (id: string) => {
+          const s = new Set<string>([id]);
+          graphData.edges.forEach((edge: { source: string; target: string }) => {
+            if (edge.source === id) s.add(edge.target);
+            if (edge.target === id) s.add(edge.source);
           });
+          return s;
+        };
+
+        const restyle = () => {
+          const focusId = hovered || selected;
+          const nb = focusId ? neighborsOf(focusId) : null;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (graph as any).updateNodeData(
-            graphData.nodes.map((n) => ({
-              id: n.id,
-              style: { opacity: neighbors.has(n.id) ? 1 : 0.18 },
-            }))
+            graphData.nodes.map((n) => {
+              const isSel = n.id === selected;
+              const dimmed = nb ? !nb.has(n.id) : false;
+              const baseSize = n.style.size as number;
+              return {
+                id: n.id,
+                style: {
+                  opacity: dimmed ? 0.15 : 1,
+                  size: isSel ? baseSize + 18 : baseSize,
+                  lineWidth: isSel ? 3 : 2,
+                  stroke: isSel ? "#2d2a8e" : "#fff",
+                  zIndex: isSel ? 10 : 0,
+                  labelFontSize: isSel ? 17 : 11,
+                  labelFontWeight: isSel ? 700 : 600,
+                  labelPlacement: isSel ? "right" : "bottom",
+                  labelOffsetX: isSel ? 8 : 0,
+                  labelOffsetY: isSel ? 0 : 8,
+                  labelFill: isSel ? "#2d2a8e" : "#0f1334",
+                  labelBackgroundFill: isSel ? "rgba(45,42,142,0.12)" : "rgba(255,255,255,0.85)",
+                  labelPadding: isSel ? [4, 9] : [1, 4],
+                },
+              };
+            })
           );
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (graph as any).updateEdgeData(
-            graphData.edges.map((edge: { id: string; source: string; target: string }) => ({
-              id: edge.id,
-              style: {
-                opacity: edge.source === id || edge.target === id ? 1 : 0.08,
-                lineWidth: edge.source === id || edge.target === id ? 2 : 1,
-                stroke: edge.source === id || edge.target === id ? "#2d2a8e" : "rgba(148,163,184,0.4)",
-              },
-            }))
+            graphData.edges.map((edge: { id: string; source: string; target: string }) => {
+              const active = focusId ? (edge.source === focusId || edge.target === focusId) : false;
+              return {
+                id: edge.id,
+                style: {
+                  opacity: nb ? (active ? 1 : 0.08) : 1,
+                  lineWidth: active ? 2 : 1.2,
+                  stroke: active ? "#2d2a8e" : "rgba(148,163,184,0.55)",
+                },
+              };
+            })
           );
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (graph as any).draw();
         };
-        const onLeave = () => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (graph as any).updateNodeData(graphData.nodes.map((n) => ({ id: n.id, style: { opacity: 1 } })));
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (graph as any).updateEdgeData(graphData.edges.map((edge: { id: string }) => ({
-            id: edge.id,
-            style: { opacity: 1, lineWidth: 1.2, stroke: "rgba(148,163,184,0.55)" },
-          })));
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (graph as any).draw();
-        };
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const onEnter = (e: any) => { const id = e.itemId || e.target?.id; if (!id) return; hovered = String(id); restyle(); };
+        const onLeave = () => { hovered = null; restyle(); };
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const onClick = (e: any) => {
           const id = e.itemId || e.target?.id;
           if (!id) return;
-          const node = nodes.find((n) => n.id === String(id));
-          if (node) onNodeClick?.(node);
+          const sid = String(id);
+          const now = Date.now();
+          if (sid === lastClickId && now - lastClickAt < 120) return; // 去重：node:click 与 element:click 可能双触发
+          lastClickAt = now; lastClickId = sid;
+          const node = nodes.find((n) => n.id === sid);
+          if (!node) return;
+          if (selected === sid) {
+            selected = null; restyle();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            try { (graph as any).fitView(); } catch { /* noop */ }
+            onNodeClick?.(null);
+          } else {
+            selected = sid; restyle();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            try { (graph as any).zoomTo(1.6); (graph as any).focusElement(sid); } catch { /* noop */ }
+            onNodeClick?.(node);
+          }
+        };
+        const onCanvasClick = () => {
+          if (!selected) return;
+          selected = null; restyle();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          try { (graph as any).fitView(); } catch { /* noop */ }
+          onNodeClick?.(null);
         };
 
         graph.on("node:pointerenter", onEnter);
@@ -187,10 +230,12 @@ export function G6Network({
         graph.on("node:click", onClick);
         // Backup: some G6 v5 builds emit on inner shape only
         graph.on("element:click", onClick);
+        graph.on("canvas:click", onCanvasClick);
         cleanupFns.push(() => graph.off("node:pointerenter", onEnter));
         cleanupFns.push(() => graph.off("node:pointerleave", onLeave));
         cleanupFns.push(() => graph.off("node:click", onClick));
         cleanupFns.push(() => graph.off("element:click", onClick));
+        cleanupFns.push(() => graph.off("canvas:click", onCanvasClick));
 
         await graph.render();
         if (disposed) {

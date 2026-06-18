@@ -1,0 +1,11 @@
+{
+  "name": "@amiba/subproject-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "阿米巴子项目脚手架模板：独立可用 + 可插拔接入主阿米巴",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
+  }
+}

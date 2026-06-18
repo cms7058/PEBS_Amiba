@@ -1,8 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE, verifySession } from "./lib/auth";
 
-const PUBLIC_PATHS = ["/login", "/m/login"];
-const PUBLIC_API = ["/api/auth/login", "/api/auth/invite-login"];
+// "/" 是公开产品介绍首页，无需登录即可查看。
+const PUBLIC_PATHS = ["/", "/login", "/m/login"];
+// ingest / hello 由子工具用连接器令牌（Bearer）在路由内部自行鉴权，
+// 不能被这里的 session 网关拦截，否则工具上传一律 401。
+const PUBLIC_API = ["/api/auth/login", "/api/auth/invite-login", "/api/ingest", "/api/connectors/hello"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -14,9 +17,9 @@ export async function proxy(req: NextRequest) {
   const token = req.cookies.get(SESSION_COOKIE)?.value;
   const session = token ? await verifySession(token) : null;
 
-  // Logged-in user visiting /login → bounce to home
+  // Logged-in user visiting /login → bounce to dashboard
   if (session && pathname === "/login") {
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
   if (session && pathname === "/m/login") {
     return NextResponse.redirect(new URL("/m", req.url));
@@ -43,7 +46,7 @@ export async function proxy(req: NextRequest) {
       if (pathname.startsWith("/api/")) {
         return Response.json({ error: "无权限" }, { status: 403 });
       }
-      return NextResponse.redirect(new URL("/", req.url));
+      return NextResponse.redirect(new URL("/dashboard", req.url));
     }
   }
 

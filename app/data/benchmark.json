@@ -1,0 +1,180 @@
+[
+  {
+    "industry": "auto_parts",
+    "score": 64,
+    "level": "L2",
+    "scale": "200-500 人",
+    "at": "2026-01-15T00:00:00Z",
+    "dimensions": {
+      "organization": 68,
+      "finance": 72,
+      "it": 52,
+      "equipment": 60,
+      "process": 66,
+      "culture": 56
+    }
+  },
+  {
+    "industry": "auto_parts",
+    "score": 71,
+    "level": "L2",
+    "scale": "500-1000 人",
+    "at": "2026-02-04T00:00:00Z",
+    "dimensions": {
+      "organization": 75,
+      "finance": 80,
+      "it": 65,
+      "equipment": 70,
+      "process": 72,
+      "culture": 62
+    }
+  },
+  {
+    "industry": "auto_parts",
+    "score": 58,
+    "level": "L1",
+    "scale": "100-200 人",
+    "at": "2026-02-20T00:00:00Z",
+    "dimensions": {
+      "organization": 60,
+      "finance": 64,
+      "it": 45,
+      "equipment": 55,
+      "process": 60,
+      "culture": 50
+    }
+  },
+  {
+    "industry": "auto_parts",
+    "score": 82,
+    "level": "L3",
+    "scale": "1000+ 人",
+    "at": "2026-03-12T00:00:00Z",
+    "dimensions": {
+      "organization": 85,
+      "finance": 88,
+      "it": 80,
+      "equipment": 78,
+      "process": 82,
+      "culture": 75
+    }
+  },
+  {
+    "industry": "auto_parts",
+    "score": 55,
+    "level": "L1",
+    "scale": "100-200 人",
+    "at": "2026-04-05T00:00:00Z",
+    "dimensions": {
+      "organization": 58,
+      "finance": 60,
+      "it": 40,
+      "equipment": 55,
+      "process": 58,
+      "culture": 48
+    }
+  },
+  {
+    "industry": "auto_parts",
+    "score": 67,
+    "level": "L2",
+    "scale": "200-500 人",
+    "at": "2026-04-22T00:00:00Z",
+    "dimensions": {
+      "organization": 70,
+      "finance": 74,
+      "it": 55,
+      "equipment": 65,
+      "process": 68,
+      "culture": 58
+    }
+  },
+  {
+    "industry": "project_equipment",
+    "score": 52,
+    "level": "L1",
+    "scale": "100-200 人",
+    "at": "2026-01-22T00:00:00Z",
+    "dimensions": {
+      "organization": 55,
+      "finance": 58,
+      "it": 42,
+      "equipment": 48,
+      "process": 56,
+      "culture": 50
+    }
+  },
+  {
+    "industry": "project_equipment",
+    "score": 68,
+    "level": "L2",
+    "scale": "200-500 人",
+    "at": "2026-02-18T00:00:00Z",
+    "dimensions": {
+      "organization": 70,
+      "finance": 72,
+      "it": 60,
+      "equipment": 65,
+      "process": 70,
+      "culture": 65
+    }
+  },
+  {
+    "industry": "project_equipment",
+    "score": 61,
+    "level": "L2",
+    "scale": "200-500 人",
+    "at": "2026-03-08T00:00:00Z",
+    "dimensions": {
+      "organization": 65,
+      "finance": 65,
+      "it": 52,
+      "equipment": 58,
+      "process": 63,
+      "culture": 58
+    }
+  },
+  {
+    "industry": "project_equipment",
+    "score": 76,
+    "level": "L3",
+    "scale": "500-1000 人",
+    "at": "2026-04-15T00:00:00Z",
+    "dimensions": {
+      "organization": 78,
+      "finance": 80,
+      "it": 72,
+      "equipment": 70,
+      "process": 75,
+      "culture": 70
+    }
+  },
+  {
+    "industry": "other",
+    "score": 60,
+    "level": "L2",
+    "at": "2026-02-10T00:00:00Z",
+    "dimensions": {
+      "organization": 62,
+      "finance": 64,
+      "it": 55,
+      "equipment": 58,
+      "process": 60,
+      "culture": 56
+    }
+  },
+  {
+    "industry": "other",
+    "score": 70,
+    "level": "L2",
+    "at": "2026-03-25T00:00:00Z",
+    "dimensions": {
+      "organization": 72,
+      "finance": 74,
+      "it": 65,
+      "equipment": 68,
+      "process": 70,
+      "culture": 65
+    }
+  }
+]

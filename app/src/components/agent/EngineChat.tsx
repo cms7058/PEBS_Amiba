@@ -16,6 +16,10 @@ export interface EngineChatContext {
   subject?: string;
   /** Free-form facts the page wants to expose to the agent */
   facts?: Array<{ label: string; value: string }>;
+  /** Custom cards rendered at the top of the drawer (e.g. 成本卡片 / 子流程卡片) */
+  cards?: React.ReactNode;
+  /** When this value changes, the drawer auto-opens (用于"点击节点自动弹出助手") */
+  openSignal?: string | number;
 }
 
 interface UiMessage {
@@ -71,6 +75,14 @@ export function EngineChat(props: EngineChatContext) {
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, open, pendingCtx]);
+
+  // 程序化自动弹出：openSignal 从无到有 / 变化即打开抽屉（如点击节点）。
+  // 初始为 undefined，使得「点击后才挂载」的场景（子流程页）首次点击也能弹出。
+  const prevSignal = useRef<string | number | undefined>(undefined);
+  useEffect(() => {
+    if (props.openSignal !== undefined && props.openSignal !== prevSignal.current) setOpen(true);
+    prevSignal.current = props.openSignal;
+  }, [props.openSignal]);
 
   // Detect when the parent passes a new subject/enterprise that diverges from
   // the active conversation. If we already have history, hold the switch
@@ -290,6 +302,7 @@ export function EngineChat(props: EngineChatContext) {
 
             {/* Messages */}
             <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
+              {props.cards && <div className="space-y-2">{props.cards}</div>}
               {messages.length === 0 && (
                 <div className="rounded-lg border border-dashed border-border bg-muted/30 p-4 text-center text-xs text-muted-foreground">
                   你好，我是 Amoeba Copilot 助手。<br />

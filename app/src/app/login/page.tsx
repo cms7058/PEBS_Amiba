@@ -13,7 +13,7 @@ type Mode = "invite" | "password";
 function LoginInner() {
   const router = useRouter();
   const params = useSearchParams();
-  const from = params.get("from") || "/";
+  const from = params.get("from") || "/dashboard";
 
   const [mode, setMode] = useState<Mode>("invite");
 

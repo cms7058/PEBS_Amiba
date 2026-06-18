@@ -28,7 +28,7 @@ export default function EnterpriseDemoPage({ params }: { params: Promise<{ slug:
   if (!ent) {
     return (
       <PageShell title="未找到该企业">
-        <Link href="/" className="text-sm text-[color:var(--primary)]">← 返回总览</Link>
+        <Link href="/dashboard" className="text-sm text-[color:var(--primary)]">← 返回总览</Link>
       </PageShell>
     );
   }
@@ -44,7 +44,7 @@ export default function EnterpriseDemoPage({ params }: { params: Promise<{ slug:
   return (
     <PageShell title={ent.name} subtitle={`${ent.industryLabel} · ${ent.scale} · ${ent.stageLabel}`}>
       <div className="space-y-6">
-        <Link href="/" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+        <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-3 w-3" /> 返回总览
         </Link>
 

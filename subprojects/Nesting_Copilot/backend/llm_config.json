@@ -1,0 +1,22 @@
+{
+  "providers": {
+    "glm": {
+      "api_key": "sk-glm-test-999",
+      "model": "glm-5.2",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4"
+    },
+    "claude": {
+      "model": "claude-opus-4-8",
+      "base_url": ""
+    },
+    "qwen": {
+      "model": "qwen3-max",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    },
+    "minimax": {
+      "model": "minimax-2.7",
+      "base_url": "https://api.minimax.chat/v1"
+    }
+  },
+  "provider": "glm"
+}

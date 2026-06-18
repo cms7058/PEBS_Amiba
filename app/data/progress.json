@@ -1,0 +1,13 @@
+[
+  {
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "completed": {
+      "design": true,
+      "rules": true,
+      "diagnosis": true,
+      "profile": true,
+      "deployment": false
+    },
+    "updatedAt": "2026-06-18T00:35:48.283Z"
+  }
+]

@@ -1,0 +1,5723 @@
+[
+  {
+    "id": "sf_44rqk5j58da4",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_zxymcwxauptc",
+    "ownerLabel": "商机/询价 RFQ",
+    "lanes": [
+      {
+        "id": "lane_qj7fc2fs",
+        "departmentId": "dep_acd9i2fs",
+        "name": "销售部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_klnbd2fs",
+        "departmentId": "dep_1bcpd2fs",
+        "name": "技术部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_4k7pr2fs",
+        "departmentId": "dep_cq3w72fs",
+        "name": "财务部/成本部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_aeq1c2fs",
+        "departmentId": "dep_7z9k02fs",
+        "name": "管理层/销售总监",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_cu2zr2fs",
+        "name": "商机接收与登记",
+        "laneId": "lane_qj7fc2fs",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "客户询价函",
+            "inherited": false
+          },
+          {
+            "name": "电话询价记录",
+            "inherited": false
+          },
+          {
+            "name": "邮件询价信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "商机登记信息",
+          "询价单据"
+        ]
+      },
+      {
+        "id": "act_k6hxy2fs",
+        "name": "需求解析与技术评审",
+        "laneId": "lane_klnbd2fs",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "询价单据",
+            "inherited": true
+          },
+          {
+            "name": "产品规格要求",
+            "inherited": false
+          },
+          {
+            "name": "质量标准文件",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "技术评审报告",
+          "物料清单初稿",
+          "工艺可行性意见"
+        ]
+      },
+      {
+        "id": "act_wz3oj2fs",
+        "name": "成本核算与报价准备",
+        "laneId": "lane_4k7pr2fs",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "技术评审报告",
+            "inherited": true
+          },
+          {
+            "name": "物料清单",
+            "inherited": false
+          },
+          {
+            "name": "历史成本数据",
+            "inherited": false
+          },
+          {
+            "name": "工时定额标准",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "成本核算明细表",
+          "报价单草稿",
+          "利润分析报告"
+        ]
+      },
+      {
+        "id": "act_kmgzo2fs",
+        "name": "内部审批与定价决策",
+        "laneId": "lane_aeq1c2fs",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "成本核算明细表",
+            "inherited": true
+          },
+          {
+            "name": "报价单草稿",
+            "inherited": true
+          },
+          {
+            "name": "利润分析报告",
+            "inherited": true
+          },
+          {
+            "name": "竞争分析资料",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "审批通过报价单",
+          "最终定价决策单"
+        ]
+      },
+      {
+        "id": "act_nlubu2fs",
+        "name": "报价编制与正式发送",
+        "laneId": "lane_qj7fc2fs",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "审批通过报价单",
+            "inherited": true
+          },
+          {
+            "name": "公司报价模板",
+            "inherited": false
+          },
+          {
+            "name": "Terms&Conditions文件",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "正式报价文件",
+          "客户签收回执",
+          "发送记录"
+        ]
+      },
+      {
+        "id": "act_fptfj2fs",
+        "name": "报价跟踪与客户反馈处理",
+        "laneId": "lane_qj7fc2fs",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "已发送报价文件",
+            "inherited": true
+          },
+          {
+            "name": "客户反馈信息",
+            "inherited": false
+          },
+          {
+            "name": "竞争对手报价情报",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "跟进记录",
+          "修订报价单（如需）",
+          "商机状态更新"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_sfewy2fs",
+        "from": "act_cu2zr2fs",
+        "to": "act_k6hxy2fs"
+      },
+      {
+        "id": "e_u6u3q2fs",
+        "from": "act_k6hxy2fs",
+        "to": "act_wz3oj2fs"
+      },
+      {
+        "id": "e_a5fcf2fs",
+        "from": "act_wz3oj2fs",
+        "to": "act_kmgzo2fs"
+      },
+      {
+        "id": "e_k8kol2fs",
+        "from": "act_kmgzo2fs",
+        "to": "act_nlubu2fs"
+      },
+      {
+        "id": "e_dunmt2fs",
+        "from": "act_nlubu2fs",
+        "to": "act_fptfj2fs"
+      }
+    ],
+    "createdAt": "2026-06-15T13:06:10.876Z",
+    "updatedAt": "2026-06-17T02:41:22.440Z"
+  },
+  {
+    "id": "sf_0qjbpdvgh2nr",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_sanewbdtuptc",
+    "ownerLabel": "生产制造",
+    "lanes": [
+      {
+        "id": "lane_3o1vinn9",
+        "departmentId": "dep_hutehnn9",
+        "name": "生产计划部",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_m8u96nn9",
+        "departmentId": "dep_esve2nn9",
+        "name": "生产调度科",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_bbbz2nn9",
+        "departmentId": "dep_lyeionn9",
+        "name": "仓储部",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_2no30nn9",
+        "departmentId": "dep_mlg0lnn9",
+        "name": "生产车间",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_pabt5nn9",
+        "departmentId": "dep_7kxoqnn9",
+        "name": "质量部",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_5hrqqnn9",
+        "name": "生产订单确认",
+        "laneId": "lane_3o1vinn9",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "月度生产计划",
+            "inherited": false
+          },
+          {
+            "name": "销售订单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "确认的生产订单"
+        ]
+      },
+      {
+        "id": "act_eaww6nn9",
+        "name": "生产调度与工单下发",
+        "laneId": "lane_m8u96nn9",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "确认的生产订单",
+            "inherited": true
+          },
+          {
+            "name": "设备产能信息",
+            "inherited": false
+          },
+          {
+            "name": "物料库存数据",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "生产工单"
+        ]
+      },
+      {
+        "id": "act_emzj8nn9",
+        "name": "领料出库",
+        "laneId": "lane_bbbz2nn9",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "生产工单",
+            "inherited": true
+          },
+          {
+            "name": "BOM物料清单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "领料单",
+          "出库物料"
+        ]
+      },
+      {
+        "id": "act_dw1bann9",
+        "name": "生产加工制造",
+        "laneId": "lane_2no30nn9",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "生产工单",
+            "inherited": true
+          },
+          {
+            "name": "出库物料",
+            "inherited": true
+          },
+          {
+            "name": "工艺参数",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "在制品/半成品"
+        ]
+      },
+      {
+        "id": "act_jpmmonn9",
+        "name": "质量检验",
+        "laneId": "lane_pabt5nn9",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "在制品/半成品",
+            "inherited": true
+          },
+          {
+            "name": "质量检验标准",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "检验报告",
+          "合格品/不合格品"
+        ]
+      },
+      {
+        "id": "act_bqgspnn9",
+        "name": "成品入库",
+        "laneId": "lane_bbbz2nn9",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "检验报告",
+            "inherited": true
+          },
+          {
+            "name": "合格品",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "入库单",
+          "库存台账更新"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_69ox3nn9",
+        "from": "act_5hrqqnn9",
+        "to": "act_eaww6nn9"
+      },
+      {
+        "id": "e_1bym7nn9",
+        "from": "act_eaww6nn9",
+        "to": "act_emzj8nn9"
+      },
+      {
+        "id": "e_b75ysnn9",
+        "from": "act_emzj8nn9",
+        "to": "act_dw1bann9"
+      },
+      {
+        "id": "e_vya5bnn9",
+        "from": "act_dw1bann9",
+        "to": "act_jpmmonn9"
+      },
+      {
+        "id": "e_257plnn9",
+        "from": "act_jpmmonn9",
+        "to": "act_bqgspnn9"
+      }
+    ],
+    "createdAt": "2026-06-15T13:12:57.015Z",
+    "updatedAt": "2026-06-17T02:41:22.450Z"
+  },
+  {
+    "id": "sf_n1bels36dlss",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_dtf7erd3uptc",
+    "ownerLabel": "报价/成本估算",
+    "lanes": [
+      {
+        "id": "lane_3wqdws20",
+        "departmentId": "dep_lyhtvs20",
+        "name": "销售部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_f4lbgs20",
+        "departmentId": "dep_4tykfs20",
+        "name": "技术工程部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_nnbxts20",
+        "departmentId": "dep_xiv6vs20",
+        "name": "采购部/成本部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_8zrrrs20",
+        "departmentId": "dep_id7nhs20",
+        "name": "生产部/人力资源部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_b8pmxs20",
+        "departmentId": "dep_0an4ss20",
+        "name": "财务部/成本部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_nlv48s20",
+        "departmentId": "dep_wiex2s20",
+        "name": "财务部/销售部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_pbdbts20",
+        "departmentId": "dep_u5ew2s20",
+        "name": "管理层/销售总监",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_ypb48s20",
+        "name": "客户需求接收与分析",
+        "laneId": "lane_3wqdws20",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "客户询价函",
+            "inherited": false
+          },
+          {
+            "name": "产品规格要求",
+            "inherited": false
+          },
+          {
+            "name": "数量交期信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "需求分析报告",
+          "项目编号"
+        ]
+      },
+      {
+        "id": "act_mfhjhs20",
+        "name": "技术方案设计与BOM编制",
+        "laneId": "lane_f4lbgs20",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "需求分析报告",
+            "inherited": true
+          },
+          {
+            "name": "客户技术规格",
+            "inherited": false
+          },
+          {
+            "name": "历史技术方案参考",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "技术方案书",
+          "物料清单BOM",
+          "工艺路线"
+        ]
+      },
+      {
+        "id": "act_c5p0ss20",
+        "name": "物料成本核算",
+        "laneId": "lane_nnbxts20",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "BOM清单",
+            "inherited": true
+          },
+          {
+            "name": "供应商报价单",
+            "inherited": false
+          },
+          {
+            "name": "当前库存价格",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "物料成本明细表",
+          "采购计划清单"
+        ]
+      },
+      {
+        "id": "act_gs21qs20",
+        "name": "人工成本核算",
+        "laneId": "lane_8zrrrs20",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "工艺路线",
+            "inherited": true
+          },
+          {
+            "name": "工时定额标准",
+            "inherited": false
+          },
+          {
+            "name": "小时工资率",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "人工成本明细表",
+          "标准工时统计"
+        ]
+      },
+      {
+        "id": "act_he40us20",
+        "name": "制造费用分摊计算",
+        "laneId": "lane_b8pmxs20",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "人工成本明细",
+            "inherited": true
+          },
+          {
+            "name": "物料成本明细",
+            "inherited": false
+          },
+          {
+            "name": "制造费用预算",
+            "inherited": false
+          },
+          {
+            "name": "分摊基数",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "制造费用分摊表",
+          "单位产品制造费用"
+        ]
+      },
+      {
+        "id": "act_2vapgs20",
+        "name": "利润加成与报价单生成",
+        "laneId": "lane_nlv48s20",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "物料成本明细",
+            "inherited": true
+          },
+          {
+            "name": "人工成本明细",
+            "inherited": false
+          },
+          {
+            "name": "制造费用分摊表",
+            "inherited": true
+          },
+          {
+            "name": "目标利润率",
+            "inherited": false
+          },
+          {
+            "name": "市场竞争系数",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "完整产品成本清单",
+          "报价单草稿",
+          "价格策略说明"
+        ]
+      },
+      {
+        "id": "act_va3tes20",
+        "name": "报价审核与审批发布",
+        "laneId": "lane_pbdbts20",
+        "seq": 6,
+        "inputs": [
+          {
+            "name": "报价单草稿",
+            "inherited": true
+          },
+          {
+            "name": "成本分析报告",
+            "inherited": false
+          },
+          {
+            "name": "审批权限表",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "审批通过报价单",
+          "正式报价PDF/邮件",
+          "报价台账记录"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_n81mes20",
+        "from": "act_ypb48s20",
+        "to": "act_mfhjhs20"
+      },
+      {
+        "id": "e_c9w35s20",
+        "from": "act_mfhjhs20",
+        "to": "act_c5p0ss20"
+      },
+      {
+        "id": "e_3zti0s20",
+        "from": "act_c5p0ss20",
+        "to": "act_gs21qs20"
+      },
+      {
+        "id": "e_en64ls20",
+        "from": "act_gs21qs20",
+        "to": "act_he40us20"
+      },
+      {
+        "id": "e_mqxv8s20",
+        "from": "act_he40us20",
+        "to": "act_2vapgs20"
+      },
+      {
+        "id": "e_beg6vs20",
+        "from": "act_2vapgs20",
+        "to": "act_va3tes20"
+      }
+    ],
+    "createdAt": "2026-06-15T14:06:14.428Z",
+    "updatedAt": "2026-06-17T02:41:22.461Z"
+  },
+  {
+    "id": "sf_arfnmzcryu6a",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_085q1u2c8da4",
+    "ownerLabel": "市场订单",
+    "lanes": [
+      {
+        "id": "lane_xnj7lby5yu6a",
+        "departmentId": "dep_sales"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_73e9n2bbyu6a",
+        "name": "哇啊的",
+        "laneId": "lane_xnj7lby5yu6a",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [],
+    "createdAt": "2026-06-15T23:14:37.762Z",
+    "updatedAt": "2026-06-17T02:41:22.470Z"
+  },
+  {
+    "id": "sf_x3ppxcwv1wd6",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_0boqfj1suptc",
+    "ownerLabel": "交付确认/开票/回款",
+    "lanes": [
+      {
+        "id": "lane_y7831rcw",
+        "departmentId": "dep_537myrcw",
+        "name": "销售部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_9yu3zrcw",
+        "departmentId": "dep_ilgndrcw",
+        "name": "质量管理部/仓储部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_0y6gxrcw",
+        "departmentId": "dep_u0jfrrcw",
+        "name": "销售部/财务部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_6cmi3rcw",
+        "departmentId": "dep_0r2x1rcw",
+        "name": "财务部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_u79cxrcw",
+        "departmentId": "dep_onrzlrcw",
+        "name": "财务部/财务主管",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_7l4jmrcw",
+        "name": "交付确认申请",
+        "laneId": "lane_y7831rcw",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "销售订单",
+            "inherited": false
+          },
+          {
+            "name": "发货单",
+            "inherited": false
+          },
+          {
+            "name": "客户签收单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "交付确认申请单"
+        ]
+      },
+      {
+        "id": "act_alc1brcw",
+        "name": "交付验收确认",
+        "laneId": "lane_9yu3zrcw",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "交付确认申请单",
+            "inherited": true
+          },
+          {
+            "name": "送货单",
+            "inherited": false
+          },
+          {
+            "name": "质量检验报告",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "交付验收单"
+        ]
+      },
+      {
+        "id": "act_f8jfyrcw",
+        "name": "开票申请",
+        "laneId": "lane_0y6gxrcw",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "交付验收单",
+            "inherited": true
+          },
+          {
+            "name": "合同价格条款",
+            "inherited": false
+          },
+          {
+            "name": "税率信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "开票申请单"
+        ]
+      },
+      {
+        "id": "act_wp6cnrcw",
+        "name": "发票开具",
+        "laneId": "lane_6cmi3rcw",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "开票申请单",
+            "inherited": true
+          },
+          {
+            "name": "客户开票信息",
+            "inherited": false
+          },
+          {
+            "name": "税务登记资料",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "增值税发票/普通发票"
+        ]
+      },
+      {
+        "id": "act_a6tu1rcw",
+        "name": "发票审核与确认",
+        "laneId": "lane_u79cxrcw",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "开具的发票",
+            "inherited": true
+          },
+          {
+            "name": "开票申请单",
+            "inherited": true
+          },
+          {
+            "name": "合同对照",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "审核通过的发票",
+          "审核记录"
+        ]
+      },
+      {
+        "id": "act_dca9srcw",
+        "name": "发票传递客户",
+        "laneId": "lane_0y6gxrcw",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "审核通过的发票",
+            "inherited": true
+          },
+          {
+            "name": "客户联系方式",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "发票交接记录",
+          "客户收票确认"
+        ]
+      },
+      {
+        "id": "act_0wccorcw",
+        "name": "回款确认与核销",
+        "laneId": "lane_6cmi3rcw",
+        "seq": 6,
+        "inputs": [
+          {
+            "name": "银行到账通知",
+            "inherited": true
+          },
+          {
+            "name": "应收账款记录",
+            "inherited": false
+          },
+          {
+            "name": "发票编号",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "银行收款凭证",
+          "应收账款核销单",
+          "账龄更新记录"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_wv3mbrcw",
+        "from": "act_7l4jmrcw",
+        "to": "act_alc1brcw"
+      },
+      {
+        "id": "e_2o0ncrcw",
+        "from": "act_alc1brcw",
+        "to": "act_f8jfyrcw"
+      },
+      {
+        "id": "e_zdgcnrcw",
+        "from": "act_f8jfyrcw",
+        "to": "act_wp6cnrcw"
+      },
+      {
+        "id": "e_lccv1rcw",
+        "from": "act_wp6cnrcw",
+        "to": "act_a6tu1rcw"
+      },
+      {
+        "id": "e_v41l4rcw",
+        "from": "act_a6tu1rcw",
+        "to": "act_dca9srcw"
+      },
+      {
+        "id": "e_kbl06rcw",
+        "from": "act_dca9srcw",
+        "to": "act_0wccorcw"
+      }
+    ],
+    "createdAt": "2026-06-16T03:00:57.498Z",
+    "updatedAt": "2026-06-17T02:41:22.478Z"
+  },
+  {
+    "id": "sf_pdav8i9c3s9w",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_ik19bs8v",
+    "ownerLabel": "客户资信与需求初步评审",
+    "lanes": [
+      {
+        "id": "lane_btkorodj",
+        "departmentId": "dep_6gh3podj",
+        "name": "销售部门"
+      },
+      {
+        "id": "lane_j64ejodj",
+        "departmentId": "dep_619spodj",
+        "name": "风控部门"
+      },
+      {
+        "id": "lane_a4aw7odj",
+        "departmentId": "dep_8l982odj",
+        "name": "业务部门"
+      },
+      {
+        "id": "lane_je390odj",
+        "departmentId": "dep_ad368odj",
+        "name": "评审委员会"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_u885wodj",
+        "name": "客户信息收集与录入",
+        "laneId": "lane_btkorodj",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_puzmnodj",
+        "name": "客户背景调查",
+        "laneId": "lane_btkorodj",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_wcu6bodj",
+        "name": "信用评估与额度测算",
+        "laneId": "lane_j64ejodj",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_p79cpodj",
+        "name": "客户需求初步分析",
+        "laneId": "lane_a4aw7odj",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_0eq5yodj",
+        "name": "初步评审会议",
+        "laneId": "lane_je390odj",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_94ow5odj",
+        "name": "评审结果反馈",
+        "laneId": "lane_btkorodj",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_d8qjfodj",
+        "from": "act_u885wodj",
+        "to": "act_puzmnodj"
+      },
+      {
+        "id": "e_zm2ctodj",
+        "from": "act_puzmnodj",
+        "to": "act_wcu6bodj"
+      },
+      {
+        "id": "e_4k4esodj",
+        "from": "act_wcu6bodj",
+        "to": "act_p79cpodj"
+      },
+      {
+        "id": "e_crocdodj",
+        "from": "act_p79cpodj",
+        "to": "act_0eq5yodj"
+      },
+      {
+        "id": "e_a45r8odj",
+        "from": "act_0eq5yodj",
+        "to": "act_94ow5odj"
+      }
+    ],
+    "createdAt": "2026-06-16T07:14:22.052Z",
+    "updatedAt": "2026-06-17T02:41:22.488Z"
+  },
+  {
+    "id": "sf_8oscxvaa4oef",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_puzmnodj",
+    "ownerLabel": "客户背景调查",
+    "lanes": [
+      {
+        "id": "lane_e358lroe",
+        "departmentId": "dep_nrafgroe",
+        "name": "销售部"
+      },
+      {
+        "id": "lane_ftku2roe",
+        "departmentId": "dep_ewus8roe",
+        "name": "风控部"
+      },
+      {
+        "id": "lane_s99w0roe",
+        "departmentId": "dep_aljzrroe",
+        "name": "财务部"
+      },
+      {
+        "id": "lane_ioopdroe",
+        "departmentId": "dep_jsl1vroe",
+        "name": "市场部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_jarz3roe",
+        "name": "收集客户基础资料",
+        "laneId": "lane_e358lroe",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_snt77roe",
+        "name": "查询公开信用记录与工商信息",
+        "laneId": "lane_ftku2roe",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_bkbzdroe",
+        "name": "评估客户财务状况与偿债能力",
+        "laneId": "lane_s99w0roe",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_kz3yvroe",
+        "name": "核实客户经营情况与行业地位",
+        "laneId": "lane_ioopdroe",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_eqwkproe",
+        "name": "综合信用风险评级",
+        "laneId": "lane_ftku2roe",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_wkz5iroe",
+        "name": "撰写客户背景调查报告",
+        "laneId": "lane_ftku2roe",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_1a1zfroe",
+        "name": "审批调查报告并确认调查结论",
+        "laneId": "lane_ftku2roe",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_xycteroe",
+        "from": "act_jarz3roe",
+        "to": "act_snt77roe"
+      },
+      {
+        "id": "e_1lzy0roe",
+        "from": "act_snt77roe",
+        "to": "act_bkbzdroe"
+      },
+      {
+        "id": "e_xdvqoroe",
+        "from": "act_bkbzdroe",
+        "to": "act_kz3yvroe"
+      },
+      {
+        "id": "e_bc9nrroe",
+        "from": "act_kz3yvroe",
+        "to": "act_eqwkproe"
+      },
+      {
+        "id": "e_perx0roe",
+        "from": "act_eqwkproe",
+        "to": "act_wkz5iroe"
+      },
+      {
+        "id": "e_r5yweroe",
+        "from": "act_wkz5iroe",
+        "to": "act_1a1zfroe"
+      }
+    ],
+    "createdAt": "2026-06-16T07:15:03.687Z",
+    "updatedAt": "2026-06-17T02:41:22.495Z"
+  },
+  {
+    "id": "sf_mxy01kza4rpo",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_bkbzdroe",
+    "ownerLabel": "评估客户财务状况与偿债能力",
+    "lanes": [
+      {
+        "id": "lane_jo4nldpk",
+        "departmentId": "dep_rhm0idpk",
+        "name": "信贷业务部"
+      },
+      {
+        "id": "lane_7lpx0dpk",
+        "departmentId": "dep_otv3ldpk",
+        "name": "信贷管理部"
+      },
+      {
+        "id": "lane_esumtdpk",
+        "departmentId": "dep_nq7vqdpk",
+        "name": "财务分析部"
+      },
+      {
+        "id": "lane_04tshdpk",
+        "departmentId": "dep_u1jv4dpk",
+        "name": "信用审核部"
+      },
+      {
+        "id": "lane_3ik4idpk",
+        "departmentId": "dep_iv2asdpk",
+        "name": "风险评估部"
+      },
+      {
+        "id": "lane_x0oppdpk",
+        "departmentId": "dep_sg6bhdpk",
+        "name": "风险控制部"
+      },
+      {
+        "id": "lane_m1q2bdpk",
+        "departmentId": "dep_axarkdpk",
+        "name": "风险管理部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_kp13ydpk",
+        "name": "收集客户财务资料",
+        "laneId": "lane_jo4nldpk",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_akluwdpk",
+        "name": "资料完整性审核",
+        "laneId": "lane_7lpx0dpk",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_9v52xdpk",
+        "name": "财务指标分析",
+        "laneId": "lane_esumtdpk",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_hsvpxdpk",
+        "name": "信用评级评估",
+        "laneId": "lane_04tshdpk",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_8pfpsdpk",
+        "name": "偿债能力测算",
+        "laneId": "lane_3ik4idpk",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_od4jndpk",
+        "name": "综合风险评估",
+        "laneId": "lane_x0oppdpk",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_10uezdpk",
+        "name": "编制评估报告",
+        "laneId": "lane_m1q2bdpk",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_nqmrndpk",
+        "from": "act_kp13ydpk",
+        "to": "act_akluwdpk"
+      },
+      {
+        "id": "e_r6rbtdpk",
+        "from": "act_akluwdpk",
+        "to": "act_9v52xdpk"
+      },
+      {
+        "id": "e_flljcdpk",
+        "from": "act_9v52xdpk",
+        "to": "act_hsvpxdpk"
+      },
+      {
+        "id": "e_yhvlfdpk",
+        "from": "act_hsvpxdpk",
+        "to": "act_8pfpsdpk"
+      },
+      {
+        "id": "e_lq5ytdpk",
+        "from": "act_8pfpsdpk",
+        "to": "act_od4jndpk"
+      },
+      {
+        "id": "e_b2dk1dpk",
+        "from": "act_od4jndpk",
+        "to": "act_10uezdpk"
+      }
+    ],
+    "createdAt": "2026-06-16T07:15:07.980Z",
+    "updatedAt": "2026-06-17T02:41:22.504Z"
+  },
+  {
+    "id": "sf_ov7ry7dy5dqd",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_wcu6bodj",
+    "ownerLabel": "信用评估与额度测算",
+    "lanes": [
+      {
+        "id": "lane_06ctnim0",
+        "departmentId": "dep_8qhwlim0",
+        "name": "销售部"
+      },
+      {
+        "id": "lane_kjz9mim0",
+        "departmentId": "dep_unob8im0",
+        "name": "信用管理部"
+      },
+      {
+        "id": "lane_5n3bfim0",
+        "departmentId": "dep_huyhvim0",
+        "name": "财务部"
+      },
+      {
+        "id": "lane_n0w4sim0",
+        "departmentId": "dep_qusrzim0",
+        "name": "风控部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_riafmim0",
+        "name": "信用申请受理与资料收集",
+        "laneId": "lane_06ctnim0",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_w9h0aim0",
+        "name": "客户背景与经营状况调查",
+        "laneId": "lane_kjz9mim0",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_tlyfnim0",
+        "name": "财务报表与经营数据分析",
+        "laneId": "lane_5n3bfim0",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_9xy40im0",
+        "name": "信用等级评定",
+        "laneId": "lane_kjz9mim0",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_um2ajim0",
+        "name": "授信额度模型测算",
+        "laneId": "lane_kjz9mim0",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_bc4e0im0",
+        "name": "额度审批决策",
+        "laneId": "lane_n0w4sim0",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_3xk50im0",
+        "name": "授信结果通知客户",
+        "laneId": "lane_06ctnim0",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_s8dgnim0",
+        "from": "act_riafmim0",
+        "to": "act_w9h0aim0"
+      },
+      {
+        "id": "e_2i49gim0",
+        "from": "act_w9h0aim0",
+        "to": "act_tlyfnim0"
+      },
+      {
+        "id": "e_2fs36im0",
+        "from": "act_tlyfnim0",
+        "to": "act_9xy40im0"
+      },
+      {
+        "id": "e_q39r7im0",
+        "from": "act_9xy40im0",
+        "to": "act_um2ajim0"
+      },
+      {
+        "id": "e_hdbysim0",
+        "from": "act_um2ajim0",
+        "to": "act_bc4e0im0"
+      },
+      {
+        "id": "e_pxt8dim0",
+        "from": "act_bc4e0im0",
+        "to": "act_3xk50im0"
+      }
+    ],
+    "createdAt": "2026-06-16T07:15:36.517Z",
+    "updatedAt": "2026-06-17T02:41:22.513Z"
+  },
+  {
+    "id": "sf_fbnk569l5imw",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_w9h0aim0",
+    "ownerLabel": "客户背景与经营状况调查",
+    "lanes": [
+      {
+        "id": "lane_96ao4mtn",
+        "departmentId": "dep_eksr1mtn",
+        "name": "客户经理"
+      },
+      {
+        "id": "lane_xduulmtn",
+        "departmentId": "dep_kbaadmtn",
+        "name": "合规风控部"
+      },
+      {
+        "id": "lane_yhxm1mtn",
+        "departmentId": "dep_51h28mtn",
+        "name": "财务部"
+      },
+      {
+        "id": "lane_qu7gamtn",
+        "departmentId": "dep_lndxmmtn",
+        "name": "业务部"
+      },
+      {
+        "id": "lane_8jjn7mtn",
+        "departmentId": "dep_417vkmtn",
+        "name": "市场战略部"
+      },
+      {
+        "id": "lane_3bkvvmtn",
+        "departmentId": "dep_kp7xemtn",
+        "name": "风险评审委员会"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_e4lg7mtn",
+        "name": "客户基本信息收集与确认",
+        "laneId": "lane_96ao4mtn",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_mm6cdmtn",
+        "name": "企业注册信息与资质核查",
+        "laneId": "lane_xduulmtn",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_r5j46mtn",
+        "name": "财务状况与经营数据分析",
+        "laneId": "lane_yhxm1mtn",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_qtzhsmtn",
+        "name": "信用记录与负债情况查询",
+        "laneId": "lane_xduulmtn",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_jlliymtn",
+        "name": "经营场所实地考察",
+        "laneId": "lane_qu7gamtn",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_5fj7amtn",
+        "name": "行业地位与市场竞争力评估",
+        "laneId": "lane_8jjn7mtn",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_rvr85mtn",
+        "name": "调查报告撰写与内部审批",
+        "laneId": "lane_xduulmtn",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_0h0bemtn",
+        "name": "客户分类与授信额度建议",
+        "laneId": "lane_3bkvvmtn",
+        "seq": 7,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_nkdpcmtn",
+        "from": "act_e4lg7mtn",
+        "to": "act_mm6cdmtn"
+      },
+      {
+        "id": "e_0w24ymtn",
+        "from": "act_mm6cdmtn",
+        "to": "act_r5j46mtn"
+      },
+      {
+        "id": "e_584q5mtn",
+        "from": "act_r5j46mtn",
+        "to": "act_qtzhsmtn"
+      },
+      {
+        "id": "e_iujvjmtn",
+        "from": "act_qtzhsmtn",
+        "to": "act_jlliymtn"
+      },
+      {
+        "id": "e_iklwkmtn",
+        "from": "act_jlliymtn",
+        "to": "act_5fj7amtn"
+      },
+      {
+        "id": "e_ieo8ymtn",
+        "from": "act_5fj7amtn",
+        "to": "act_rvr85mtn"
+      },
+      {
+        "id": "e_gz43kmtn",
+        "from": "act_rvr85mtn",
+        "to": "act_0h0bemtn"
+      }
+    ],
+    "createdAt": "2026-06-16T07:15:42.872Z",
+    "updatedAt": "2026-06-17T02:41:22.520Z"
+  },
+  {
+    "id": "sf_5j2bwm6i5muj",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_tlyfnim0",
+    "ownerLabel": "财务报表与经营数据分析",
+    "lanes": [
+      {
+        "id": "lane_ph5jvpzv",
+        "departmentId": "dep_lp66jpzv",
+        "name": "财务部门"
+      },
+      {
+        "id": "lane_rv30rpzv",
+        "departmentId": "dep_bz511pzv",
+        "name": "业务部门"
+      },
+      {
+        "id": "lane_xmryupzv",
+        "departmentId": "dep_lk0f2pzv",
+        "name": "战略规划部"
+      },
+      {
+        "id": "lane_292y5pzv",
+        "departmentId": "dep_b0xrcpzv",
+        "name": "综合管理部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_p3wjipzv",
+        "name": "收集原始财务数据",
+        "laneId": "lane_ph5jvpzv",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_xdwvcpzv",
+        "name": "收集业务运营数据",
+        "laneId": "lane_rv30rpzv",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_2c3v1pzv",
+        "name": "数据校验与整理",
+        "laneId": "lane_ph5jvpzv",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_dir5jpzv",
+        "name": "编制财务报表",
+        "laneId": "lane_ph5jvpzv",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ueip3pzv",
+        "name": "经营数据分析",
+        "laneId": "lane_xmryupzv",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_k60x6pzv",
+        "name": "对标与差异分析",
+        "laneId": "lane_xmryupzv",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ealunpzv",
+        "name": "撰写分析报告",
+        "laneId": "lane_xmryupzv",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_rt9ggpzv",
+        "name": "汇报与分发",
+        "laneId": "lane_292y5pzv",
+        "seq": 7,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_nzs8vpzv",
+        "from": "act_p3wjipzv",
+        "to": "act_xdwvcpzv"
+      },
+      {
+        "id": "e_ueg40pzv",
+        "from": "act_xdwvcpzv",
+        "to": "act_2c3v1pzv"
+      },
+      {
+        "id": "e_ameqipzv",
+        "from": "act_2c3v1pzv",
+        "to": "act_dir5jpzv"
+      },
+      {
+        "id": "e_1qx6spzv",
+        "from": "act_dir5jpzv",
+        "to": "act_ueip3pzv"
+      },
+      {
+        "id": "e_appdppzv",
+        "from": "act_ueip3pzv",
+        "to": "act_k60x6pzv"
+      },
+      {
+        "id": "e_e4oehpzv",
+        "from": "act_k60x6pzv",
+        "to": "act_ealunpzv"
+      },
+      {
+        "id": "e_1i3zvpzv",
+        "from": "act_ealunpzv",
+        "to": "act_rt9ggpzv"
+      }
+    ],
+    "createdAt": "2026-06-16T07:15:48.331Z",
+    "updatedAt": "2026-06-17T02:41:22.527Z"
+  },
+  {
+    "id": "sf_mzf553mg5q0r",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_aei5ks8v",
+    "ownerLabel": "技术可行性分析",
+    "lanes": [
+      {
+        "id": "lane_uyg9su4o",
+        "departmentId": "dep_2q8bhu4o",
+        "name": "研发部"
+      },
+      {
+        "id": "lane_hocelu4o",
+        "departmentId": "dep_lhg0mu4o",
+        "name": "工艺技术部"
+      },
+      {
+        "id": "lane_agnj6u4o",
+        "departmentId": "dep_l3vv6u4o",
+        "name": "设备管理部"
+      },
+      {
+        "id": "lane_j4pjau4o",
+        "departmentId": "dep_obuc6u4o",
+        "name": "财务部"
+      },
+      {
+        "id": "lane_k3ky1u4o",
+        "departmentId": "dep_ctzbzu4o",
+        "name": "综合管理部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_jrdq8u4o",
+        "name": "收集项目技术需求与现状调研",
+        "laneId": "lane_uyg9su4o",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_g52iuu4o",
+        "name": "技术方案初步设计",
+        "laneId": "lane_hocelu4o",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_4ef4xu4o",
+        "name": "技术方案评估与验证测试",
+        "laneId": "lane_hocelu4o",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_3s765u4o",
+        "name": "技术风险与瓶颈识别",
+        "laneId": "lane_agnj6u4o",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_n6esdu4o",
+        "name": "成本与资源需求估算",
+        "laneId": "lane_j4pjau4o",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_o6yb1u4o",
+        "name": "编制技术可行性分析报告",
+        "laneId": "lane_hocelu4o",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_rpj0wu4o",
+        "name": "技术可行性报告评审与确认",
+        "laneId": "lane_k3ky1u4o",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_enr3mu4o",
+        "from": "act_jrdq8u4o",
+        "to": "act_g52iuu4o"
+      },
+      {
+        "id": "e_jotnhu4o",
+        "from": "act_g52iuu4o",
+        "to": "act_4ef4xu4o"
+      },
+      {
+        "id": "e_x0hiiu4o",
+        "from": "act_4ef4xu4o",
+        "to": "act_3s765u4o"
+      },
+      {
+        "id": "e_8vmq3u4o",
+        "from": "act_3s765u4o",
+        "to": "act_n6esdu4o"
+      },
+      {
+        "id": "e_np2t0u4o",
+        "from": "act_n6esdu4o",
+        "to": "act_o6yb1u4o"
+      },
+      {
+        "id": "e_ajszqu4o",
+        "from": "act_o6yb1u4o",
+        "to": "act_rpj0wu4o"
+      }
+    ],
+    "createdAt": "2026-06-16T07:15:52.443Z",
+    "updatedAt": "2026-06-17T02:41:22.540Z"
+  },
+  {
+    "id": "sf_imazzt53jhtj",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_iwds2hsk",
+    "ownerLabel": "技术可行性评估与工艺方案设计",
+    "lanes": [
+      {
+        "id": "lane_sdeqsljb",
+        "departmentId": "dep_evtraljb",
+        "name": "技术部"
+      },
+      {
+        "id": "lane_f3g89ljb",
+        "departmentId": "dep_gn8erljb",
+        "name": "生产技术部"
+      },
+      {
+        "id": "lane_urz2jljb",
+        "departmentId": "dep_c2aomljb",
+        "name": "质量部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_mxv4rljb",
+        "name": "收集技术需求与输入条件",
+        "laneId": "lane_sdeqsljb",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_nfxxpljb",
+        "name": "进行技术可行性分析评估",
+        "laneId": "lane_sdeqsljb",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_p0d1jljb",
+        "name": "编制工艺方案设计",
+        "laneId": "lane_f3g89ljb",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ty3r7ljb",
+        "name": "组织工艺方案评审",
+        "laneId": "lane_urz2jljb",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_o03lkljb",
+        "name": "识别技术风险并制定措施",
+        "laneId": "lane_urz2jljb",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_nonsbljb",
+        "name": "优化完善工艺方案",
+        "laneId": "lane_f3g89ljb",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_wxypcljb",
+        "name": "编制工艺技术文件",
+        "laneId": "lane_sdeqsljb",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_p379iljb",
+        "name": "工艺方案审批与发布",
+        "laneId": "lane_sdeqsljb",
+        "seq": 7,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_kptn5ljb",
+        "from": "act_mxv4rljb",
+        "to": "act_nfxxpljb"
+      },
+      {
+        "id": "e_phxc6ljb",
+        "from": "act_nfxxpljb",
+        "to": "act_p0d1jljb"
+      },
+      {
+        "id": "e_2838pljb",
+        "from": "act_p0d1jljb",
+        "to": "act_ty3r7ljb"
+      },
+      {
+        "id": "e_j4r3lljb",
+        "from": "act_ty3r7ljb",
+        "to": "act_o03lkljb"
+      },
+      {
+        "id": "e_yq795ljb",
+        "from": "act_o03lkljb",
+        "to": "act_nonsbljb"
+      },
+      {
+        "id": "e_sqe0vljb",
+        "from": "act_nonsbljb",
+        "to": "act_wxypcljb"
+      },
+      {
+        "id": "e_bmie9ljb",
+        "from": "act_wxypcljb",
+        "to": "act_p379iljb"
+      }
+    ],
+    "createdAt": "2026-06-16T07:26:34.999Z",
+    "updatedAt": "2026-06-17T02:41:22.552Z"
+  },
+  {
+    "id": "sf_mf01pp4hjlk6",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_nfxxpljb",
+    "ownerLabel": "进行技术可行性分析评估",
+    "lanes": [
+      {
+        "id": "lane_vc2bo0sf",
+        "departmentId": "dep_rpmyt0sf",
+        "name": "研发部"
+      },
+      {
+        "id": "lane_6fjry0sf",
+        "departmentId": "dep_zebw60sf",
+        "name": "技术部"
+      },
+      {
+        "id": "lane_i5pgi0sf",
+        "departmentId": "dep_9d19r0sf",
+        "name": "生产技术部"
+      },
+      {
+        "id": "lane_zty8t0sf",
+        "departmentId": "dep_sv82z0sf",
+        "name": "财务部"
+      },
+      {
+        "id": "lane_2v4f50sf",
+        "departmentId": "dep_z31hi0sf",
+        "name": "质量部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_fkiji0sf",
+        "name": "收集并确认技术需求",
+        "laneId": "lane_vc2bo0sf",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ou9st0sf",
+        "name": "进行技术方案初步评估",
+        "laneId": "lane_6fjry0sf",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_kpjk50sf",
+        "name": "评估资源与工艺可行性",
+        "laneId": "lane_i5pgi0sf",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ksfxo0sf",
+        "name": "成本与风险分析",
+        "laneId": "lane_zty8t0sf",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_sn8ss0sf",
+        "name": "编制技术可行性分析报告",
+        "laneId": "lane_6fjry0sf",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ctsh70sf",
+        "name": "组织技术评审会并获取批准",
+        "laneId": "lane_2v4f50sf",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_jo1eu0sf",
+        "from": "act_fkiji0sf",
+        "to": "act_ou9st0sf"
+      },
+      {
+        "id": "e_ef16g0sf",
+        "from": "act_ou9st0sf",
+        "to": "act_kpjk50sf"
+      },
+      {
+        "id": "e_3gzqg0sf",
+        "from": "act_kpjk50sf",
+        "to": "act_ksfxo0sf"
+      },
+      {
+        "id": "e_ug3370sf",
+        "from": "act_ksfxo0sf",
+        "to": "act_sn8ss0sf"
+      },
+      {
+        "id": "e_rhqvq0sg",
+        "from": "act_sn8ss0sf",
+        "to": "act_ctsh70sf"
+      }
+    ],
+    "createdAt": "2026-06-16T07:26:39.846Z",
+    "updatedAt": "2026-06-17T02:41:22.578Z"
+  },
+  {
+    "id": "sf_dyuphee4k0te",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_kpjk50sf",
+    "ownerLabel": "评估资源与工艺可行性",
+    "lanes": [
+      {
+        "id": "lane_0mclq4ni",
+        "departmentId": "dep_3ijus4ni",
+        "name": "技术部"
+      },
+      {
+        "id": "lane_svtgc4ni",
+        "departmentId": "dep_yfhct4ni",
+        "name": "生产部"
+      },
+      {
+        "id": "lane_1i9644ni",
+        "departmentId": "dep_5mqxs4ni",
+        "name": "采购部"
+      },
+      {
+        "id": "lane_ykyf14ni",
+        "departmentId": "dep_bzseb4ni",
+        "name": "项目管理部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_z228y4ni",
+        "name": "收集产品技术要求与工艺需求",
+        "laneId": "lane_0mclq4ni",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_pf6m84ni",
+        "name": "评估设备能力与工艺参数匹配度",
+        "laneId": "lane_svtgc4ni",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ez1yp4ni",
+        "name": "评估材料供应与库存可用性",
+        "laneId": "lane_1i9644ni",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_tvbmc4ni",
+        "name": "评估人员技能与工装夹具配备",
+        "laneId": "lane_svtgc4ni",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_vp4qx4ni",
+        "name": "识别风险点并制定对策方案",
+        "laneId": "lane_0mclq4ni",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_x86nf4ni",
+        "name": "编制资源与工艺可行性评估报告",
+        "laneId": "lane_ykyf14ni",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_7aiel4ni",
+        "from": "act_z228y4ni",
+        "to": "act_pf6m84ni"
+      },
+      {
+        "id": "e_mk5id4ni",
+        "from": "act_pf6m84ni",
+        "to": "act_ez1yp4ni"
+      },
+      {
+        "id": "e_vobu64ni",
+        "from": "act_ez1yp4ni",
+        "to": "act_tvbmc4ni"
+      },
+      {
+        "id": "e_p1rhn4ni",
+        "from": "act_tvbmc4ni",
+        "to": "act_vp4qx4ni"
+      },
+      {
+        "id": "e_b132j4ni",
+        "from": "act_vp4qx4ni",
+        "to": "act_x86nf4ni"
+      }
+    ],
+    "createdAt": "2026-06-16T07:26:59.618Z",
+    "updatedAt": "2026-06-17T02:41:22.586Z"
+  },
+  {
+    "id": "sf_bbzridqfk4os",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_ctsh70sf",
+    "ownerLabel": "组织技术评审会并获取批准",
+    "lanes": [
+      {
+        "id": "lane_6l6zt81u",
+        "departmentId": "dep_a6k5w81u",
+        "name": "技术研发部"
+      },
+      {
+        "id": "lane_vp61o81u",
+        "departmentId": "dep_dq6p981u",
+        "name": "质量管理部"
+      },
+      {
+        "id": "lane_eo98k81u",
+        "departmentId": "dep_j1ix381u",
+        "name": "项目管理办公室"
+      },
+      {
+        "id": "lane_kbp7u81u",
+        "departmentId": "dep_jq89y81u",
+        "name": "决策委员会"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_zld5481u",
+        "name": "准备评审材料与技术文档",
+        "laneId": "lane_6l6zt81u",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_pxbfk81u",
+        "name": "组建评审委员会并确定成员名单",
+        "laneId": "lane_vp61o81u",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_lqsp581u",
+        "name": "分发评审通知与材料",
+        "laneId": "lane_eo98k81u",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_h9cid81u",
+        "name": "召开技术评审会议",
+        "laneId": "lane_vp61o81u",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_8w8b981u",
+        "name": "收集汇总评审意见与建议",
+        "laneId": "lane_vp61o81u",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ygqqo81u",
+        "name": "编制评审报告并提出结论",
+        "laneId": "lane_6l6zt81u",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_zu42y81u",
+        "name": "提交审批申请",
+        "laneId": "lane_eo98k81u",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_zmesq81u",
+        "name": "管理层审核并签发批准",
+        "laneId": "lane_kbp7u81u",
+        "seq": 7,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_pre0c81u",
+        "from": "act_zld5481u",
+        "to": "act_pxbfk81u"
+      },
+      {
+        "id": "e_ve6al81u",
+        "from": "act_pxbfk81u",
+        "to": "act_lqsp581u"
+      },
+      {
+        "id": "e_odgtp81u",
+        "from": "act_lqsp581u",
+        "to": "act_h9cid81u"
+      },
+      {
+        "id": "e_1e36681u",
+        "from": "act_h9cid81u",
+        "to": "act_8w8b981u"
+      },
+      {
+        "id": "e_jrlax81u",
+        "from": "act_8w8b981u",
+        "to": "act_ygqqo81u"
+      },
+      {
+        "id": "e_j168j81u",
+        "from": "act_ygqqo81u",
+        "to": "act_zu42y81u"
+      },
+      {
+        "id": "e_ijgkj81u",
+        "from": "act_zu42y81u",
+        "to": "act_zmesq81u"
+      }
+    ],
+    "createdAt": "2026-06-16T07:27:04.636Z",
+    "updatedAt": "2026-06-17T02:41:22.594Z"
+  },
+  {
+    "id": "sf_8gh4zsk4k82q",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_p0d1jljb",
+    "ownerLabel": "编制工艺方案设计",
+    "lanes": [
+      {
+        "id": "lane_4qnwnbi8",
+        "departmentId": "dep_6lkkrbi8",
+        "name": "工艺技术部"
+      },
+      {
+        "id": "lane_plg8ebi8",
+        "departmentId": "dep_riimibi8",
+        "name": "质量管理部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_q8etebi8",
+        "name": "接收产品设计图纸与技术要求",
+        "laneId": "lane_4qnwnbi8",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_wgxf0bi8",
+        "name": "工艺可行性分析",
+        "laneId": "lane_4qnwnbi8",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_p7tswbi8",
+        "name": "编制工艺路线",
+        "laneId": "lane_4qnwnbi8",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_v9zfwbi8",
+        "name": "设计工艺参数",
+        "laneId": "lane_4qnwnbi8",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_5e3wjbi8",
+        "name": "编制作业指导书",
+        "laneId": "lane_4qnwnbi8",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_9genubi8",
+        "name": "工艺评审验证",
+        "laneId": "lane_plg8ebi8",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_duei9bi8",
+        "name": "工艺文件签发与归档",
+        "laneId": "lane_4qnwnbi8",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_zd1bdbi8",
+        "from": "act_q8etebi8",
+        "to": "act_wgxf0bi8"
+      },
+      {
+        "id": "e_v41ogbi8",
+        "from": "act_wgxf0bi8",
+        "to": "act_p7tswbi8"
+      },
+      {
+        "id": "e_ni9xrbi8",
+        "from": "act_p7tswbi8",
+        "to": "act_v9zfwbi8"
+      },
+      {
+        "id": "e_8ckwlbi8",
+        "from": "act_v9zfwbi8",
+        "to": "act_5e3wjbi8"
+      },
+      {
+        "id": "e_yb2dcbi8",
+        "from": "act_5e3wjbi8",
+        "to": "act_9genubi8"
+      },
+      {
+        "id": "e_vq4fibi8",
+        "from": "act_9genubi8",
+        "to": "act_duei9bi8"
+      }
+    ],
+    "createdAt": "2026-06-16T07:27:09.026Z",
+    "updatedAt": "2026-06-17T02:41:22.602Z"
+  },
+  {
+    "id": "sf_saks2kvvkbj5",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_wgxf0bi8",
+    "ownerLabel": "工艺可行性分析",
+    "lanes": [
+      {
+        "id": "lane_8t7eif09",
+        "departmentId": "dep_0lb7ff09",
+        "name": "工艺工程部"
+      },
+      {
+        "id": "lane_u0w00f09",
+        "departmentId": "dep_831jkf09",
+        "name": "采购部"
+      },
+      {
+        "id": "lane_f8a5pf09",
+        "departmentId": "dep_ubf30f09",
+        "name": "生产部"
+      },
+      {
+        "id": "lane_gz68bf09",
+        "departmentId": "dep_3ju0ef09",
+        "name": "质量部"
+      },
+      {
+        "id": "lane_14qvhf09",
+        "departmentId": "dep_asagwf09",
+        "name": "技术管理部"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_zrolef09",
+        "name": "接收并解析工艺需求",
+        "laneId": "lane_8t7eif09",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_1vfbyf09",
+        "name": "初步工艺可行性评审",
+        "laneId": "lane_8t7eif09",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_nyir0f09",
+        "name": "材料与设备能力评估",
+        "laneId": "lane_u0w00f09",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_t7tn4f09",
+        "name": "详细工艺路线设计",
+        "laneId": "lane_8t7eif09",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_0lyt8f09",
+        "name": "工时与成本估算",
+        "laneId": "lane_f8a5pf09",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_cxn0af09",
+        "name": "质量风险与工艺评审",
+        "laneId": "lane_gz68bf09",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_2q00df09",
+        "name": "编制可行性分析报告",
+        "laneId": "lane_8t7eif09",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_c6uauf09",
+        "name": "评审与批准决策",
+        "laneId": "lane_14qvhf09",
+        "seq": 7,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_4o9xlf09",
+        "from": "act_zrolef09",
+        "to": "act_1vfbyf09"
+      },
+      {
+        "id": "e_jsoh3f09",
+        "from": "act_1vfbyf09",
+        "to": "act_nyir0f09"
+      },
+      {
+        "id": "e_ggpnzf09",
+        "from": "act_nyir0f09",
+        "to": "act_t7tn4f09"
+      },
+      {
+        "id": "e_dgnsqf09",
+        "from": "act_t7tn4f09",
+        "to": "act_0lyt8f09"
+      },
+      {
+        "id": "e_mfv6ff09",
+        "from": "act_0lyt8f09",
+        "to": "act_cxn0af09"
+      },
+      {
+        "id": "e_eo4m7f09",
+        "from": "act_cxn0af09",
+        "to": "act_2q00df09"
+      },
+      {
+        "id": "e_1dxu1f09",
+        "from": "act_2q00df09",
+        "to": "act_c6uauf09"
+      }
+    ],
+    "createdAt": "2026-06-16T07:27:13.505Z",
+    "updatedAt": "2026-06-17T02:41:22.609Z"
+  },
+  {
+    "id": "sf_1dvtwd54kf0r",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_p7tswbi8",
+    "ownerLabel": "编制工艺路线",
+    "lanes": [
+      {
+        "id": "lane_z54ely2m",
+        "departmentId": "dep_hi4vby2m",
+        "name": "研发设计部门"
+      },
+      {
+        "id": "lane_2qf7dy2n",
+        "departmentId": "dep_hpq5vy2n",
+        "name": "工艺工程部门"
+      },
+      {
+        "id": "lane_so5fuy2n",
+        "departmentId": "dep_h6etzy2n",
+        "name": "技术质量部门"
+      },
+      {
+        "id": "lane_jraw5y2n",
+        "departmentId": "dep_f4v81y2n",
+        "name": "技术部门"
+      },
+      {
+        "id": "lane_sqpm0y2n",
+        "departmentId": "dep_8evouy2n",
+        "name": "生产计划部门"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_2kqc6y2m",
+        "name": "接收并解析产品技术文件",
+        "laneId": "lane_z54ely2m",
+        "seq": 0,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ho2jxy2n",
+        "name": "工艺性分析与审查",
+        "laneId": "lane_2qf7dy2n",
+        "seq": 1,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_ny9lvy2n",
+        "name": "编制工艺路线方案",
+        "laneId": "lane_2qf7dy2n",
+        "seq": 2,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_q3sxyy2n",
+        "name": "工艺方案评审与会签",
+        "laneId": "lane_so5fuy2n",
+        "seq": 3,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_7rcify2n",
+        "name": "编制工序作业指导书",
+        "laneId": "lane_2qf7dy2n",
+        "seq": 4,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_yvu23y2n",
+        "name": "工艺文件审批定标",
+        "laneId": "lane_jraw5y2n",
+        "seq": 5,
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "act_z5j2yy2n",
+        "name": "工艺文件分发与归档",
+        "laneId": "lane_sqpm0y2n",
+        "seq": 6,
+        "inputs": [],
+        "outputs": []
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_kkdhuy2n",
+        "from": "act_2kqc6y2m",
+        "to": "act_ho2jxy2n"
+      },
+      {
+        "id": "e_kbqmly2n",
+        "from": "act_ho2jxy2n",
+        "to": "act_ny9lvy2n"
+      },
+      {
+        "id": "e_g7iu8y2n",
+        "from": "act_ny9lvy2n",
+        "to": "act_q3sxyy2n"
+      },
+      {
+        "id": "e_0rtmuy2n",
+        "from": "act_q3sxyy2n",
+        "to": "act_7rcify2n"
+      },
+      {
+        "id": "e_2jksdy2n",
+        "from": "act_7rcify2n",
+        "to": "act_yvu23y2n"
+      },
+      {
+        "id": "e_7bjw7y2n",
+        "from": "act_yvu23y2n",
+        "to": "act_z5j2yy2n"
+      }
+    ],
+    "createdAt": "2026-06-16T07:27:18.027Z",
+    "updatedAt": "2026-06-17T02:41:22.618Z"
+  },
+  {
+    "id": "sf_0gi9r3p4twki",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_bano6lrtuptc",
+    "ownerLabel": "订单评审与接单",
+    "lanes": [
+      {
+        "id": "lane_hjwk6eht",
+        "departmentId": "dep_5vnndeht",
+        "name": "销售部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_z3ju2eht",
+        "departmentId": "dep_ldvv0eht",
+        "name": "销售部/订单管理部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_0c588eht",
+        "departmentId": "dep_4kqjyeht",
+        "name": "技术研发部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_l7kn4eht",
+        "departmentId": "dep_ifizreht",
+        "name": "生产计划部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_krrpaeht",
+        "departmentId": "dep_m9gareht",
+        "name": "财务部/报价部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_aaadveht",
+        "departmentId": "dep_n2o8geht",
+        "name": "销售管理层",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      },
+      {
+        "id": "lane_2q4mxeht",
+        "departmentId": "dep_ia9ageht",
+        "name": "订单管理部/生产计划部",
+        "color": "#4a90d9",
+        "amibaUnitId": "amb_sales"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_bigbfeht",
+        "name": "客户订单接收与登记",
+        "laneId": "lane_hjwk6eht",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "客户询价/订单文件",
+            "inherited": false
+          },
+          {
+            "name": "客户联系方式",
+            "inherited": false
+          },
+          {
+            "name": "产品需求说明",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "订单登记台账",
+          "订单编号",
+          "原始订单资料"
+        ]
+      },
+      {
+        "id": "act_vrk1oeht",
+        "name": "订单信息完整性核实",
+        "laneId": "lane_z3ju2eht",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "原始订单资料",
+            "inherited": true
+          },
+          {
+            "name": "产品目录/规格表",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "核实后订单信息",
+          "信息缺失清单",
+          "客户确认函"
+        ]
+      },
+      {
+        "id": "act_a4yqkeht",
+        "name": "技术可行性评审",
+        "laneId": "lane_0c588eht",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "产品技术要求",
+            "inherited": true
+          },
+          {
+            "name": "订单核实信息",
+            "inherited": false
+          },
+          {
+            "name": "工艺标准文件",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "技术评审报告",
+          "可生产性结论",
+          "技术变更建议"
+        ]
+      },
+      {
+        "id": "act_a11dseht",
+        "name": "生产能力与交期评估",
+        "laneId": "lane_l7kn4eht",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "核实后订单信息",
+            "inherited": true
+          },
+          {
+            "name": "技术评审报告",
+            "inherited": true
+          },
+          {
+            "name": "当前生产负荷表",
+            "inherited": false
+          },
+          {
+            "name": "物料库存信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "产能评估报告",
+          "预计交期回复",
+          "排产可行性结论"
+        ]
+      },
+      {
+        "id": "act_uuufpeht",
+        "name": "成本核算与报价生成",
+        "laneId": "lane_krrpaeht",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "技术评审报告",
+            "inherited": true
+          },
+          {
+            "name": "产能评估报告",
+            "inherited": true
+          },
+          {
+            "name": "物料标准成本表",
+            "inherited": false
+          },
+          {
+            "name": "工时费率表",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "成本核算单",
+          "报价单",
+          "利润分析报告"
+        ]
+      },
+      {
+        "id": "act_xxh5aeht",
+        "name": "订单审批与接单确认",
+        "laneId": "lane_aaadveht",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "成本核算单",
+            "inherited": true
+          },
+          {
+            "name": "报价单",
+            "inherited": true
+          },
+          {
+            "name": "产能评估报告",
+            "inherited": true
+          },
+          {
+            "name": "客户信用记录",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "审批通过订单",
+          "已确认报价",
+          "订单审批记录"
+        ]
+      },
+      {
+        "id": "act_5ge87eht",
+        "name": "订单系统录入与生产分配",
+        "laneId": "lane_2q4mxeht",
+        "seq": 6,
+        "inputs": [
+          {
+            "name": "已审批订单",
+            "inherited": true
+          },
+          {
+            "name": "已确认报价",
+            "inherited": true
+          },
+          {
+            "name": "客户合同",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "系统订单记录",
+          "生产工单",
+          "物料需求计划",
+          "客户订单确认函"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_chxcoeht",
+        "from": "act_bigbfeht",
+        "to": "act_vrk1oeht"
+      },
+      {
+        "id": "e_h7pi8eht",
+        "from": "act_vrk1oeht",
+        "to": "act_a4yqkeht"
+      },
+      {
+        "id": "e_xrgfmeht",
+        "from": "act_a4yqkeht",
+        "to": "act_a11dseht"
+      },
+      {
+        "id": "e_3mnxweht",
+        "from": "act_a11dseht",
+        "to": "act_uuufpeht"
+      },
+      {
+        "id": "e_s5zzfeht",
+        "from": "act_uuufpeht",
+        "to": "act_xxh5aeht"
+      },
+      {
+        "id": "e_17gkaeht",
+        "from": "act_xxh5aeht",
+        "to": "act_5ge87eht"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:25.698Z",
+    "updatedAt": "2026-06-17T02:41:22.626Z"
+  },
+  {
+    "id": "sf_8bhibyamtwlq",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_nqg9p43luptc",
+    "ownerLabel": "工艺与 BOM 准备",
+    "lanes": [
+      {
+        "id": "lane_gptmu1al",
+        "departmentId": "dep_7bxf81al",
+        "name": "工艺工程部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_l7nma1al",
+        "departmentId": "dep_d2dgu1al",
+        "name": "生产计划部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_gugoh1al",
+        "departmentId": "dep_3rj051al",
+        "name": "技术质量部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_42mro1al",
+        "departmentId": "dep_ltz2y1al",
+        "name": "生控部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_qi7xe1al",
+        "name": "产品工艺设计",
+        "laneId": "lane_gptmu1al",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "产品设计图纸/3D模型",
+            "inherited": false
+          },
+          {
+            "name": "技术规格书",
+            "inherited": false
+          },
+          {
+            "name": "质量要求文件",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "工艺设计方案",
+          "关键工序定义"
+        ]
+      },
+      {
+        "id": "act_59ex91al",
+        "name": "BOM物料清单编制",
+        "laneId": "lane_l7nma1al",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "产品设计BOM",
+            "inherited": true
+          },
+          {
+            "name": "材料标准库",
+            "inherited": false
+          },
+          {
+            "name": "供应商物料编码手册",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "EBOM工程物料清单",
+          "PBOM生产物料清单",
+          "物料替代建议"
+        ]
+      },
+      {
+        "id": "act_90d0d1al",
+        "name": "工艺路线编制",
+        "laneId": "lane_gptmu1al",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "工艺设计方案",
+            "inherited": true
+          },
+          {
+            "name": "设备能力清单",
+            "inherited": false
+          },
+          {
+            "name": "工装夹具目录",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "工艺路线卡",
+          "工序明细表",
+          "工时定额表"
+        ]
+      },
+      {
+        "id": "act_esh8c1al",
+        "name": "BOM与工艺联合审核",
+        "laneId": "lane_gugoh1al",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "EBOM工程物料清单",
+            "inherited": true
+          },
+          {
+            "name": "工艺路线卡",
+            "inherited": true
+          },
+          {
+            "name": "历史生产数据",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "审核通过BOM",
+          "工艺评审纪要",
+          "问题整改清单"
+        ]
+      },
+      {
+        "id": "act_v2u9d1al",
+        "name": "工艺文件编制与发放",
+        "laneId": "lane_gptmu1al",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "审核通过工艺文件",
+            "inherited": true
+          },
+          {
+            "name": "标准工时数据",
+            "inherited": false
+          },
+          {
+            "name": "作业指导书模板",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "作业指导书SOP",
+          "工艺规程文件包",
+          "工艺更改通知单"
+        ]
+      },
+      {
+        "id": "act_sgzip1al",
+        "name": "BOM系统录入与发布",
+        "laneId": "lane_42mro1al",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "审核通过BOM",
+            "inherited": true
+          },
+          {
+            "name": "工艺路线卡",
+            "inherited": true
+          },
+          {
+            "name": "物料主数据",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "ERP系统BOM",
+          "MRP运算基础数据",
+          "BOM版本记录"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_bsdnj1al",
+        "from": "act_qi7xe1al",
+        "to": "act_59ex91al"
+      },
+      {
+        "id": "e_6pig61al",
+        "from": "act_59ex91al",
+        "to": "act_90d0d1al"
+      },
+      {
+        "id": "e_ac9rl1al",
+        "from": "act_90d0d1al",
+        "to": "act_esh8c1al"
+      },
+      {
+        "id": "e_oxh4m1al",
+        "from": "act_esh8c1al",
+        "to": "act_v2u9d1al"
+      },
+      {
+        "id": "e_uskh11al",
+        "from": "act_v2u9d1al",
+        "to": "act_sgzip1al"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:25.742Z",
+    "updatedAt": "2026-06-17T02:41:22.634Z"
+  },
+  {
+    "id": "sf_h00ptiz2twnl",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_w4jb5xequptc",
+    "ownerLabel": "主计划与排产",
+    "lanes": [
+      {
+        "id": "lane_ezkqzsfl",
+        "departmentId": "dep_wid0gsfl",
+        "name": "销售部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_cbb2hsfl",
+        "departmentId": "dep_bdlrwsfl",
+        "name": "计划部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_n1b0asfl",
+        "departmentId": "dep_hlry3sfl",
+        "name": "计划部/物控部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_c6av5sfl",
+        "departmentId": "dep_1c4jrsfl",
+        "name": "计划部/生产部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_vrnohsfl",
+        "departmentId": "dep_394elsfl",
+        "name": "计划部/车间",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_v4hnwsfl",
+        "name": "销售订单收集与需求预测",
+        "laneId": "lane_ezkqzsfl",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "客户询价",
+            "inherited": false
+          },
+          {
+            "name": "历史订单数据",
+            "inherited": false
+          },
+          {
+            "name": "市场预测报告",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "需求清单",
+          "销售订单确认单"
+        ]
+      },
+      {
+        "id": "act_oizm0sfl",
+        "name": "主生产计划(MPS)编制",
+        "laneId": "lane_cbb2hsfl",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "需求清单",
+            "inherited": true
+          },
+          {
+            "name": "产品BOM清单",
+            "inherited": false
+          },
+          {
+            "name": "库存余量数据",
+            "inherited": false
+          },
+          {
+            "name": "交货期要求",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "主生产计划排程表",
+          "各产品产出计划"
+        ]
+      },
+      {
+        "id": "act_h1k9lsfl",
+        "name": "物料需求计划(MRP)运算",
+        "laneId": "lane_n1b0asfl",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "主生产计划",
+            "inherited": true
+          },
+          {
+            "name": "物料BOM结构",
+            "inherited": false
+          },
+          {
+            "name": "当前库存数据",
+            "inherited": false
+          },
+          {
+            "name": "在途物料信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "物料需求清单",
+          "采购申请单",
+          "外协加工单"
+        ]
+      },
+      {
+        "id": "act_1clgwsfl",
+        "name": "产能评估与负荷平衡",
+        "laneId": "lane_c6av5sfl",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "主生产计划",
+            "inherited": true
+          },
+          {
+            "name": "工时标准数据",
+            "inherited": false
+          },
+          {
+            "name": "设备产能参数",
+            "inherited": false
+          },
+          {
+            "name": "人员配置信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "产能分析报告",
+          "工序负荷图",
+          "瓶颈工序识别清单"
+        ]
+      },
+      {
+        "id": "act_4jbuisfl",
+        "name": "车间作业排产与工序调度",
+        "laneId": "lane_vrnohsfl",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "主生产计划",
+            "inherited": true
+          },
+          {
+            "name": "产能分析结果",
+            "inherited": false
+          },
+          {
+            "name": "采购到货计划",
+            "inherited": false
+          },
+          {
+            "name": "设备状态信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "车间作业计划单",
+          "工序排程甘特图",
+          "工单派工单"
+        ]
+      },
+      {
+        "id": "act_rm4tjsfl",
+        "name": "计划发布与执行下达",
+        "laneId": "lane_cbb2hsfl",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "车间作业计划",
+            "inherited": true
+          },
+          {
+            "name": "工单派工单",
+            "inherited": true
+          },
+          {
+            "name": "物料备料确认",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "下达的生产工单",
+          "物料配送指令",
+          "计划执行通知书"
+        ]
+      },
+      {
+        "id": "act_2hycvsfl",
+        "name": "计划执行监控与调整优化",
+        "laneId": "lane_c6av5sfl",
+        "seq": 6,
+        "inputs": [
+          {
+            "name": "生产进度数据",
+            "inherited": true
+          },
+          {
+            "name": "异常问题反馈",
+            "inherited": false
+          },
+          {
+            "name": "质量返工信息",
+            "inherited": false
+          },
+          {
+            "name": "物料短缺预警",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "计划执行跟踪报表",
+          "计划调整单",
+          "改善对策建议"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_5u7uosfl",
+        "from": "act_v4hnwsfl",
+        "to": "act_oizm0sfl"
+      },
+      {
+        "id": "e_zt54qsfl",
+        "from": "act_oizm0sfl",
+        "to": "act_h1k9lsfl"
+      },
+      {
+        "id": "e_4f9tksfl",
+        "from": "act_h1k9lsfl",
+        "to": "act_1clgwsfl"
+      },
+      {
+        "id": "e_uqh3osfl",
+        "from": "act_1clgwsfl",
+        "to": "act_4jbuisfl"
+      },
+      {
+        "id": "e_vpulisfl",
+        "from": "act_4jbuisfl",
+        "to": "act_rm4tjsfl"
+      },
+      {
+        "id": "e_iflmqsfl",
+        "from": "act_rm4tjsfl",
+        "to": "act_2hycvsfl"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:25.809Z",
+    "updatedAt": "2026-06-17T02:41:22.643Z"
+  },
+  {
+    "id": "sf_hwwcry2etwok",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_rc3medmwuptc",
+    "ownerLabel": "物料需求与采购",
+    "lanes": [
+      {
+        "id": "lane_1mheraos",
+        "departmentId": "dep_8xtj5aos",
+        "name": "计划部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_y6o9oaos",
+        "departmentId": "dep_3t793aos",
+        "name": "采购部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_mf3ixaos",
+        "departmentId": "dep_h3fcvaos",
+        "name": "仓储部/质量部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_7vqctaos",
+        "departmentId": "dep_zsl9qaos",
+        "name": "财务部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_6j3cgaos",
+        "name": "物料需求识别与MRP运算",
+        "laneId": "lane_1mheraos",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "销售订单",
+            "inherited": false
+          },
+          {
+            "name": "生产工单",
+            "inherited": false
+          },
+          {
+            "name": "库存余额",
+            "inherited": false
+          },
+          {
+            "name": "BOM清单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "物料需求清单"
+        ]
+      },
+      {
+        "id": "act_pbdjnaos",
+        "name": "采购申请创建与审批",
+        "laneId": "lane_y6o9oaos",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "物料需求清单",
+            "inherited": true
+          },
+          {
+            "name": "安全库存参数",
+            "inherited": false
+          },
+          {
+            "name": "在途物料信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "采购申请单"
+        ]
+      },
+      {
+        "id": "act_27dkyaos",
+        "name": "供应商询价与比价",
+        "laneId": "lane_y6o9oaos",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "采购申请单",
+            "inherited": true
+          },
+          {
+            "name": "合格供应商名录",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "询价对比表",
+          "供应商报价单"
+        ]
+      },
+      {
+        "id": "act_rod1iaos",
+        "name": "采购订单生成与下达",
+        "laneId": "lane_y6o9oaos",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "采购申请单",
+            "inherited": true
+          },
+          {
+            "name": "询价对比表",
+            "inherited": true
+          },
+          {
+            "name": "价格审批单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "采购订单"
+        ]
+      },
+      {
+        "id": "act_jx28eaos",
+        "name": "订单跟踪与交期确认",
+        "laneId": "lane_y6o9oaos",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "采购订单",
+            "inherited": true
+          },
+          {
+            "name": "供应商承诺交期",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "交期确认单",
+          "到货计划表"
+        ]
+      },
+      {
+        "id": "act_3q91uaos",
+        "name": "物料验收与入库",
+        "laneId": "lane_mf3ixaos",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "采购订单",
+            "inherited": true
+          },
+          {
+            "name": "送货单",
+            "inherited": false
+          },
+          {
+            "name": "到货物料",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "验收报告",
+          "入库单"
+        ]
+      },
+      {
+        "id": "act_exlzzaos",
+        "name": "采购结算与付款申请",
+        "laneId": "lane_7vqctaos",
+        "seq": 6,
+        "inputs": [
+          {
+            "name": "入库单",
+            "inherited": true
+          },
+          {
+            "name": "供应商发票",
+            "inherited": false
+          },
+          {
+            "name": "验收合格单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "付款申请单",
+          "记账凭证"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_ntt6qaos",
+        "from": "act_6j3cgaos",
+        "to": "act_pbdjnaos"
+      },
+      {
+        "id": "e_hyhoqaos",
+        "from": "act_pbdjnaos",
+        "to": "act_27dkyaos"
+      },
+      {
+        "id": "e_o8wznaos",
+        "from": "act_27dkyaos",
+        "to": "act_rod1iaos"
+      },
+      {
+        "id": "e_itzdhaos",
+        "from": "act_rod1iaos",
+        "to": "act_jx28eaos"
+      },
+      {
+        "id": "e_uqbuxaos",
+        "from": "act_jx28eaos",
+        "to": "act_3q91uaos"
+      },
+      {
+        "id": "e_6efbpaos",
+        "from": "act_3q91uaos",
+        "to": "act_exlzzaos"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:25.844Z",
+    "updatedAt": "2026-06-17T02:41:22.650Z"
+  },
+  {
+    "id": "sf_tveb05pwtwpl",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_ie2ip12muptc",
+    "ownerLabel": "齐套与备料/下料",
+    "lanes": [
+      {
+        "id": "lane_eaeusuri",
+        "departmentId": "dep_5nzrturi",
+        "name": "PMC部/生产计划部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_zqnqquri",
+        "departmentId": "dep_283knuri",
+        "name": "仓储部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_7gvn8uri",
+        "departmentId": "dep_zdnuiuri",
+        "name": "采购部/PMC部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_zu39vuri",
+        "departmentId": "dep_24p2wuri",
+        "name": "下料车间/生产部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_4c6h4uri",
+        "departmentId": "dep_2ugj0uri",
+        "name": "物流部/生产部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_6j0xmuri",
+        "name": "物料需求分析",
+        "laneId": "lane_eaeusuri",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "生产工单",
+            "inherited": false
+          },
+          {
+            "name": "BOM物料清单",
+            "inherited": false
+          },
+          {
+            "name": "工艺路线",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "物料需求清单",
+          "需求汇总表"
+        ]
+      },
+      {
+        "id": "act_6cdezuri",
+        "name": "库存核查与齐套分析",
+        "laneId": "lane_zqnqquri",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "物料需求清单",
+            "inherited": true
+          },
+          {
+            "name": "库存台账",
+            "inherited": false
+          },
+          {
+            "name": "在途物料数据",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "齐套分析报告",
+          "物料缺口清单",
+          "库存可用清单"
+        ]
+      },
+      {
+        "id": "act_kbl3nuri",
+        "name": "物料缺口申请与跟催",
+        "laneId": "lane_7gvn8uri",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "物料缺口清单",
+            "inherited": true
+          },
+          {
+            "name": "库存齐套分析报告",
+            "inherited": false
+          },
+          {
+            "name": "采购周期数据",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "采购申请单",
+          "调拨申请单",
+          "到货计划"
+        ]
+      },
+      {
+        "id": "act_z4bdluri",
+        "name": "物料领取/出库",
+        "laneId": "lane_zqnqquri",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "领料单/工单",
+            "inherited": true
+          },
+          {
+            "name": "齐套分析报告",
+            "inherited": true
+          },
+          {
+            "name": "采购到货物料",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "已领物料",
+          "出库单据",
+          "物料配套清单"
+        ]
+      },
+      {
+        "id": "act_7am8furi",
+        "name": "下料/切割加工",
+        "laneId": "lane_zu39vuri",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "原材料",
+            "inherited": true
+          },
+          {
+            "name": "下料图纸",
+            "inherited": false
+          },
+          {
+            "name": "切割工艺参数",
+            "inherited": false
+          },
+          {
+            "name": "套料方案",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "已下料毛坯件",
+          "下料工艺卡",
+          "余料/废料记录",
+          "板材利用率报告"
+        ]
+      },
+      {
+        "id": "act_j5yg8uri",
+        "name": "物料配送与齐套确认",
+        "laneId": "lane_4c6h4uri",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "下料件",
+            "inherited": true
+          },
+          {
+            "name": "配套辅材",
+            "inherited": false
+          },
+          {
+            "name": "工单",
+            "inherited": false
+          },
+          {
+            "name": "齐套清单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "齐套确认单",
+          "配送到工位记录",
+          "齐套异常反馈"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_nt1vfuri",
+        "from": "act_6j0xmuri",
+        "to": "act_6cdezuri"
+      },
+      {
+        "id": "e_rpooiuri",
+        "from": "act_6cdezuri",
+        "to": "act_kbl3nuri"
+      },
+      {
+        "id": "e_rthaeuri",
+        "from": "act_kbl3nuri",
+        "to": "act_z4bdluri"
+      },
+      {
+        "id": "e_b5zjguri",
+        "from": "act_z4bdluri",
+        "to": "act_7am8furi"
+      },
+      {
+        "id": "e_71vyguri",
+        "from": "act_7am8furi",
+        "to": "act_j5yg8uri"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:25.880Z",
+    "updatedAt": "2026-06-17T02:41:22.657Z"
+  },
+  {
+    "id": "sf_ebjl0kiptws3",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_popgv2ov",
+    "ownerLabel": "方案/参数处理",
+    "lanes": [
+      {
+        "id": "lane_y5wkjehr",
+        "departmentId": "dep_amb_mfg",
+        "name": "生产部",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_j9mvzwu4",
+        "departmentId": "dep_collab",
+        "name": "协同·质量部",
+        "color": "#94a3b8",
+        "amibaUnitId": "amb_collab"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_dts3609a",
+        "name": "信息接收与登记",
+        "laneId": "lane_y5wkjehr",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "图纸/BOM",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "发货单"
+        ]
+      },
+      {
+        "id": "act_64c19kk0",
+        "name": "方案/参数处理",
+        "laneId": "lane_j9mvzwu4",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "客户需求",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "发货单"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge_uh5953e0",
+        "from": "act_dts3609a",
+        "to": "act_64c19kk0"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:25.971Z",
+    "updatedAt": "2026-06-17T02:41:22.664Z"
+  },
+  {
+    "id": "sf_mnvmki37twsy",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_mgwsz2qkuptc",
+    "ownerLabel": "过程与成品质量",
+    "lanes": [
+      {
+        "id": "lane_d6sz4z63",
+        "departmentId": "dep_i4z7sz63",
+        "name": "品质部",
+        "color": "#dc2626",
+        "amibaUnitId": "amb_quality"
+      },
+      {
+        "id": "lane_4ojonz63",
+        "departmentId": "dep_e9c2gz63",
+        "name": "生产部/品质部",
+        "color": "#dc2626",
+        "amibaUnitId": "amb_quality"
+      },
+      {
+        "id": "lane_4wxpfz63",
+        "departmentId": "dep_05tm3z63",
+        "name": "品质部/生产部",
+        "color": "#dc2626",
+        "amibaUnitId": "amb_quality"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_u8yssz63",
+        "name": "来料检验(IQC)",
+        "laneId": "lane_d6sz4z63",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "供应商来料",
+            "inherited": false
+          },
+          {
+            "name": "采购订单",
+            "inherited": false
+          },
+          {
+            "name": "来料检验标准书",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "来料检验报告",
+          "来料检验判定单"
+        ]
+      },
+      {
+        "id": "act_sxh42z63",
+        "name": "首件检验",
+        "laneId": "lane_4ojonz63",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "首件产品",
+            "inherited": true
+          },
+          {
+            "name": "工艺标准文件",
+            "inherited": false
+          },
+          {
+            "name": "作业指导书",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "首件检验记录表",
+          "首件确认报告"
+        ]
+      },
+      {
+        "id": "act_6inwxz63",
+        "name": "过程巡检(IPQC)",
+        "laneId": "lane_d6sz4z63",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "在制品",
+            "inherited": true
+          },
+          {
+            "name": "过程控制计划",
+            "inherited": false
+          },
+          {
+            "name": "巡检计划表",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "巡检记录表",
+          "过程异常通知单"
+        ]
+      },
+      {
+        "id": "act_zlp4iz63",
+        "name": "成品检验(OQC)",
+        "laneId": "lane_d6sz4z63",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "完工产品",
+            "inherited": true
+          },
+          {
+            "name": "成品检验规范",
+            "inherited": false
+          },
+          {
+            "name": "客户规格书",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "成品检验报告",
+          "出货检验合格证"
+        ]
+      },
+      {
+        "id": "act_xkjkxz63",
+        "name": "质量异常处理",
+        "laneId": "lane_4wxpfz63",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "质量异常通知单",
+            "inherited": true
+          },
+          {
+            "name": "不良品样品",
+            "inherited": false
+          },
+          {
+            "name": "异常描述文档",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "异常分析报告",
+          "纠正预防措施单(CAR)",
+          "处理结果确认单"
+        ]
+      },
+      {
+        "id": "act_rhtjaz63",
+        "name": "质量数据分析与改进",
+        "laneId": "lane_d6sz4z63",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "各类检验记录",
+            "inherited": true
+          },
+          {
+            "name": "异常处理报告",
+            "inherited": false
+          },
+          {
+            "name": "客户投诉记录",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "质量月报/周报",
+          "质量趋势分析图",
+          "改善建议报告"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_ixummz63",
+        "from": "act_u8yssz63",
+        "to": "act_sxh42z63"
+      },
+      {
+        "id": "e_23efoz63",
+        "from": "act_sxh42z63",
+        "to": "act_6inwxz63"
+      },
+      {
+        "id": "e_spbphz63",
+        "from": "act_6inwxz63",
+        "to": "act_zlp4iz63"
+      },
+      {
+        "id": "e_8wdkpz63",
+        "from": "act_zlp4iz63",
+        "to": "act_xkjkxz63"
+      },
+      {
+        "id": "e_40ebnz63",
+        "from": "act_xkjkxz63",
+        "to": "act_rhtjaz63"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:26.002Z",
+    "updatedAt": "2026-06-17T02:41:22.672Z"
+  },
+  {
+    "id": "sf_czj1w2fjtwu1",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_bl70mnivuptc",
+    "ownerLabel": "入库/包装",
+    "lanes": [
+      {
+        "id": "lane_vu4moipf",
+        "departmentId": "dep_aj3yhipf",
+        "name": "仓库/收货组",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_72lzhipf",
+        "departmentId": "dep_4rjmripf",
+        "name": "质量部/QC",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_bbn8mipf",
+        "departmentId": "dep_k0x3oipf",
+        "name": "仓储部/仓管员",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_ylsdmipf",
+        "departmentId": "dep_evo7eipf",
+        "name": "仓库/上架组",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_jv4paipf",
+        "departmentId": "dep_i7jnvipf",
+        "name": "包装车间/包装组",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_sq4m1ipf",
+        "departmentId": "dep_7jjzvipf",
+        "name": "包装车间/贴标组",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_4ew0qipf",
+        "name": "来料接收与清点",
+        "laneId": "lane_vu4moipf",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "供应商送货单",
+            "inherited": false
+          },
+          {
+            "name": "实物货物",
+            "inherited": false
+          },
+          {
+            "name": "采购订单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "收货单",
+          "货物清单",
+          "异常记录表"
+        ]
+      },
+      {
+        "id": "act_poiv4ipf",
+        "name": "质量检验",
+        "laneId": "lane_72lzhipf",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "待检货物",
+            "inherited": true
+          },
+          {
+            "name": "质量标准文件",
+            "inherited": false
+          },
+          {
+            "name": "检验规范",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "检验报告",
+          "合格/不合格标识",
+          "质检记录"
+        ]
+      },
+      {
+        "id": "act_ey8qpipf",
+        "name": "入库系统登记",
+        "laneId": "lane_bbn8mipf",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "收货单",
+            "inherited": true
+          },
+          {
+            "name": "检验合格报告",
+            "inherited": false
+          },
+          {
+            "name": "货物实物",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "入库单",
+          "库位分配信息",
+          "WMS系统库存记录"
+        ]
+      },
+      {
+        "id": "act_8h7v9ipf",
+        "name": "货物上架与存储",
+        "laneId": "lane_ylsdmipf",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "入库单",
+            "inherited": true
+          },
+          {
+            "name": "库位信息",
+            "inherited": false
+          },
+          {
+            "name": "货物实物",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "上架完成确认",
+          "库位变动记录",
+          "叉车/搬运设备使用记录"
+        ]
+      },
+      {
+        "id": "act_cikzhipf",
+        "name": "产品包装作业",
+        "laneId": "lane_jv4paipf",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "待包装产品",
+            "inherited": true
+          },
+          {
+            "name": "包装材料",
+            "inherited": false
+          },
+          {
+            "name": "包装作业指导书",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "已完成包装产品",
+          "包装清单",
+          "包装工序记录"
+        ]
+      },
+      {
+        "id": "act_trqtuipf",
+        "name": "标签打印与贴附",
+        "laneId": "lane_sq4m1ipf",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "已包装产品",
+            "inherited": true
+          },
+          {
+            "name": "产品标签",
+            "inherited": false
+          },
+          {
+            "name": "条码/二维码",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "贴标完成产品",
+          "标签使用记录",
+          "追溯码扫描记录"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_15aocipf",
+        "from": "act_4ew0qipf",
+        "to": "act_poiv4ipf"
+      },
+      {
+        "id": "e_gy8iqipf",
+        "from": "act_poiv4ipf",
+        "to": "act_ey8qpipf"
+      },
+      {
+        "id": "e_zfdr6ipf",
+        "from": "act_ey8qpipf",
+        "to": "act_8h7v9ipf"
+      },
+      {
+        "id": "e_vnsykipf",
+        "from": "act_8h7v9ipf",
+        "to": "act_cikzhipf"
+      },
+      {
+        "id": "e_px8nvipf",
+        "from": "act_cikzhipf",
+        "to": "act_trqtuipf"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:26.041Z",
+    "updatedAt": "2026-06-17T02:41:22.682Z"
+  },
+  {
+    "id": "sf_grd377cptwv3",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_xf2tsrmfuptc",
+    "ownerLabel": "发运/物流",
+    "lanes": [
+      {
+        "id": "lane_r11k87fu",
+        "departmentId": "dep_qyon17fu",
+        "name": "计划部/销售部",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_glduy7fu",
+        "departmentId": "dep_448lh7fu",
+        "name": "仓储部",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_o8z317fu",
+        "departmentId": "dep_p7zp77fu",
+        "name": "包装组",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_cebe37fu",
+        "departmentId": "dep_y696q7fu",
+        "name": "物流部",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      },
+      {
+        "id": "lane_0nb6o7fu",
+        "departmentId": "dep_9mjk37fu",
+        "name": "客户服务部/物流部",
+        "color": "#16a34a",
+        "amibaUnitId": "amb_logistics"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_do2sb7fu",
+        "name": "发货计划确认",
+        "laneId": "lane_r11k87fu",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "客户订单",
+            "inherited": false
+          },
+          {
+            "name": "销售预测",
+            "inherited": false
+          },
+          {
+            "name": "库存情况",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "发货计划表"
+        ]
+      },
+      {
+        "id": "act_ehvaf7fu",
+        "name": "库存可用性检查",
+        "laneId": "lane_glduy7fu",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "发货计划表",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "拣货单",
+          "库存分配记录"
+        ]
+      },
+      {
+        "id": "act_si2qs7fu",
+        "name": "拣货与备货",
+        "laneId": "lane_glduy7fu",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "拣货单",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "已备货物",
+          "拣货完成记录"
+        ]
+      },
+      {
+        "id": "act_m1o8f7fu",
+        "name": "包装与质检",
+        "laneId": "lane_o8z317fu",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "已备货物",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "包装完成品",
+          "质检报告"
+        ]
+      },
+      {
+        "id": "act_ylimo7fu",
+        "name": "发货调度与出库",
+        "laneId": "lane_cebe37fu",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "包装完成品",
+            "inherited": true
+          },
+          {
+            "name": "质检报告",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "发货单据",
+          "物流运单",
+          "出库记录"
+        ]
+      },
+      {
+        "id": "act_n2tbs7fu",
+        "name": "物流追踪与交付确认",
+        "laneId": "lane_0nb6o7fu",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "物流运单",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "签收确认单",
+          "交付完成报告"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_3xqvs7fv",
+        "from": "act_do2sb7fu",
+        "to": "act_ehvaf7fu"
+      },
+      {
+        "id": "e_ygwgp7fv",
+        "from": "act_ehvaf7fu",
+        "to": "act_si2qs7fu"
+      },
+      {
+        "id": "e_xem0a7fv",
+        "from": "act_si2qs7fu",
+        "to": "act_m1o8f7fu"
+      },
+      {
+        "id": "e_daanl7fv",
+        "from": "act_m1o8f7fu",
+        "to": "act_ylimo7fu"
+      },
+      {
+        "id": "e_0fqmj7fv",
+        "from": "act_ylimo7fu",
+        "to": "act_n2tbs7fu"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:26.079Z",
+    "updatedAt": "2026-06-17T02:41:22.688Z"
+  },
+  {
+    "id": "sf_amlcwp2stwx9",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "on_g91ypo78uptc",
+    "ownerLabel": "售后/复盘/知识沉淀",
+    "lanes": [
+      {
+        "id": "lane_etyz1dpg",
+        "departmentId": "dep_b9yocdpg",
+        "name": "客服部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_hqtqddpg",
+        "departmentId": "dep_tc664dpg",
+        "name": "技术部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_k2awsdpg",
+        "departmentId": "dep_u90kfdpg",
+        "name": "质量部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_okduidpg",
+        "departmentId": "dep_f85u4dpg",
+        "name": "生产部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_5r1ypdpg",
+        "departmentId": "dep_7ztz0dpg",
+        "name": "管理层",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      },
+      {
+        "id": "lane_m6hz4dpg",
+        "departmentId": "dep_3uqw4dpg",
+        "name": "技术支持部",
+        "color": "#64748b",
+        "amibaUnitId": "amb_func"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_siwp1dpg",
+        "name": "问题记录与分类",
+        "laneId": "lane_etyz1dpg",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "客户反馈信息",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "问题工单"
+        ]
+      },
+      {
+        "id": "act_j12zfdpg",
+        "name": "问题根因分析",
+        "laneId": "lane_hqtqddpg",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "问题工单",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "分析报告"
+        ]
+      },
+      {
+        "id": "act_lhhvsdpg",
+        "name": "制定改善方案",
+        "laneId": "lane_k2awsdpg",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "分析报告",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "改善方案文档"
+        ]
+      },
+      {
+        "id": "act_gx3swdpg",
+        "name": "方案实施与验证",
+        "laneId": "lane_okduidpg",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "改善方案文档",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "实施记录",
+          "验证报告"
+        ]
+      },
+      {
+        "id": "act_0o1y6dpg",
+        "name": "复盘会议与总结",
+        "laneId": "lane_5r1ypdpg",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "实施记录",
+            "inherited": true
+          },
+          {
+            "name": "验证报告",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "复盘会议纪要"
+        ]
+      },
+      {
+        "id": "act_yflq9dpg",
+        "name": "知识沉淀入库",
+        "laneId": "lane_m6hz4dpg",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "复盘会议纪要",
+            "inherited": true
+          },
+          {
+            "name": "改善方案文档",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "知识库文档"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_z02tpdpg",
+        "from": "act_siwp1dpg",
+        "to": "act_j12zfdpg"
+      },
+      {
+        "id": "e_re2nxdpg",
+        "from": "act_j12zfdpg",
+        "to": "act_lhhvsdpg"
+      },
+      {
+        "id": "e_qfhaidpg",
+        "from": "act_lhhvsdpg",
+        "to": "act_gx3swdpg"
+      },
+      {
+        "id": "e_j16w5dpg",
+        "from": "act_gx3swdpg",
+        "to": "act_0o1y6dpg"
+      },
+      {
+        "id": "e_8yrq7dpg",
+        "from": "act_0o1y6dpg",
+        "to": "act_yflq9dpg"
+      }
+    ],
+    "createdAt": "2026-06-17T01:46:26.157Z",
+    "updatedAt": "2026-06-17T02:41:22.694Z"
+  },
+  {
+    "id": "sf_aqb8lr7bu937",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_jxpz8mn1",
+    "ownerLabel": "工艺路线设计",
+    "lanes": [
+      {
+        "id": "lane_3bo3e92u",
+        "departmentId": "dep_96i4992u",
+        "name": "工艺技术部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_eh78o92u",
+        "departmentId": "dep_l5qm592u",
+        "name": "质量管理部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_evi8d92u",
+        "departmentId": "dep_cs76b92u",
+        "name": "生产部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_bddv692u",
+        "name": "产品工艺性分析与技术要求评审",
+        "laneId": "lane_3bo3e92u",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "产品设计图纸",
+            "inherited": false
+          },
+          {
+            "name": "技术规格书",
+            "inherited": false
+          },
+          {
+            "name": "物料清单(BOM)",
+            "inherited": false
+          },
+          {
+            "name": "客户特殊要求",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "工艺性分析报告",
+          "材料及毛坯需求清单",
+          "关键技术难点清单"
+        ]
+      },
+      {
+        "id": "act_3cceh92u",
+        "name": "工艺路线方案设计与工序规划",
+        "laneId": "lane_3bo3e92u",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "工艺性分析报告",
+            "inherited": true
+          },
+          {
+            "name": "材料及毛坯需求清单",
+            "inherited": true
+          },
+          {
+            "name": "企业设备能力清单",
+            "inherited": false
+          },
+          {
+            "name": "工装夹具清单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "工艺路线初稿",
+          "工序顺序图",
+          "车间分工建议"
+        ]
+      },
+      {
+        "id": "act_bj9mb92u",
+        "name": "工艺参数确定与作业标准编制",
+        "laneId": "lane_3bo3e92u",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "工艺路线初稿",
+            "inherited": true
+          },
+          {
+            "name": "设备加工能力参数",
+            "inherited": false
+          },
+          {
+            "name": "刀具切削参数库",
+            "inherited": false
+          },
+          {
+            "name": "历史工艺参数数据",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "详细工艺规程文件",
+          "作业指导书",
+          "加工参数设定表",
+          "检验要求说明"
+        ]
+      },
+      {
+        "id": "act_lt2zw92u",
+        "name": "工艺路线专家评审与验证",
+        "laneId": "lane_eh78o92u",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "详细工艺规程文件",
+            "inherited": true
+          },
+          {
+            "name": "作业指导书",
+            "inherited": true
+          },
+          {
+            "name": "加工参数设定表",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "工艺评审会议纪要",
+          "评审问题清单",
+          "工艺修改意见",
+          "评审通过决议"
+        ]
+      },
+      {
+        "id": "act_0juf792u",
+        "name": "工艺文件批准与系统录入发布",
+        "laneId": "lane_3bo3e92u",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "评审通过决议",
+            "inherited": true
+          },
+          {
+            "name": "工艺修改确认稿",
+            "inherited": false
+          },
+          {
+            "name": "工艺路线终稿",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "正式工艺规程文件",
+          "系统工艺路线主数据",
+          "工艺文件发放记录"
+        ]
+      },
+      {
+        "id": "act_sjsax92u",
+        "name": "生产车间工艺交底与培训",
+        "laneId": "lane_evi8d92u",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "正式工艺规程文件",
+            "inherited": true
+          },
+          {
+            "name": "作业指导书",
+            "inherited": true
+          },
+          {
+            "name": "工艺文件发放记录",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "工艺交底签到表",
+          "培训记录",
+          "班组长确认单",
+          "工装刀具准备清单"
+        ]
+      },
+      {
+        "id": "act_9782v92u",
+        "name": "工艺路线执行验证与持续优化",
+        "laneId": "lane_3bo3e92u",
+        "seq": 6,
+        "inputs": [
+          {
+            "name": "生产过程质量数据",
+            "inherited": true
+          },
+          {
+            "name": "设备运行记录",
+            "inherited": false
+          },
+          {
+            "name": "工艺执行反馈单",
+            "inherited": false
+          },
+          {
+            "name": "首件检验报告",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "工艺执行情况分析报告",
+          "工艺优化建议书",
+          "工艺更改通知单",
+          "更新后的工艺文件"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_jdbj992u",
+        "from": "act_bddv692u",
+        "to": "act_3cceh92u"
+      },
+      {
+        "id": "e_0wzoo92u",
+        "from": "act_3cceh92u",
+        "to": "act_bj9mb92u"
+      },
+      {
+        "id": "e_b2b8g92u",
+        "from": "act_bj9mb92u",
+        "to": "act_lt2zw92u"
+      },
+      {
+        "id": "e_u9bcl92u",
+        "from": "act_lt2zw92u",
+        "to": "act_0juf792u"
+      },
+      {
+        "id": "e_qypoz92u",
+        "from": "act_0juf792u",
+        "to": "act_sjsax92u"
+      },
+      {
+        "id": "e_m6fln92u",
+        "from": "act_sjsax92u",
+        "to": "act_9782v92u"
+      }
+    ],
+    "createdAt": "2026-06-17T02:14:41.539Z",
+    "updatedAt": "2026-06-17T02:41:22.702Z"
+  },
+  {
+    "id": "sf_1rl372kqww7j",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_qi7xe1al",
+    "ownerLabel": "产品工艺设计",
+    "lanes": [
+      {
+        "id": "lane_u7mvzw74",
+        "departmentId": "dep_0sercw74",
+        "name": "工艺技术部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_0ep3zw74",
+        "departmentId": "dep_tevbvw74",
+        "name": "质量管理部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      },
+      {
+        "id": "lane_49h67w74",
+        "departmentId": "dep_qb5l4w74",
+        "name": "生产计划部",
+        "color": "#7c3aed",
+        "amibaUnitId": "amb_eng"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_20cpqw74",
+        "name": "工艺需求分析",
+        "laneId": "lane_u7mvzw74",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "产品设计图纸",
+            "inherited": false
+          },
+          {
+            "name": "技术规格书",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "工艺需求分析报告"
+        ]
+      },
+      {
+        "id": "act_tqrsjw74",
+        "name": "工艺路线设计",
+        "laneId": "lane_u7mvzw74",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "工艺需求分析报告",
+            "inherited": true
+          },
+          {
+            "name": "产品设计图纸",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "工艺路线图",
+          "工序清单"
+        ]
+      },
+      {
+        "id": "act_nknwmw74",
+        "name": "工艺文件编制",
+        "laneId": "lane_u7mvzw74",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "工艺路线图",
+            "inherited": true
+          },
+          {
+            "name": "工序清单",
+            "inherited": true
+          },
+          {
+            "name": "产品设计图纸",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "作业指导书",
+          "工艺规程",
+          "材料清单"
+        ]
+      },
+      {
+        "id": "act_jrucew74",
+        "name": "工艺方案评审",
+        "laneId": "lane_0ep3zw74",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "作业指导书",
+            "inherited": true
+          },
+          {
+            "name": "工艺规程",
+            "inherited": true
+          },
+          {
+            "name": "材料清单",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "工艺评审报告",
+          "评审会议纪要"
+        ]
+      },
+      {
+        "id": "act_9pdyhw74",
+        "name": "工艺定额制定",
+        "laneId": "lane_49h67w74",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "工艺规程",
+            "inherited": true
+          },
+          {
+            "name": "材料清单",
+            "inherited": true
+          },
+          {
+            "name": "历史生产数据",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "材料定额表",
+          "工时定额表"
+        ]
+      },
+      {
+        "id": "act_4r9j4w74",
+        "name": "工艺文件发放与归档",
+        "laneId": "lane_u7mvzw74",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "作业指导书",
+            "inherited": true
+          },
+          {
+            "name": "工艺规程",
+            "inherited": true
+          },
+          {
+            "name": "材料定额表",
+            "inherited": true
+          },
+          {
+            "name": "工时定额表",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "文件发放记录",
+          "签收确认单",
+          "归档凭证"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_bid5qw74",
+        "from": "act_20cpqw74",
+        "to": "act_tqrsjw74"
+      },
+      {
+        "id": "e_bz4x8w74",
+        "from": "act_tqrsjw74",
+        "to": "act_nknwmw74"
+      },
+      {
+        "id": "e_lw7mvw74",
+        "from": "act_nknwmw74",
+        "to": "act_jrucew74"
+      },
+      {
+        "id": "e_yplvtw74",
+        "from": "act_jrucew74",
+        "to": "act_9pdyhw74"
+      },
+      {
+        "id": "e_xysbiw74",
+        "from": "act_9pdyhw74",
+        "to": "act_4r9j4w74"
+      }
+    ],
+    "createdAt": "2026-06-17T02:16:44.815Z",
+    "updatedAt": "2026-06-17T02:41:22.708Z"
+  },
+  {
+    "id": "sf_hneoabn7z3rt",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_6j3cgaos",
+    "ownerLabel": "物料需求识别与MRP运算",
+    "lanes": [
+      {
+        "id": "lane_lv5uw3rg",
+        "departmentId": "dep_hibq43rg",
+        "name": "计划部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_gzxiz3rg",
+        "departmentId": "dep_gvgk83rg",
+        "name": "计划部/技术部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_pmw723rg",
+        "departmentId": "dep_5coua3rg",
+        "name": "仓储部/计划部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_k0i4l3rg",
+        "departmentId": "dep_km6yp3rg",
+        "name": "计划部/采购部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      },
+      {
+        "id": "lane_s9s6v3rg",
+        "departmentId": "dep_2aw2t3rg",
+        "name": "采购部/生产部",
+        "color": "#0891b2",
+        "amibaUnitId": "amb_supply"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_jj27d3rg",
+        "name": "需求收集与分析",
+        "laneId": "lane_lv5uw3rg",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "销售订单",
+            "inherited": false
+          },
+          {
+            "name": "生产工单",
+            "inherited": false
+          },
+          {
+            "name": "销售预测",
+            "inherited": false
+          },
+          {
+            "name": "在制工单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "需求汇总清单",
+          "需求优先级排序"
+        ]
+      },
+      {
+        "id": "act_jhj3y3rg",
+        "name": "BOM展开与物料清单解析",
+        "laneId": "lane_gzxiz3rg",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "产品BOM结构",
+            "inherited": true
+          },
+          {
+            "name": "需求汇总清单",
+            "inherited": true
+          }
+        ],
+        "outputs": [
+          "层级物料需求清单",
+          "虚拟件展开明细"
+        ]
+      },
+      {
+        "id": "act_q4umi3rg",
+        "name": "库存查询与可用量计算",
+        "laneId": "lane_pmw723rg",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "层级物料需求清单",
+            "inherited": true
+          },
+          {
+            "name": "库存台账",
+            "inherited": false
+          },
+          {
+            "name": "在途采购单",
+            "inherited": false
+          },
+          {
+            "name": "已分配量记录",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "库存可用量报表",
+          "短缺物料清单"
+        ]
+      },
+      {
+        "id": "act_84hpo3rg",
+        "name": "MRP运算与净需求计算",
+        "laneId": "lane_lv5uw3rg",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "库存可用量报表",
+            "inherited": true
+          },
+          {
+            "name": "层级物料需求清单",
+            "inherited": true
+          },
+          {
+            "name": "MRP参数设置(批量策略/提前期/安全库存)",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "毛需求",
+          "净需求",
+          "建议订单量",
+          "建议订单日期"
+        ]
+      },
+      {
+        "id": "act_le8hs3rg",
+        "name": "需求计划审核与调整",
+        "laneId": "lane_k0i4l3rg",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "MRP建议清单",
+            "inherited": true
+          },
+          {
+            "name": "供应商业绩",
+            "inherited": false
+          },
+          {
+            "name": "历史消耗数据",
+            "inherited": false
+          },
+          {
+            "name": "库存策略",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "审核后需求计划",
+          "人工调整记录",
+          "例外事项说明"
+        ]
+      },
+      {
+        "id": "act_y9q203rg",
+        "name": "采购申请/生产订单生成",
+        "laneId": "lane_s9s6v3rg",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "审核后需求计划",
+            "inherited": true
+          },
+          {
+            "name": "供应商信息",
+            "inherited": false
+          },
+          {
+            "name": "物料价格表",
+            "inherited": false
+          },
+          {
+            "name": "生产工艺路线",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "采购申请单",
+          "采购订单",
+          "生产工单",
+          "需求计划发布记录"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_anpz83rg",
+        "from": "act_jj27d3rg",
+        "to": "act_jhj3y3rg"
+      },
+      {
+        "id": "e_gxpql3rg",
+        "from": "act_jhj3y3rg",
+        "to": "act_q4umi3rg"
+      },
+      {
+        "id": "e_nhzmx3rg",
+        "from": "act_q4umi3rg",
+        "to": "act_84hpo3rg"
+      },
+      {
+        "id": "e_bzyd33rg",
+        "from": "act_84hpo3rg",
+        "to": "act_le8hs3rg"
+      },
+      {
+        "id": "e_ffgrn3rg",
+        "from": "act_le8hs3rg",
+        "to": "act_y9q203rg"
+      }
+    ],
+    "createdAt": "2026-06-17T02:18:27.929Z",
+    "updatedAt": "2026-06-17T02:41:22.715Z"
+  },
+  {
+    "id": "sf_d6twhlys1fga",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerNodeId": "act_dw1bann9",
+    "ownerLabel": "生产加工制造",
+    "lanes": [
+      {
+        "id": "lane_vhyzzfft",
+        "departmentId": "dep_i6ajnfft",
+        "name": "生产计划部",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_hye56fft",
+        "departmentId": "dep_s4uibfft",
+        "name": "仓储部",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_0fdpbfft",
+        "departmentId": "dep_j4um7fft",
+        "name": "生产车间",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_ueev6fft",
+        "departmentId": "dep_t8ht2fft",
+        "name": "质量部",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      },
+      {
+        "id": "lane_a3d3ffft",
+        "departmentId": "dep_zcag1fft",
+        "name": "生产管理部",
+        "color": "#d97706",
+        "amibaUnitId": "amb_mfg"
+      }
+    ],
+    "activities": [
+      {
+        "id": "act_acv11fft",
+        "name": "生产计划制定与工单下达",
+        "laneId": "lane_vhyzzfft",
+        "seq": 0,
+        "inputs": [
+          {
+            "name": "销售订单",
+            "inherited": false
+          },
+          {
+            "name": "市场预测数据",
+            "inherited": false
+          },
+          {
+            "name": "库存余量数据",
+            "inherited": false
+          },
+          {
+            "name": "BOM清单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "生产工单",
+          "生产计划表",
+          "排产甘特图"
+        ]
+      },
+      {
+        "id": "act_wezuwfft",
+        "name": "物料领取与配送",
+        "laneId": "lane_hye56fft",
+        "seq": 1,
+        "inputs": [
+          {
+            "name": "生产工单",
+            "inherited": true
+          },
+          {
+            "name": "物料清单BOM",
+            "inherited": false
+          },
+          {
+            "name": "库存物料",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "领料单",
+          "物料配送套数"
+        ]
+      },
+      {
+        "id": "act_3vllrfft",
+        "name": "生产加工制造",
+        "laneId": "lane_0fdpbfft",
+        "seq": 2,
+        "inputs": [
+          {
+            "name": "生产工单",
+            "inherited": true
+          },
+          {
+            "name": "物料",
+            "inherited": false
+          },
+          {
+            "name": "工艺文件",
+            "inherited": false
+          },
+          {
+            "name": "设备工装",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "在制品WIP",
+          "工序完成报告",
+          "生产日报"
+        ]
+      },
+      {
+        "id": "act_x6omifft",
+        "name": "产品质量检验",
+        "laneId": "lane_ueev6fft",
+        "seq": 3,
+        "inputs": [
+          {
+            "name": "待检验产品",
+            "inherited": true
+          },
+          {
+            "name": "质量检验标准",
+            "inherited": false
+          },
+          {
+            "name": "检验作业指导书",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "检验报告",
+          "合格证/不良品处理单"
+        ]
+      },
+      {
+        "id": "act_snalgfft",
+        "name": "成品包装与入库",
+        "laneId": "lane_hye56fft",
+        "seq": 4,
+        "inputs": [
+          {
+            "name": "合格产品",
+            "inherited": true
+          },
+          {
+            "name": "包装材料",
+            "inherited": false
+          },
+          {
+            "name": "入库清单",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "成品入库单",
+          "库存台账更新",
+          "产品标签"
+        ]
+      },
+      {
+        "id": "act_4jp4sfft",
+        "name": "生产记录归档与报表",
+        "laneId": "lane_a3d3ffft",
+        "seq": 5,
+        "inputs": [
+          {
+            "name": "生产工单",
+            "inherited": true
+          },
+          {
+            "name": "工序记录",
+            "inherited": false
+          },
+          {
+            "name": "检验报告",
+            "inherited": true
+          },
+          {
+            "name": "入库单据",
+            "inherited": false
+          }
+        ],
+        "outputs": [
+          "归档文件包",
+          "生产统计报表",
+          "成本分析数据"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_x0avefft",
+        "from": "act_acv11fft",
+        "to": "act_wezuwfft"
+      },
+      {
+        "id": "e_mm85gfft",
+        "from": "act_wezuwfft",
+        "to": "act_3vllrfft"
+      },
+      {
+        "id": "e_arkh4fft",
+        "from": "act_3vllrfft",
+        "to": "act_x6omifft"
+      },
+      {
+        "id": "e_ezarmfft",
+        "from": "act_x6omifft",
+        "to": "act_snalgfft"
+      },
+      {
+        "id": "e_df1tlfft",
+        "from": "act_snalgfft",
+        "to": "act_4jp4sfft"
+      }
+    ],
+    "createdAt": "2026-06-17T02:20:16.378Z",
+    "updatedAt": "2026-06-17T02:41:22.722Z"
+  }
+]

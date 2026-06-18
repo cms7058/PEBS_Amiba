@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { X } from "lucide-react";
 
 export type NMTone = "ok" | "warn" | "bad" | "neutral" | "primary";
@@ -57,6 +57,8 @@ export interface NeuralMapProps {
   aspect?: number;
   /** Show edge labels even when not hovered (defaults to false) */
   alwaysShowEdgeLabels?: boolean;
+  /** Click a node → navigate (used for进入不同层的节点). If set, internal detail panel is skipped. */
+  onNodeClick?: (id: string) => void;
 }
 
 const VB_W = 1000;
@@ -64,7 +66,7 @@ const NODE_R = 22;
 
 export function NeuralMap({
   nodes, edges, title, subtitle, layerLabels,
-  initialSelectedId, aspect = 2.2, alwaysShowEdgeLabels = false,
+  initialSelectedId, aspect = 2.2, alwaysShowEdgeLabels = false, onNodeClick,
 }: NeuralMapProps) {
   const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId ?? null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -175,17 +177,22 @@ export function NeuralMap({
             );
           })}
 
-          {/* Nodes */}
-          {nodes.map((node) => {
+          {/* Nodes — 被聚焦(hover/选中)的节点最后绘制，置于顶层 */}
+          {[...nodes]
+            .sort((a, b) => (a.id === focusedId ? 1 : 0) - (b.id === focusedId ? 1 : 0))
+            .map((node) => {
             const p = positions[node.id];
             if (!p) return null;
             const tone = node.tone ?? "primary";
             const tm = TONE_META[tone];
-            const r = node.r ?? NODE_R;
+            const baseR = node.r ?? NODE_R;
             const isSelected = selectedId === node.id;
             const isHovered = hoveredId === node.id;
             const isRelated = relatedSet.has(node.id);
             const dim = focusedId !== null && !isRelated;
+            // hover/选中 → 节点整体放大 5×，便于在窄抽屉里看清名称
+            const big = isHovered || isSelected;
+            const r = big ? baseR * 5 : baseR;
 
             return (
               <g
@@ -193,34 +200,48 @@ export function NeuralMap({
                 style={{ cursor: "pointer", opacity: dim ? 0.3 : 1, transition: "opacity 150ms" }}
                 onMouseEnter={() => setHoveredId(node.id)}
                 onMouseLeave={() => setHoveredId(null)}
-                onClick={() => setSelectedId(node.id)}
+                onClick={() => { if (onNodeClick) onNodeClick(node.id); else setSelectedId(node.id); }}
               >
                 {/* Halo / ring */}
                 <circle
                   cx={p.x} cy={p.y}
-                  r={r + (isHovered || isSelected ? 6 : 3)}
+                  r={r + (big ? 7 : 3)}
                   fill={tm.ring}
                   style={{ transition: "r 150ms" }}
                 />
                 {/* Selected outline */}
                 {isSelected && (
-                  <circle cx={p.x} cy={p.y} r={r + 8} fill="none" stroke={tm.fill} strokeWidth={1.5} opacity={0.45} />
+                  <circle cx={p.x} cy={p.y} r={r + 9} fill="none" stroke={tm.fill} strokeWidth={2} opacity={0.5} />
                 )}
                 {/* Main */}
-                <circle cx={p.x} cy={p.y} r={r} fill={tm.fill} />
-                {/* Optional inner letter / score */}
-                <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="12" fontWeight="700" fill={tm.text}>
-                  {firstChar(node.label)}
-                </text>
-
-                {/* Label below */}
-                <text x={p.x} y={p.y + r + 16} textAnchor="middle" fontSize="11" fontWeight="600" fill="#0f1334">
-                  {node.label}
-                </text>
-                {node.sub && (
-                  <text x={p.x} y={p.y + r + 30} textAnchor="middle" fontSize="10" fill="#5e6586">
-                    {node.sub.length > 22 ? node.sub.slice(0, 20) + "…" : node.sub}
-                  </text>
+                <circle cx={p.x} cy={p.y} r={r} fill={tm.fill} style={{ transition: "r 150ms" }} />
+                {/* 内容：放大时在节点内完整显示名称(+子标题，自动换行)；常态显示首字母 + 下方标签 */}
+                {big ? (() => {
+                  const innerFs = 20, subFs = 14, lineH = 23, subLineH = 17;
+                  const maxChars = Math.max(5, Math.floor((r * 1.5) / innerFs));
+                  const subMax = Math.max(6, Math.floor((r * 1.5) / subFs));
+                  const labelLines = wrapText(node.label, maxChars);
+                  const subLines = node.sub ? wrapText(node.sub, subMax) : [];
+                  const blockH = labelLines.length * lineH + subLines.length * subLineH;
+                  let y = p.y - blockH / 2 + innerFs * 0.82;
+                  const els: ReactNode[] = [];
+                  labelLines.forEach((ln, i) => { els.push(<text key={"l" + i} x={p.x} y={y} textAnchor="middle" fontSize={innerFs} fontWeight={700} fill={tm.text}>{ln}</text>); y += lineH; });
+                  subLines.forEach((ln, i) => { els.push(<text key={"s" + i} x={p.x} y={y} textAnchor="middle" fontSize={subFs} fill="rgba(255,255,255,0.88)">{ln}</text>); y += subLineH; });
+                  return <>{els}</>;
+                })() : (
+                  <>
+                    <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize={12} fontWeight="700" fill={tm.text}>
+                      {firstChar(node.label)}
+                    </text>
+                    <text x={p.x} y={p.y + r + 16} textAnchor="middle" fontSize={11} fontWeight={600} fill="#0f1334">
+                      {node.label}
+                    </text>
+                    {node.sub && (
+                      <text x={p.x} y={p.y + r + 30} textAnchor="middle" fontSize={10} fill="#5e6586">
+                        {node.sub.length > 26 ? node.sub.slice(0, 24) + "…" : node.sub}
+                      </text>
+                    )}
+                  </>
                 )}
               </g>
             );
@@ -348,4 +369,13 @@ function colX(layer: number, layerCount: number): number {
 function firstChar(s: string): string {
   const ch = (s || "?").trim()[0] || "?";
   return ch;
+}
+
+// 按字符数换行（中文无空格，直接按长度切分），用于放大节点内完整显示文本
+function wrapText(s: string, max: number): string[] {
+  const t = (s || "").trim();
+  if (!t) return [];
+  const out: string[] = [];
+  for (let i = 0; i < t.length; i += max) out.push(t.slice(i, i + max));
+  return out;
 }

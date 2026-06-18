@@ -4,12 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  LayoutDashboard,
-  MessageSquare,
   Building2,
-  Map,
-  Network,
-  Activity,
   Settings,
   Users,
   ListChecks,
@@ -19,12 +14,7 @@ import { cn } from "../../lib/utils";
 import type { Role } from "../../lib/users-types";
 
 const nav = [
-  { href: "/", label: "总览", icon: LayoutDashboard },
-  { href: "/diagnosis", label: "诊断引擎", icon: MessageSquare, sub: "六维深度问询" },
-  { href: "/profile", label: "企业画像", icon: Building2, sub: "就绪度与画像" },
-  { href: "/planning", label: "规划引擎", icon: Map, sub: "实施路径" },
-  { href: "/design", label: "设计引擎", icon: Network, sub: "阿米巴切割" },
-  { href: "/deployment", label: "部署引擎", icon: Activity, sub: "落地看板" },
+  { href: "/dashboard", label: "企业台账", icon: Building2, sub: "选择企业进入工作区" },
 ];
 
 const adminNav = [

@@ -29,7 +29,7 @@ export default function AlertDemoPage({ params }: { params: Promise<{ slug: stri
   if (!alert) {
     return (
       <PageShell title="未找到该预警">
-        <Link href="/" className="text-sm text-[color:var(--primary)]">← 返回总览</Link>
+        <Link href="/dashboard" className="text-sm text-[color:var(--primary)]">← 返回总览</Link>
       </PageShell>
     );
   }
@@ -44,7 +44,7 @@ export default function AlertDemoPage({ params }: { params: Promise<{ slug: stri
   return (
     <PageShell title={alert.title} subtitle={alert.oneLine}>
       <div className="space-y-6">
-        <Link href="/" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+        <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-3 w-3" /> 返回总览
         </Link>
 

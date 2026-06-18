@@ -1,0 +1,833 @@
+[
+  {
+    "id": "cv_00yu7smkh86z",
+    "enterpriseId": "ent_0ax4kg2vh84m",
+    "ownerId": "u_admin",
+    "status": "completed",
+    "turns": [
+      {
+        "role": "ai",
+        "text": "你好，我是 Amoeba Copilot 诊断引擎。我会按六维深度问询，帮你企业生成阿米巴落地画像。可以随时离开，下次继续。",
+        "envelope": {
+          "progress": {
+            "organization": 0,
+            "finance": 0,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "organization",
+          "card": {
+            "type": "single",
+            "question": "先确认下：你们目前主要给哪类客户供货？",
+            "options": [
+              "主机厂直供 (Tier 1)",
+              "Tier 2 给上游零部件厂",
+              "售后 / 备件市场",
+              "混合"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-22T09:17:01.499Z"
+      },
+      {
+        "role": "user",
+        "text": "主机厂直供 (Tier 1)",
+        "at": "2026-05-23T02:53:14.534Z"
+      },
+      {
+        "role": "ai",
+        "text": "主机厂直供意味着年降压力直接传导，内部成本透明度是活下来的基础。接下来先摸组织底座。",
+        "envelope": {
+          "progress": {
+            "organization": 10,
+            "finance": 0,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "organization",
+          "card": {
+            "type": "text",
+            "question": "公司目前大致的部门设置和人员规模是怎样的？",
+            "placeholder": "例如：冲压、焊接、模具、质量、物流等车间/部门，总人数约",
+            "unit": "",
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:53:22.035Z"
+      },
+      {
+        "role": "user",
+        "text": "物流、计划、财务、生成、生产、销售、研发各3、2、2、10、3、5",
+        "at": "2026-05-23T02:54:24.744Z"
+      },
+      {
+        "role": "ai",
+        "text": "收到，总人数在 25 人左右，部门设置偏职能制，制造相关职能占大头。接下来确认一下决策权的分布，这对划分阿米巴单元很关键。",
+        "envelope": {
+          "progress": {
+            "organization": 20,
+            "finance": 0,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "organization",
+          "card": {
+            "type": "single",
+            "question": "公司主要的经营决策权目前集中在哪一层？",
+            "options": [
+              "老板一人决策",
+              "高管团队集体决策",
+              "已下放到部门负责人",
+              "按项目/订单临时授权"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:54:46.837Z"
+      },
+      {
+        "role": "user",
+        "text": "按项目/订单临时授权",
+        "at": "2026-05-23T02:54:52.186Z"
+      },
+      {
+        "role": "ai",
+        "text": "这种授权方式在冲压小批量场景常见，但也容易导致责任边界模糊。最后了解一下组织变革经历，我们便进入财务维度。",
+        "envelope": {
+          "progress": {
+            "organization": 30,
+            "finance": 0,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "organization",
+          "card": {
+            "type": "single",
+            "question": "过去3年公司经历过较大的组织或流程变革吗？整体感受如何？",
+            "options": [
+              "有，效果较好",
+              "有，效果一般",
+              "有，阻力较大",
+              "几乎没有变革"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:54:57.049Z"
+      },
+      {
+        "role": "user",
+        "text": "有，效果一般",
+        "at": "2026-05-23T02:55:09.091Z"
+      },
+      {
+        "role": "ai",
+        "text": "变革效果一般说明落地有阻力，这与组织授权分散可能互为因果。组织维度先到这里，接下来看财务维度——它决定了核算颗粒度能否支撑阿米巴。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 10,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "finance",
+          "card": {
+            "type": "text",
+            "question": "近一年大致的营收和毛利率范围？主要成本构成（如材料、人工、模具分摊等）？",
+            "placeholder": "如营收2000-5000万，毛利率10-15%，材料占60%等",
+            "unit": "",
+            "allow_skip": true
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:55:18.208Z"
+      },
+      {
+        "role": "user",
+        "text": "营收500万，毛利润12%，材料80%，人工6%，模具2%",
+        "at": "2026-05-23T02:56:15.321Z"
+      },
+      {
+        "role": "ai",
+        "text": "材料占比 80% 且毛利 12%，任何核算误差都会吃掉利润。下面看核算能否支撑到工序，这是内部定价的前提。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 30,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "finance",
+          "card": {
+            "type": "single",
+            "question": "目前成本核算精细到哪一级？",
+            "options": [
+              "只到公司整体",
+              "到产品大类",
+              "到产品 + 工序",
+              "到工单 / 项目"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:56:27.048Z"
+      },
+      {
+        "role": "user",
+        "text": "只到公司整体",
+        "at": "2026-05-23T02:56:33.825Z"
+      },
+      {
+        "role": "ai",
+        "text": "只到公司整体意味着现在完全无法区分哪些产品、哪些工序在赚钱。最后一个财务问题，确认一下对现有财务数据的使用习惯。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 50,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "finance",
+          "card": {
+            "type": "single",
+            "question": "目前管理者对财务数据的依赖程度？",
+            "options": [
+              "每周分析，数据质量高",
+              "每月看，数据一般",
+              "季度才看，质量较差",
+              "基本不看报表"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:56:41.275Z"
+      },
+      {
+        "role": "user",
+        "text": "每月看，数据一般",
+        "at": "2026-05-23T02:56:47.479Z"
+      },
+      {
+        "role": "ai",
+        "text": "每月看报表说明有基本管理意识，但数据质量一般会直接阻碍内部定价和损益核算。财务维度先到这里，接下来看IT维度——系统支撑决定了核算能不能落到工序。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 10,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "it",
+          "card": {
+            "type": "multi",
+            "question": "目前在用的信息化系统有哪些？",
+            "options": [
+              "ERP",
+              "MES",
+              "WMS",
+              "CRM",
+              "OA",
+              "IoT/工业数采",
+              "都没有"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:57:00.813Z"
+      },
+      {
+        "role": "user",
+        "text": "ERP、OA",
+        "at": "2026-05-23T02:57:12.412Z"
+      },
+      {
+        "role": "ai",
+        "text": "ERP+OA 能管财务与流程，但缺少制造端数据采集，工序级核算基本无法自动实现。接下来确认一下系统集成的现状。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 20,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "it",
+          "card": {
+            "type": "single",
+            "question": "ERP 与生产现场的数据对接方式是？",
+            "options": [
+              "已与 MES 打通",
+              "部分自动，部分人工录入",
+              "靠人工导入导出",
+              "没有 MES，全手工"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:57:22.773Z"
+      },
+      {
+        "role": "user",
+        "text": "部分自动，部分人工录入",
+        "at": "2026-05-23T02:57:28.429Z"
+      },
+      {
+        "role": "ai",
+        "text": "部分自动说明数据流有断点，人工录入极易导致成本分摊失真。最后确认 IT 团队配置，这直接影响后续改造的消化能力。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 30,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "it",
+          "card": {
+            "type": "single",
+            "question": "信息化负责人或团队配置？",
+            "options": [
+              "有专职 CIO + 团队",
+              "1-2 名 IT 兼职",
+              "完全外包",
+              "几乎无 IT 人员"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:57:36.190Z"
+      },
+      {
+        "role": "user",
+        "text": "几乎无 IT 人员",
+        "at": "2026-05-23T02:57:41.689Z"
+      },
+      {
+        "role": "ai",
+        "text": "没有 IT 团队意味着未来核算系统建设必须依赖外部力量，内部以极轻量方式落地。IT 维度先到这里，接下来看设备维度——冲压厂的设备管理与能耗是成本透明化的关键。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 10,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "equipment",
+          "card": {
+            "type": "text",
+            "question": "主要的生产设备有哪些？大致的设备资产价值范围？",
+            "placeholder": "例如：冲床、油压机、焊接机器人等，总资产约500万",
+            "unit": "",
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:57:52.218Z"
+      },
+      {
+        "role": "user",
+        "text": "数控机床和普通机加设备，大概在200万左右",
+        "at": "2026-05-23T02:58:26.771Z"
+      },
+      {
+        "role": "ai",
+        "text": "收到。200 万机加设备为主，这与纯冲压略有差异，后续阿米巴单元划分时需注意设备共用场景。接下来看能耗计量，它直接影响能分摊到工单的成本精度。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 25,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "equipment",
+          "card": {
+            "type": "single",
+            "question": "当前能耗计量到哪一级？",
+            "options": [
+              "仅厂区总表",
+              "车间分表",
+              "产线 / 设备子表",
+              "完整三级计量"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:58:41.454Z"
+      },
+      {
+        "role": "user",
+        "text": "仅厂区总表",
+        "at": "2026-05-23T02:58:47.738Z"
+      },
+      {
+        "role": "ai",
+        "text": "仅厂区总表意味着电费只能按产值或工时硬摊，这也是材料占比失真的一大源头。最后确认设备共用情况，这对划阿米巴责任边界至关重要。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 35,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "equipment",
+          "card": {
+            "type": "single",
+            "question": "不同部门/班组共用同一台设备的情况多吗？",
+            "options": [
+              "大量存在",
+              "部分存在",
+              "极少",
+              "完全没有"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:58:52.391Z"
+      },
+      {
+        "role": "user",
+        "text": "部分存在",
+        "at": "2026-05-23T02:58:56.104Z"
+      },
+      {
+        "role": "ai",
+        "text": "设备共用部分存在会直接增加内部定价的难度——谁用了多少很难说清。设备维度先到这里，接下来看流程维度，它是阿米巴价值流的骨架。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 100,
+            "process": 10,
+            "culture": 0
+          },
+          "current_dimension": "process",
+          "card": {
+            "type": "text",
+            "question": "典型订单从接单到交付的周期大概多久？",
+            "placeholder": "例如：技术评审1天、排产2天、外协3天、加工5天、交付1天，总LT约12天",
+            "unit": "",
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:59:02.234Z"
+      },
+      {
+        "role": "user",
+        "text": "10-12",
+        "at": "2026-05-23T02:59:11.117Z"
+      },
+      {
+        "role": "ai",
+        "text": "10-12 天的 LT 在机加冲压行业算中等，说明排产与外协环节可能有压缩空间。接下来看内部是否存在交易机制，这是划分阿米巴价值单元的直接信号。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 100,
+            "process": 25,
+            "culture": 0
+          },
+          "current_dimension": "process",
+          "card": {
+            "type": "single",
+            "question": "目前是否有内部转移定价或部门间结算机制？",
+            "options": [
+              "有完整的内部定价体系",
+              "有简单的划账规则",
+              "完全没有",
+              "不清楚"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:59:19.015Z"
+      },
+      {
+        "role": "user",
+        "text": "有简单的划账规则",
+        "at": "2026-05-23T02:59:25.564Z"
+      },
+      {
+        "role": "ai",
+        "text": "有简单划账说明已具备内部核算的萌芽，但规则太粗容易引发争议。最后确认质量管理体系，这决定了质量成本能否追溯到具体单元。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 100,
+            "process": 35,
+            "culture": 0
+          },
+          "current_dimension": "process",
+          "card": {
+            "type": "single",
+            "question": "目前质量管理体系的运行状况？",
+            "options": [
+              "IATF16949/ISO长期稳定运行",
+              "有体系但执行偏弱",
+              "正在建设认证中",
+              "基本无体系"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:59:30.721Z"
+      },
+      {
+        "role": "user",
+        "text": "有体系但执行偏弱",
+        "at": "2026-05-23T02:59:34.845Z"
+      },
+      {
+        "role": "ai",
+        "text": "体系执行偏弱意味着质量损失往往被归入“制造费用”吃大锅饭，无法倒逼具体单元改进。流程维度先到这里，最后看文化维度——它决定阿米巴能不能真正跑起来。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 100,
+            "process": 100,
+            "culture": 10
+          },
+          "current_dimension": "culture",
+          "card": {
+            "type": "single",
+            "question": "最近一次员工主动提出成本或流程改善建议是什么时候？",
+            "options": [
+              "最近一周",
+              "最近一个月",
+              "最近半年",
+              "想不起来了"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T02:59:42.149Z"
+      },
+      {
+        "role": "user",
+        "text": "最近半年",
+        "at": "2026-05-23T03:06:44.433Z"
+      },
+      {
+        "role": "ai",
+        "text": "半年前的改善建议说明一线成本意识较淡，阿米巴的成功需要员工日常参与。接下来看管理层的经营意识。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 100,
+            "process": 100,
+            "culture": 25
+          },
+          "current_dimension": "culture",
+          "card": {
+            "type": "single",
+            "question": "中层管理者（如车间主任、部门经理）会主动关注自己团队是赚是亏吗？",
+            "options": [
+              "普遍会关注",
+              "少数人会",
+              "几乎不会",
+              "没有数据，关注不了"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T03:06:53.709Z"
+      },
+      {
+        "role": "user",
+        "text": "少数人会",
+        "at": "2026-05-23T03:06:57.108Z"
+      },
+      {
+        "role": "ai",
+        "text": "少数人关注盈亏说明经营压力还未下沉到腰部。最后一个问题，回顾之前“效果一般”的变革，主要阻力在哪里？",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 100,
+            "process": 100,
+            "culture": 40
+          },
+          "current_dimension": "culture",
+          "card": {
+            "type": "textarea",
+            "question": "上次较大内部变革推进时，主要遇到了什么阻力？",
+            "placeholder": "请简述，例如：中层抵触、数据不准、老板中途动摇、外部咨询不留系统等",
+            "unit": "",
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-23T03:07:06.030Z"
+      },
+      {
+        "role": "user",
+        "text": "管理者担心权利被分掉，领导层业务能力不足，只能顺从部门经理的意见\n",
+        "at": "2026-05-23T03:08:03.701Z"
+      },
+      {
+        "role": "ai",
+        "text": "这条信息非常关键——中层担心分权、高层业务能力弱于部门经理，这是**阿米巴推进中最典型的结构性阻力**。它意味着划分独立核算单元时，中层会本能抵抗透明化。\n\n至此六个维度全部走完，感谢你的坦诚。现在为你生成诊断画像。",
+        "envelope": {
+          "progress": {
+            "organization": 100,
+            "finance": 100,
+            "it": 100,
+            "equipment": 100,
+            "process": 100,
+            "culture": 100
+          },
+          "current_dimension": "done",
+          "card": {
+            "type": "done",
+            "question": "诊断已完成",
+            "options": [],
+            "placeholder": "",
+            "unit": "",
+            "allow_skip": false
+          },
+          "summary": {
+            "score": 29,
+            "level": "L1",
+            "cycle": "15-18 个月",
+            "advantages": [
+              "已有简单的内部划账规则，具备核算萌芽",
+              "ERP+OA 基础可支撑轻量级财务改造",
+              "生产交付体系运转正常，LT 属行业中等"
+            ],
+            "risks": [
+              "材料占比 80% 但核算仅到公司级，完全无法区分产品/工序盈亏",
+              "中层权力保护意识强，高层权威不足，推进透明核算会触发强烈抵制",
+              "能耗仅总表、设备共用且无 MES，工序级分摊几乎无数据基础",
+              "IT 无专职人员，外部强依赖，系统改造响应慢",
+              "质量体系执行弱，损失被大锅饭化，无法为单元改善提供依据"
+            ],
+            "decisions": [
+              "暂不推行正式阿米巴，优先搭建“最小核算单元”的轻量级试算（1-2 个产品线）",
+              "在现有划账规则基础上，建立工序工时 + 材料定额台账，先用手工 Excel 跑通单产品损益",
+              "用半年时间将能耗至少做到车间分表，并与 ERP 工时数据对接",
+              "先选择一位年轻、对数据敏感的车间主管做“试点单元”负责人，避开权力核心层",
+              "同步启动对核心中层的一对一沟通，将阿米巴表述为“帮助你们看清贡献的工具”而非分权"
+            ],
+            "dimension_scores": {
+              "organization": 32,
+              "finance": 18,
+              "it": 12,
+              "equipment": 15,
+              "process": 38,
+              "culture": 28
+            }
+          },
+          "propose_question": null
+        },
+        "card": {
+          "type": "done",
+          "question": "诊断已完成",
+          "options": [],
+          "placeholder": "",
+          "unit": "",
+          "allow_skip": false
+        },
+        "at": "2026-05-23T03:08:31.715Z"
+      }
+    ],
+    "progress": {
+      "organization": 100,
+      "finance": 100,
+      "it": 100,
+      "equipment": 100,
+      "process": 100,
+      "culture": 100
+    },
+    "currentDimension": "done",
+    "createdAt": "2026-05-22T09:17:01.499Z",
+    "updatedAt": "2026-05-23T03:08:31.753Z",
+    "summary": {
+      "score": 29,
+      "level": "L1",
+      "cycle": "15-18 个月",
+      "advantages": [
+        "已有简单的内部划账规则，具备核算萌芽",
+        "ERP+OA 基础可支撑轻量级财务改造",
+        "生产交付体系运转正常，LT 属行业中等"
+      ],
+      "risks": [
+        "材料占比 80% 但核算仅到公司级，完全无法区分产品/工序盈亏",
+        "中层权力保护意识强，高层权威不足，推进透明核算会触发强烈抵制",
+        "能耗仅总表、设备共用且无 MES，工序级分摊几乎无数据基础",
+        "IT 无专职人员，外部强依赖，系统改造响应慢",
+        "质量体系执行弱，损失被大锅饭化，无法为单元改善提供依据"
+      ],
+      "decisions": [
+        "暂不推行正式阿米巴，优先搭建“最小核算单元”的轻量级试算（1-2 个产品线）",
+        "在现有划账规则基础上，建立工序工时 + 材料定额台账，先用手工 Excel 跑通单产品损益",
+        "用半年时间将能耗至少做到车间分表，并与 ERP 工时数据对接",
+        "先选择一位年轻、对数据敏感的车间主管做“试点单元”负责人，避开权力核心层",
+        "同步启动对核心中层的一对一沟通，将阿米巴表述为“帮助你们看清贡献的工具”而非分权"
+      ],
+      "dimension_scores": {
+        "organization": 32,
+        "finance": 18,
+        "it": 12,
+        "equipment": 15,
+        "process": 38,
+        "culture": 28
+      }
+    },
+    "completedAt": "2026-05-23T04:14:42.298977Z"
+  },
+  {
+    "id": "cv_xok3j3ibihq3",
+    "enterpriseId": "ent_ovix9s3uifyr",
+    "ownerId": "u_admin",
+    "status": "in_progress",
+    "turns": [
+      {
+        "role": "ai",
+        "text": "你好，我是 Amoeba Copilot 诊断引擎。我会按六维深度问询，帮你企业生成阿米巴落地画像。可以随时离开，下次继续。",
+        "envelope": {
+          "progress": {
+            "organization": 0,
+            "finance": 0,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "organization",
+          "card": {
+            "type": "single",
+            "question": "先确认下：你们目前主要给哪类客户供货？",
+            "options": [
+              "主机厂直供 (Tier 1)",
+              "Tier 2 给上游零部件厂",
+              "售后 / 备件市场",
+              "混合"
+            ],
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "at": "2026-05-22T09:18:00.506Z"
+      },
+      {
+        "role": "user",
+        "text": "主机厂直供 (Tier 1)",
+        "at": "2026-05-22T09:18:05.771Z"
+      },
+      {
+        "role": "ai",
+        "text": "主机厂直供意味着计划驱动与年降压力都会很直接。接下来看组织维度。",
+        "envelope": {
+          "progress": {
+            "organization": 15,
+            "finance": 0,
+            "it": 0,
+            "equipment": 0,
+            "process": 0,
+            "culture": 0
+          },
+          "current_dimension": "organization",
+          "card": {
+            "type": "text",
+            "question": "目前公司大致的部门设置和人员规模是怎样的？",
+            "placeholder": "比如：品质部、生产部、技术中心等，总人数约多少人",
+            "unit": "",
+            "allow_skip": false
+          },
+          "summary": null,
+          "propose_question": null
+        },
+        "card": {
+          "type": "text",
+          "question": "目前公司大致的部门设置和人员规模是怎样的？",
+          "placeholder": "比如：品质部、生产部、技术中心等，总人数约多少人",
+          "unit": "",
+          "allow_skip": false
+        },
+        "at": "2026-05-22T09:18:12.414Z"
+      }
+    ],
+    "progress": {
+      "organization": 15,
+      "finance": 0,
+      "it": 0,
+      "equipment": 0,
+      "process": 0,
+      "culture": 0
+    },
+    "currentDimension": "organization",
+    "createdAt": "2026-05-22T09:18:00.507Z",
+    "updatedAt": "2026-05-22T09:18:12.862Z"
+  }
+]

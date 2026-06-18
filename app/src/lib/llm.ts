@@ -80,6 +80,17 @@ export function saveSettings(s: LLMSettings) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
 }
 
+/**
+ * 取当前可用的 provider：优先 defaultProvider；若它没填 Key，则回退到任意
+ * 已填 Key 的 provider（先 enabled，再任意）。保证只要配过一个 Key 就能调用成功。
+ */
+export function getActiveProvider(settings: LLMSettings): ProviderConfig | undefined {
+  const def = settings.providers[settings.defaultProvider];
+  if (def?.apiKey) return def;
+  const all = Object.values(settings.providers);
+  return all.find((p) => p.apiKey && p.enabled) || all.find((p) => p.apiKey);
+}
+
 export interface ChatMessage {
   role: "system" | "user" | "assistant";
   content: string;
