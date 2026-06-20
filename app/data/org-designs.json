@@ -1,8 +1,252 @@
 [
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
-    "departments": [],
-    "amibaUnits": [],
-    "updatedAt": "2026-06-16T03:41:52.231Z"
+    "departments": [
+      {
+        "id": "dep_sales",
+        "name": "销售部",
+        "amibaId": "amb_sales",
+        "personnel": [
+          {
+            "id": "p_gr3qyf",
+            "name": "王销售",
+            "monthlyIncome": 12000,
+            "role": "销售经理"
+          },
+          {
+            "id": "p_erfvmg",
+            "name": "李商务",
+            "monthlyIncome": 8000,
+            "role": "销售工程师"
+          },
+          {
+            "id": "p_3vtv67",
+            "name": "张专员",
+            "monthlyIncome": 6500,
+            "role": "商务专员"
+          }
+        ]
+      },
+      {
+        "id": "dep_eng",
+        "name": "技术工艺部",
+        "amibaId": "amb_eng",
+        "personnel": [
+          {
+            "id": "p_z7g04v",
+            "name": "赵工",
+            "monthlyIncome": 13000,
+            "role": "技术经理"
+          },
+          {
+            "id": "p_tlntpt",
+            "name": "钱工",
+            "monthlyIncome": 9000,
+            "role": "工艺工程师"
+          }
+        ]
+      },
+      {
+        "id": "dep_plan",
+        "name": "计划部",
+        "amibaId": "amb_supply",
+        "personnel": [
+          {
+            "id": "p_b7cdon",
+            "name": "孙计划",
+            "monthlyIncome": 9000,
+            "role": "计划主管"
+          }
+        ]
+      },
+      {
+        "id": "dep_purchase",
+        "name": "采购部",
+        "amibaId": "amb_supply",
+        "personnel": [
+          {
+            "id": "p_gkmkb8",
+            "name": "周采购",
+            "monthlyIncome": 9500,
+            "role": "采购主管"
+          },
+          {
+            "id": "p_5mr9dl",
+            "name": "吴采购",
+            "monthlyIncome": 6000,
+            "role": "采购员"
+          }
+        ]
+      },
+      {
+        "id": "dep_mfg",
+        "name": "生产部",
+        "amibaId": "amb_mfg",
+        "personnel": [
+          {
+            "id": "p_j3n5x2",
+            "name": "郑厂长",
+            "monthlyIncome": 12000,
+            "role": "生产经理"
+          },
+          {
+            "id": "p_hkyyt4",
+            "name": "冯班长",
+            "monthlyIncome": 8000,
+            "role": "班组长"
+          },
+          {
+            "id": "p_yxgm2i",
+            "name": "陈师傅",
+            "monthlyIncome": 6000,
+            "role": "操作工"
+          },
+          {
+            "id": "p_rtjocd",
+            "name": "褚师傅",
+            "monthlyIncome": 6000,
+            "role": "操作工"
+          }
+        ]
+      },
+      {
+        "id": "dep_quality",
+        "name": "质量部",
+        "amibaId": "amb_quality",
+        "personnel": [
+          {
+            "id": "p_yrgcjo",
+            "name": "卫质量",
+            "monthlyIncome": 11000,
+            "role": "质量经理"
+          },
+          {
+            "id": "p_n4g4xe",
+            "name": "蒋质检",
+            "monthlyIncome": 6500,
+            "role": "质检员"
+          }
+        ]
+      },
+      {
+        "id": "dep_logistics",
+        "name": "物流仓储部",
+        "amibaId": "amb_logistics",
+        "personnel": [
+          {
+            "id": "p_qmdoi4",
+            "name": "沈仓储",
+            "monthlyIncome": 8000,
+            "role": "仓储主管"
+          },
+          {
+            "id": "p_96zj2w",
+            "name": "韩物流",
+            "monthlyIncome": 6000,
+            "role": "物流专员"
+          }
+        ]
+      },
+      {
+        "id": "dep_finance",
+        "name": "财务综合部",
+        "amibaId": "amb_func",
+        "personnel": [
+          {
+            "id": "p_y4lakz",
+            "name": "杨财务",
+            "monthlyIncome": 12000,
+            "role": "财务经理"
+          },
+          {
+            "id": "p_d8d17b",
+            "name": "朱会计",
+            "monthlyIncome": 7500,
+            "role": "会计"
+          }
+        ]
+      }
+    ],
+    "amibaUnits": [
+      {
+        "id": "amb_sales",
+        "name": "营销阿米巴",
+        "type": "营销",
+        "departmentIds": [
+          "dep_sales"
+        ],
+        "color": "#4a90d9",
+        "transferPrice": "按订单签约额计内部营收",
+        "costRule": "营销费用按销售额分摊"
+      },
+      {
+        "id": "amb_eng",
+        "name": "工程/模具阿米巴",
+        "type": "支持",
+        "departmentIds": [
+          "dep_eng"
+        ],
+        "color": "#7c5cff",
+        "transferPrice": "工艺/BOM 交付按工时转让计价",
+        "costRule": "工程工时×费率"
+      },
+      {
+        "id": "amb_supply",
+        "name": "供应链阿米巴",
+        "type": "支持",
+        "departmentIds": [
+          "dep_plan",
+          "dep_purchase"
+        ],
+        "color": "#0ea5e9",
+        "transferPrice": "齐套交付按物料价值+服务费",
+        "costRule": "采购降本计入单元利润"
+      },
+      {
+        "id": "amb_mfg",
+        "name": "制造阿米巴",
+        "type": "制造",
+        "departmentIds": [
+          "dep_mfg"
+        ],
+        "color": "#f59e0b",
+        "transferPrice": "工序产出按标准工时转让价",
+        "costRule": "人工+设备折旧+辅料"
+      },
+      {
+        "id": "amb_quality",
+        "name": "品质阿米巴",
+        "type": "支持",
+        "departmentIds": [
+          "dep_quality"
+        ],
+        "color": "#16a34a",
+        "transferPrice": "检验/放行按次计服务费",
+        "costRule": "质量损失内部赔付"
+      },
+      {
+        "id": "amb_logistics",
+        "name": "物流阿米巴",
+        "type": "支持",
+        "departmentIds": [
+          "dep_logistics"
+        ],
+        "color": "#14b8a6",
+        "transferPrice": "出入库/发运按件计价",
+        "costRule": "仓储+运输费"
+      },
+      {
+        "id": "amb_func",
+        "name": "职能阿米巴",
+        "type": "职能",
+        "departmentIds": [
+          "dep_finance"
+        ],
+        "color": "#64748b",
+        "transferPrice": "按各单元营收比例分摊",
+        "costRule": "财务/管理费用"
+      }
+    ],
+    "updatedAt": "2026-06-20T06:00:12.587Z"
   }
 ]

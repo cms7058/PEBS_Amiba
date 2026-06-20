@@ -8,7 +8,12 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { Card, CardBody, CardHeader } from "../../../components/ui/Card";
 import { EngineChat } from "../../../components/agent/EngineChat";
 import { PdcaPanel } from "../../../components/overview/PdcaPanel";
+import { QuickDiagnose } from "../../../components/overview/QuickDiagnose";
+import { CostRollupTree } from "../../../components/overview/CostRollupTree";
 import type { DupontNode } from "../../../lib/dupont";
+import type { TreeNode } from "../../../lib/diagnosis";
+
+const DUPONT_FACTOR: Record<string, "labor" | "equipment" | "material"> = { labor: "labor", material: "material", overhead: "equipment" };
 
 function findDupont(n: DupontNode, id: string): DupontNode | null {
   if (n.id === id) return n;
@@ -28,13 +33,17 @@ export default function OverviewPage() {
   const entId = params.id;
   const [tree, setTree] = useState<DupontNode | null>(null);
   const [rollup, setRollup] = useState<{ labor: number; equipment: number; material: number; total: number } | null>(null);
+  const [diagTree, setDiagTree] = useState<TreeNode[] | null>(null);
   const [selId, setSelId] = useState<string | null>(null);
   const [clickCount, setClickCount] = useState(0);
 
   useEffect(() => {
     if (!entId) return;
     fetch(`/api/dupont?enterpriseId=${entId}`).then((r) => r.json()).then((d) => { setTree(d.tree || null); setRollup(d.rollup || null); });
+    fetch(`/api/diagnosis?enterpriseId=${entId}`).then((r) => r.json()).then((d) => setDiagTree(d.tree || null));
   }, [entId]);
+
+  const selFactor = selId ? DUPONT_FACTOR[selId] : undefined;
 
   const roe = tree?.values;
   const hasActual = !!rollup && rollup.total > 0;
@@ -44,6 +53,7 @@ export default function OverviewPage() {
   return (
     <PageShell title="总览" subtitle="该企业阿米巴项目的杜邦成本树 · 现场浪费→财务结果贯穿 · 实施前后对比">
       <div className="space-y-4">
+        <QuickDiagnose />
         <PdcaPanel enterpriseId={entId} />
         {roe && (
           <div className="grid grid-cols-3 gap-3">
@@ -74,8 +84,14 @@ export default function OverviewPage() {
         {/* 点击节点 → 成本归集/计算图例，层层下钻 */}
         {selNode && (
           <Card>
-            <CardBody className="space-y-2">
+            <CardBody className="space-y-3">
               <DupontDetail node={selNode} onDrill={pick} onViewOtd={() => router.push(`/e/${entId}/planning`)} />
+              {/* 成本科目叶子 → 与诊断引擎同源的 OTD 节点逐层归集树形表 */}
+              {selFactor && diagTree && (
+                <div className="border-t border-border pt-3">
+                  <CostRollupTree tree={diagTree} factor={selFactor} />
+                </div>
+              )}
             </CardBody>
           </Card>
         )}

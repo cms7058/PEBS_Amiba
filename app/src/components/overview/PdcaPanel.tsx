@@ -54,6 +54,16 @@ export function PdcaPanel({ enterpriseId }: { enterpriseId: string }) {
       <CardHeader title="PDCA 改进成果（部署落地 → 实时回写）" desc="部署引擎里任务标记「已完成」即回写实际、重算差值，下面是改进前→当前的实时对比"
         action={<TrendingUp className="h-4 w-4 text-[color:var(--primary)]" />} />
       <CardBody className="space-y-3">
+        {/* 诊断问题数 + 部署任务数 */}
+        <div className="flex flex-wrap gap-x-6 gap-y-1 rounded-lg border border-border bg-muted/30 px-3 py-2 text-xs">
+          <span>诊断问题 <b className="text-red-600">{now.costFindings.length + now.summary.methodGaps + now.summary.qualityIssues + now.summary.riskNodes + now.summary.incompleteNodes}</b>
+            <span className="ml-1 text-[10px] text-muted-foreground">超支 {now.costFindings.length} · 信息化 {now.summary.methodGaps} · 质量 {now.summary.qualityIssues} · 三性 {now.summary.riskNodes} · 待补 {now.summary.incompleteNodes}</span>
+          </span>
+          <span className="text-border">|</span>
+          <span>部署任务 <b className="text-[color:var(--primary)]">{total}</b>
+            <span className="ml-1 text-[10px] text-muted-foreground">完成 {done} · 进行中 {doing} · 待开始 {total - done - doing}</span>
+          </span>
+        </div>
         {/* 任务进度 + 节省 + 就绪度 */}
         <div className="grid gap-3 sm:grid-cols-3">
           <Link href={`/e/${enterpriseId}/deployment`} className="group rounded-lg border border-border p-3 transition-colors hover:border-[color:var(--primary)]/50 hover:bg-muted/30">
