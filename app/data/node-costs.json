@@ -2811,7 +2811,10 @@
       "outputAccuracy": 91,
       "outputTimeliness": 98
     },
-    "updatedAt": "2026-06-17T07:28:47.563Z"
+    "updatedAt": "2026-06-18T07:39:09.530Z",
+    "realized": {
+      "method": true
+    }
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -2912,7 +2915,10 @@
       "outputAccuracy": 98,
       "outputTimeliness": 90
     },
-    "updatedAt": "2026-06-17T07:28:47.575Z"
+    "updatedAt": "2026-06-18T07:39:09.552Z",
+    "realized": {
+      "method": true
+    }
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -3015,7 +3021,8 @@
       "outputAccuracy": 92,
       "outputTimeliness": 96
     },
-    "updatedAt": "2026-06-17T07:28:47.584Z"
+    "updatedAt": "2026-06-18T07:39:09.572Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -3110,7 +3117,8 @@
       "outputAccuracy": 96,
       "outputTimeliness": 96
     },
-    "updatedAt": "2026-06-17T07:28:47.591Z"
+    "updatedAt": "2026-06-18T07:39:09.868Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -3209,7 +3217,8 @@
       "outputAccuracy": 92,
       "outputTimeliness": 82
     },
-    "updatedAt": "2026-06-17T07:28:47.599Z"
+    "updatedAt": "2026-06-18T07:39:09.885Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -4209,7 +4218,8 @@
       "outputAccuracy": 82,
       "outputTimeliness": 99
     },
-    "updatedAt": "2026-06-17T07:28:47.671Z"
+    "updatedAt": "2026-06-18T07:39:09.916Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -4407,7 +4417,10 @@
       "outputAccuracy": 90,
       "outputTimeliness": 90
     },
-    "updatedAt": "2026-06-17T07:28:47.687Z"
+    "updatedAt": "2026-06-18T07:39:09.750Z",
+    "realized": {
+      "labor": 400
+    }
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -4496,7 +4509,10 @@
       "outputAccuracy": 95,
       "outputTimeliness": 90
     },
-    "updatedAt": "2026-06-17T07:28:47.694Z"
+    "updatedAt": "2026-06-18T07:39:09.693Z",
+    "realized": {
+      "labor": 350
+    }
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -4815,7 +4831,8 @@
       "outputAccuracy": 88,
       "outputTimeliness": 98
     },
-    "updatedAt": "2026-06-17T07:28:47.719Z"
+    "updatedAt": "2026-06-18T07:39:09.932Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -6049,7 +6066,10 @@
       "outputAccuracy": 85,
       "outputTimeliness": 90
     },
-    "updatedAt": "2026-06-17T07:28:47.809Z"
+    "updatedAt": "2026-06-18T07:39:09.732Z",
+    "realized": {
+      "labor": 700
+    }
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -6151,7 +6171,8 @@
       "outputAccuracy": 91,
       "outputTimeliness": 88
     },
-    "updatedAt": "2026-06-17T07:28:47.818Z"
+    "updatedAt": "2026-06-18T07:39:09.799Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -6392,7 +6413,10 @@
       "outputAccuracy": 99,
       "outputTimeliness": 96
     },
-    "updatedAt": "2026-06-17T07:28:47.846Z"
+    "updatedAt": "2026-06-18T07:39:09.715Z",
+    "realized": {
+      "labor": 480
+    }
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -6485,7 +6509,10 @@
       "outputAccuracy": 82,
       "outputTimeliness": 91
     },
-    "updatedAt": "2026-06-17T07:28:47.856Z"
+    "updatedAt": "2026-06-18T07:39:09.782Z",
+    "realized": {
+      "labor": 240
+    }
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -8882,7 +8909,8 @@
       "outputAccuracy": 90,
       "outputTimeliness": 96
     },
-    "updatedAt": "2026-06-17T07:28:48.068Z"
+    "updatedAt": "2026-06-18T07:39:09.851Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -10840,7 +10868,8 @@
       "outputAccuracy": 95,
       "outputTimeliness": 95
     },
-    "updatedAt": "2026-06-17T07:28:48.232Z"
+    "updatedAt": "2026-06-18T07:39:09.835Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -11360,7 +11389,8 @@
       "outputAccuracy": 82,
       "outputTimeliness": 92
     },
-    "updatedAt": "2026-06-17T07:28:48.271Z"
+    "updatedAt": "2026-06-18T07:39:09.818Z",
+    "realized": {}
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",
@@ -12738,7 +12768,10 @@
       "outputAccuracy": 92,
       "outputTimeliness": 91
     },
-    "updatedAt": "2026-06-17T07:28:48.427Z"
+    "updatedAt": "2026-06-18T07:39:09.766Z",
+    "realized": {
+      "labor": 400
+    }
   },
   {
     "enterpriseId": "ent_0ax4kg2vh84m",

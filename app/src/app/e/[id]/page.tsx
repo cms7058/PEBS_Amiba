@@ -7,6 +7,7 @@ import { ChevronRight } from "lucide-react";
 import { PageShell } from "../../../components/layout/PageShell";
 import { Card, CardBody, CardHeader } from "../../../components/ui/Card";
 import { EngineChat } from "../../../components/agent/EngineChat";
+import { PdcaPanel } from "../../../components/overview/PdcaPanel";
 import type { DupontNode } from "../../../lib/dupont";
 
 function findDupont(n: DupontNode, id: string): DupontNode | null {
@@ -43,6 +44,7 @@ export default function OverviewPage() {
   return (
     <PageShell title="总览" subtitle="该企业阿米巴项目的杜邦成本树 · 现场浪费→财务结果贯穿 · 实施前后对比">
       <div className="space-y-4">
+        <PdcaPanel enterpriseId={entId} />
         {roe && (
           <div className="grid grid-cols-3 gap-3">
             {([["baseline", "实施前 ROE"], ["current", "当前 ROE"], ["target", "目标 ROE"]] as const).map(([k, label]) => (

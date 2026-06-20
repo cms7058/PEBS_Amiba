@@ -49,10 +49,12 @@ export interface Diagnosis {
 
 const QUALITY_THRESHOLD = 90; // 准确率/及时率低于此判为问题
 
-export async function runDiagnosis(enterpriseId: string): Promise<Diagnosis> {
-  const [costs, subflows, templates] = await Promise.all([
+export async function runDiagnosis(enterpriseId: string, opts: { ignoreRealized?: boolean } = {}): Promise<Diagnosis> {
+  const [rawCosts, subflows, templates] = await Promise.all([
     listCosts(enterpriseId), listSubflows(enterpriseId), listTemplates(enterpriseId),
   ]);
+  // baseline（改进前）：剥离 PDCA 回写，得到原始诊断，用于和当前对比"改进成果"
+  const costs = opts.ignoreRealized ? rawCosts.map((c) => ({ ...c, realized: undefined })) : rawCosts;
 
   const nameById = new Map<string, string>();
   templates.forEach((t) => t.nodes.forEach((n) => nameById.set(n.id, n.name)));
@@ -86,12 +88,14 @@ export async function runDiagnosis(enterpriseId: string): Promise<Diagnosis> {
       if (v[f].diff > 0) costFindings.push({ nodeId: nc.nodeId, nodeName: name, factor: f, factorLabel: FACTOR_LABEL[f], std: v[f].std, act: v[f].act, diff: v[f].diff });
     });
     const wm = nc.workMethod;
-    if (wm?.actual && wm?.recommended && wm.actual !== wm.recommended) {
+    if (!nc.realized?.method && wm?.actual && wm?.recommended && wm.actual !== wm.recommended) {
       methodFindings.push({ nodeId: nc.nodeId, nodeName: name, recommended: wm.recommended, actual: wm.actual });
     }
     const mt = nc.metrics || {};
-    ([["inputAccuracy", "输入准确率"], ["inputTimeliness", "输入及时率"], ["outputAccuracy", "输出准确率"], ["outputTimeliness", "输出及时率"]] as const)
-      .forEach(([k, lab]) => { const val = mt[k]; if (typeof val === "number" && val < QUALITY_THRESHOLD) qualityFindings.push({ nodeId: nc.nodeId, nodeName: name, metric: lab, value: val }); });
+    if (!nc.realized?.quality) {
+      ([["inputAccuracy", "输入准确率"], ["inputTimeliness", "输入及时率"], ["outputAccuracy", "输出准确率"], ["outputTimeliness", "输出及时率"]] as const)
+        .forEach(([k, lab]) => { const val = mt[k]; if (typeof val === "number" && val < QUALITY_THRESHOLD) qualityFindings.push({ nodeId: nc.nodeId, nodeName: name, metric: lab, value: val }); });
+    }
     const pend = pendingQuestions(nc);
     if (pend.length) incompleteFindings.push({ nodeId: nc.nodeId, nodeName: name, items: pend });
   }
@@ -127,11 +131,13 @@ export async function runDiagnosis(enterpriseId: string): Promise<Diagnosis> {
       const ai = asItemized(nc.actual);
       const lvls = [...ai.inputs, ...ai.outputs].map((it) => modeLevel(it.method)).filter((l) => l > 0);
       if (lvls.length) infoLevel = Math.round((lvls.reduce((a, b) => a + b, 0) / lvls.length) * 10) / 10;
+      if (nc.realized?.method) infoLevel = 5; // 回写：工作方式已升级到系统模块
+      const lift = (x?: number) => (typeof x === "number" ? (nc.realized?.quality ? Math.max(x, 92) : x) : undefined);
       const selfData = [v.labor, v.equipment, v.material].some((x) => x.std > 0 || x.act > 0)
         || (["inputAccuracy", "inputTimeliness", "outputAccuracy", "outputTimeliness"] as const).some((k) => typeof mt[k] === "number");
       if (selfData) {
         labor = v.labor; equipment = v.equipment; material = v.material; hasData = true;
-        metrics = { inputAccuracy: mt.inputAccuracy, inputTimeliness: mt.inputTimeliness, outputAccuracy: mt.outputAccuracy, outputTimeliness: mt.outputTimeliness };
+        metrics = { inputAccuracy: lift(mt.inputAccuracy), inputTimeliness: lift(mt.inputTimeliness), outputAccuracy: lift(mt.outputAccuracy), outputTimeliness: lift(mt.outputTimeliness) };
         nodes.push({ nodeId: id, nodeName: name, hasData: true, labor: v.labor, equipment: v.equipment, material: v.material, ...metrics, infoLevel });
       }
     }

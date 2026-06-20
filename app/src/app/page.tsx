@@ -50,7 +50,7 @@ export default function LandingPage() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
           <Logo />
           <Link href="/login" className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:brightness-110">
-            进入系统 <ArrowRight className="h-4 w-4" />
+            体验 <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </header>
@@ -61,7 +61,8 @@ export default function LandingPage() {
           <Gauge className="h-3.5 w-3.5 text-[color:var(--primary)]" /> 人机料法环（5M1E）工作方法论 · 严格成本控制
         </div>
         <h1 className="mx-auto max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl">
-          让阿米巴的成本，<span className="text-[color:var(--accent)]">看得见</span> · <span className="text-[#7c5cff]">摸得着</span> · <span className="text-[color:var(--success)]">拿得到</span>
+          让阿米巴的成本
+          <span className="mt-2 block"><span className="text-[color:var(--accent)]">看得见</span> · <span className="text-[#7c5cff]">摸得着</span> · <span className="text-[color:var(--success)]">拿得到</span></span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
           普通阿米巴落地难，难在成本算不清、方案落不了地、效果说不清。本智能体用 5M1E 方法论，把成本拆到
@@ -69,7 +70,7 @@ export default function LandingPage() {
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link href="/login" className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition hover:brightness-110">
-            进入系统 <ArrowRight className="h-4 w-4" />
+            体验 <ArrowRight className="h-4 w-4" />
           </Link>
           <a href="#compare" className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-6 py-3 text-sm font-medium transition hover:bg-muted">
             和普通阿米巴有何不同
@@ -187,7 +188,7 @@ export default function LandingPage() {
       <section className="mx-auto max-w-6xl px-5 py-20 text-center">
         <h2 className="text-2xl font-semibold sm:text-3xl">把现场的每一分浪费，变成可归因、可兑现的收益</h2>
         <Link href="/login" className="mt-8 inline-flex items-center gap-1.5 rounded-lg bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:brightness-110">
-          进入系统 <ArrowRight className="h-4 w-4" />
+          体验 <ArrowRight className="h-4 w-4" />
         </Link>
       </section>
 

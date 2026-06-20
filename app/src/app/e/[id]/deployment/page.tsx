@@ -46,6 +46,18 @@ export default function DeploymentPage() {
     setTasks((cur) => cur.filter((x) => x.id !== t.id));
     await fetch(`/api/deploy?enterpriseId=${id}&id=${t.id}`, { method: "DELETE" });
   }
+  // 状态切换 + PDCA 回写：进入"已完成"→写入改进结果；离开"已完成"→撤销
+  async function cycleStatus(t: DeployTask) {
+    const next = NEXT[t.status];
+    await putTask({ ...t, status: next });
+    if (t.nodeId && t.factor) {
+      if (next === "done") await realize(t, true);
+      else if (t.status === "done") await realize(t, false);
+    }
+  }
+  async function realize(t: DeployTask, on: boolean) {
+    await fetch("/api/node-cost/realize", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ enterpriseId: id, nodeId: t.nodeId, factor: t.factor, on }) });
+  }
   function addTask() {
     const start = tasks.length ? tasks[tasks.length - 1].end : todayStr();
     putTask({ id: uid(), enterpriseId: id, title: "新任务", start: addDays(start, 1), end: addDays(start, 15), status: "todo", order: tasks.length });
@@ -153,7 +165,7 @@ export default function DeploymentPage() {
                     <td className="px-3 py-2"><input value={t.owner || ""} placeholder="指派…" onClick={(e) => e.stopPropagation()} onChange={(e) => putTask({ ...t, owner: e.target.value })} className={`${inputCls} w-20`} /></td>
                     <td className="px-3 py-2"><input type="date" value={t.start} onClick={(e) => e.stopPropagation()} onChange={(e) => putTask({ ...t, start: e.target.value })} className={inputCls} /></td>
                     <td className="px-3 py-2"><input type="date" value={t.end} onClick={(e) => e.stopPropagation()} onChange={(e) => putTask({ ...t, end: e.target.value })} className={inputCls} /></td>
-                    <td className="px-3 py-2"><button onClick={(e) => { e.stopPropagation(); putTask({ ...t, status: NEXT[t.status] }); }} className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium text-white" style={{ background: STATUS_COLOR[t.status] }}>{t.status === "done" && <CheckCircle2 className="h-3 w-3" />}{STATUS_LABEL[t.status]}</button></td>
+                    <td className="px-3 py-2"><button onClick={(e) => { e.stopPropagation(); cycleStatus(t); }} title="切换状态（完成即回写改进结果到诊断/总览）" className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium text-white" style={{ background: STATUS_COLOR[t.status] }}>{t.status === "done" && <CheckCircle2 className="h-3 w-3" />}{STATUS_LABEL[t.status]}</button></td>
                     <td className="px-3 py-2 text-[11px] text-emerald-700">{t.impact || "—"}</td>
                     <td className="px-3 py-2 text-right"><button onClick={(e) => { e.stopPropagation(); removeTask(t); }} className="text-muted-foreground hover:text-red-600"><Trash2 className="h-3.5 w-3.5" /></button></td>
                   </tr>

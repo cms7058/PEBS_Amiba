@@ -34,6 +34,8 @@ export interface NodeCost {
   standard?: ItemizedCost | CostByPhase | PhaseFactors;
   /** 实际值（元/期）：itemized；兼容旧两阶段聚合 / 扁平结构 */
   actual?: ItemizedCost | CostByPhase | PhaseFactors;
+  /** PDCA 回写：部署任务完成后实现的改进——覆盖实际值/关闭差距，用于实时看到改进成果 */
+  realized?: { labor?: number; material?: number; method?: boolean; quality?: boolean };
   /** 设备/信息系统 = 完成输出物的「工作方式」：AI 推荐最优 + 候选；用户选实际。最优 vs 实际 = 信息化体检指标 */
   workMethod?: { recommended?: string; actual?: string; options?: string[] };
   /** 输入物/输出物的质量指标（%）：准确率、及时率。后期与实际成本做线性/非线性耦合，反推并修正标准参考值（越用越智能） */
@@ -111,8 +113,11 @@ export function costVariance(nc: NodeCost): { labor: FactorVariance; equipment: 
   const mk = (k: keyof PhaseFactors): FactorVariance => {
     const sAcq = std.acquire[k] || 0, sGen = std.generate[k] || 0;
     // 实际：有 override 用两阶段值；否则回退明细自动结算值（计入 generate 阶段）
-    const aAcq = hasActOverride ? (act.acquire[k] || 0) : 0;
-    const aGen = hasActOverride ? (act.generate[k] || 0) : b[k];
+    let aAcq = hasActOverride ? (act.acquire[k] || 0) : 0;
+    let aGen = hasActOverride ? (act.generate[k] || 0) : b[k];
+    // PDCA 回写：该要素已实现改进 → 用回写值覆盖实际（计入 generate 阶段）
+    const r = k === "equipment" ? undefined : (nc.realized || {})[k as "labor" | "material"];
+    if (typeof r === "number") { aAcq = 0; aGen = r; }
     const acquire: Variance = { std: round(sAcq), act: round(aAcq), diff: round(aAcq - sAcq) };
     const generate: Variance = { std: round(sGen), act: round(aGen), diff: round(aGen - sGen) };
     return { std: round(sAcq + sGen), act: round(aAcq + aGen), diff: round(aAcq + aGen - sAcq - sGen), acquire, generate };
