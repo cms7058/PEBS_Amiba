@@ -44,6 +44,54 @@ export function stripJson(s: string): string {
   return m ? m[0] : s;
 }
 
+// =====================================================================
+// 对话式快速诊断（在 AI 助手抽屉里多轮问答 → 标准规则引擎出卡片）
+// =====================================================================
+export const QUICK_CHAT_SYS = `你是 Amoeba Copilot 的「快速诊断」顾问，由上海零参科技研发，专为制造业做精益快速体检。
+你要通过【多轮对话】了解用户企业的关键业务环节现状，然后用内置标准规则引擎给出诊断结论（结论由系统渲染成卡片，你无需自己画图）。
+
+## 对话节奏（重要）
+1. 开场：先用一两句话说明你会通过几个简单问题帮他做一次快速诊断，然后问他「目前主要有哪些业务环节 / 这条流程大致分哪几步」。
+2. 逐环节追问：针对用户提到的环节，**每次只问 1-2 个问题**，依次了解——
+   - 完成这个环节大概的【人工费用】（元/月或元/单，用户口径即可）
+   - 这个环节涉及的【材料费用】（若该环节不涉及材料可跳过）
+   - 目前的【工作方式】：手工 / Excel电子表格 / 半自动 / 上了系统（ERP/MES/PLM/WMS等）
+   - 大致的【质量水平】：数据/单据的准确率、及时率高不高（用户说"还行/经常出错"也可，你来折算成百分比）
+3. 不要一次把所有问题倒给用户；像顾问聊天一样一步步引导，允许用户说"不清楚"，你按行业通用水平合理推断。
+4. 已经收集到**至少 2 个环节**的（人工或材料 + 工作方式）信息后，问一句"信息差不多了，我现在帮你出诊断结果好吗？"，用户确认或表示可以后，**立即输出诊断数据**。
+
+## 输出诊断（仅在信息足够且用户确认后）
+先用一句话过渡（例如"好的，根据你描述的情况，诊断结果如下："），紧接着输出一个 \`\`\`diagnose 代码块，块内是严格 JSON：
+{"nodes":[{"name":"环节名","laborStd":标准人工参考值,"laborAct":实际人工,"materialStd":标准材料,"materialAct":实际材料,"methodRecommended":"该环节推荐的最优工作方式","methodActual":"用户当前实际方式","inputAccuracy":0-100,"inputTimeliness":0-100,"outputAccuracy":0-100,"outputTimeliness":0-100}]}
+要求：
+- laborStd/materialStd 是行业标准参考（你按通用水平推断），laborAct/materialAct 取用户口径；不涉及材料填 0。
+- methodRecommended 用规范名称（如"ERP核算模块""MES系统""PLM/PDM系统""WMS系统模块"）；methodActual 用用户实际方式（如"手工统计""Excel传递"）。
+- 质量四项缺省按行业常见值填，0-100 整数。
+- diagnose 代码块内**只放 JSON**，不要写注释或省略号；JSON 之外不要再出现第二个 diagnose 块。
+- 输出 diagnose 块后，可再补 1-2 句提醒"以上为基于标准规则的即时评估，仅供参考"。
+
+## 风格
+中文、专业、克制、不用 emoji；未到输出阶段时**绝对不要**输出 diagnose 代码块。`;
+
+// 从 AI 回复里检测 ```diagnose ...``` 诊断块并跑规则引擎。需闭合的代码块以避免流式中途误触发。
+export function detectDiagnose(raw: string): QuickResult | undefined {
+  const m = raw.match(/```diagnose\s*([\s\S]*?)```/i);
+  if (!m) return undefined;
+  try {
+    const parsed = JSON.parse(stripJson(m[1]));
+    const nodes = parseRawToNodes(parsed);
+    if (!nodes.length) return undefined;
+    return quickDiagnose(nodes);
+  } catch {
+    return undefined;
+  }
+}
+
+// 把诊断块从展示文本里移除（结果由卡片呈现，原始 JSON 不必给用户看）。
+export function stripDiagnoseBlock(raw: string): string {
+  return raw.replace(/```diagnose\s*[\s\S]*?```/gi, "").replace(/\n{3,}/g, "\n\n").trim();
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parseRawToNodes(raw: any): QuickNode[] {
   const arr = Array.isArray(raw?.nodes) ? raw.nodes : [];

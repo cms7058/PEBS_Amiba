@@ -8,7 +8,6 @@ import { PageShell } from "../../../components/layout/PageShell";
 import { Card, CardBody, CardHeader } from "../../../components/ui/Card";
 import { EngineChat } from "../../../components/agent/EngineChat";
 import { PdcaPanel } from "../../../components/overview/PdcaPanel";
-import { QuickDiagnose } from "../../../components/overview/QuickDiagnose";
 import { CostRollupTree } from "../../../components/overview/CostRollupTree";
 import type { DupontNode } from "../../../lib/dupont";
 import type { TreeNode } from "../../../lib/diagnosis";
@@ -53,7 +52,6 @@ export default function OverviewPage() {
   return (
     <PageShell title="总览" subtitle="该企业阿米巴项目的杜邦成本树 · 现场浪费→财务结果贯穿 · 实施前后对比">
       <div className="space-y-4">
-        <QuickDiagnose />
         <PdcaPanel enterpriseId={entId} />
         {roe && (
           <div className="grid grid-cols-3 gap-3">
@@ -102,6 +100,7 @@ export default function OverviewPage() {
         page="总览 · 杜邦成本树"
         subject={selNode ? selNode.label : "杜邦成本树 / ROE"}
         openSignal={clickCount || undefined}
+        enableQuickDiagnose
         cards={selNode ? (
           <div className="rounded-lg border border-border bg-card p-3">
             <div className="text-xs font-semibold">{selNode.label} 成本归集</div>

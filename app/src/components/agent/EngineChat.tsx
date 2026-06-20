@@ -3,9 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import {
   MessageSquare, X, Send, Sparkles, Loader2, Download, BookOpen, FileSpreadsheet,
-  HelpCircle, RotateCcw, ArrowRightLeft,
+  HelpCircle, RotateCcw, ArrowRightLeft, Stethoscope,
 } from "lucide-react";
 import { chatStream, loadSettings, type ChatMessage, type LLMSettings } from "../../lib/llm";
+import { QUICK_CHAT_SYS, detectDiagnose, stripDiagnoseBlock, type QuickResult } from "../../lib/quick-diagnose";
+import { QuickDiagnoseCard } from "./QuickDiagnoseCard";
 
 export interface EngineChatContext {
   /** Page identifier, e.g. "规划引擎" */
@@ -20,6 +22,8 @@ export interface EngineChatContext {
   cards?: React.ReactNode;
   /** When this value changes, the drawer auto-opens (用于"点击节点自动弹出助手") */
   openSignal?: string | number;
+  /** 是否启用「快速诊断」对话模式（总览页 AI 助手用） */
+  enableQuickDiagnose?: boolean;
 }
 
 interface UiMessage {
@@ -28,6 +32,8 @@ interface UiMessage {
   loading?: boolean;
   /** Detected CSV / markdown table block for one-click download */
   csv?: string;
+  /** Detected 快速诊断 result — rendered as an inline card */
+  diag?: QuickResult;
 }
 
 const ROLE_PROMPT = `你是 Amoeba Copilot 的页内辅助助手，由上海零参科技研发，专注帮制造业落地阿米巴经营。
@@ -62,6 +68,7 @@ export function EngineChat(props: EngineChatContext) {
   const [messages, setMessages] = useState<UiMessage[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
+  const [quickMode, setQuickMode] = useState(false);
   const [settings, setSettings] = useState<LLMSettings | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -121,7 +128,7 @@ export function EngineChat(props: EngineChatContext) {
     setStreaming(true);
 
     const history: ChatMessage[] = [
-      { role: "system", content: buildSystemPrompt(effectiveCtx) },
+      { role: "system", content: quickMode ? QUICK_CHAT_SYS : buildSystemPrompt(effectiveCtx) },
       ...next.slice(0, -1).map<ChatMessage>((m) => ({
         role: m.role === "ai" ? "assistant" : "user",
         content: m.content,
@@ -136,9 +143,11 @@ export function EngineChat(props: EngineChatContext) {
         provider, messages: history, signal: ctrl.signal,
         onChunk: (delta) => {
           raw += delta;
+          const diag = quickMode ? detectDiagnose(raw) : undefined;
+          const display = diag ? stripDiagnoseBlock(raw) : raw;
           setMessages((cur) => {
             const copy = [...cur];
-            copy[copy.length - 1] = { role: "ai", content: raw, csv: detectCsv(raw) };
+            copy[copy.length - 1] = { role: "ai", content: display, csv: detectCsv(raw), diag };
             return copy;
           });
         },
@@ -197,6 +206,21 @@ export function EngineChat(props: EngineChatContext) {
     if (messages.length === 0) return;
     if (!confirm("清空当前对话？")) return;
     setMessages([]);
+    setQuickMode(false);
+  }
+
+  // 进入「快速诊断」对话模式：清空历史并给出开场提问（不调用模型，即时反馈）。
+  function startQuickDiagnose() {
+    if (streaming) return;
+    if (messages.length > 0 && !confirm("将开始一段「快速诊断」对话，会清空当前对话，确定？")) return;
+    setQuickMode(true);
+    setMessages([{
+      role: "ai",
+      content:
+        "好的，我用几个简单问题帮你做一次精益快速诊断（约 1-2 分钟）。\n\n" +
+        "先从整体说起：你们目前主要的业务流程大致分哪几个环节？\n" +
+        "（例如：商机报价 → 工艺/BOM → 生产制造 → 质量检验 → 入库发运。说个大概即可，我们再逐个细看人工/材料费用和工作方式。）",
+    }]);
   }
 
   return (
@@ -268,6 +292,24 @@ export function EngineChat(props: EngineChatContext) {
               </div>
             </header>
 
+            {/* 快速诊断入口（仅总览页启用） */}
+            {props.enableQuickDiagnose && (
+              <div className="border-b border-border bg-[color:var(--primary)]/5 px-3 py-2">
+                <button
+                  onClick={startQuickDiagnose}
+                  disabled={!ready || streaming}
+                  className="flex w-full items-center justify-between gap-2 rounded-md border border-[color:var(--primary)]/30 bg-card px-3 py-2 text-xs transition hover:border-[color:var(--primary)]/60 hover:bg-[color:var(--primary)]/5 disabled:opacity-50"
+                >
+                  <span className="flex items-center gap-2 font-medium text-[color:var(--primary)]">
+                    <Stethoscope className="h-4 w-4" />
+                    快速诊断
+                    {quickMode && <span className="rounded bg-[color:var(--primary)]/10 px-1.5 py-0.5 text-[9px]">进行中</span>}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">几个问题 → 即时诊断卡片</span>
+                </button>
+              </div>
+            )}
+
             {/* Quick actions */}
             <div className="grid grid-cols-3 gap-2 border-b border-border bg-muted/30 px-3 py-2">
               {quickActions.map((a) => {
@@ -335,9 +377,10 @@ export function EngineChat(props: EngineChatContext) {
                         <div className="rounded-2xl rounded-tl-sm border border-border bg-card px-3 py-2 text-xs leading-relaxed text-foreground whitespace-pre-wrap">
                           {m.content}
                         </div>
-                      ) : (
+                      ) : !m.diag ? (
                         <div className="rounded-2xl rounded-tl-sm bg-muted/60 px-3 py-2 text-xs text-muted-foreground">思考中...</div>
-                      )}
+                      ) : null}
+                      {m.diag && <QuickDiagnoseCard result={m.diag} />}
                       {m.csv && (
                         <button
                           onClick={() => downloadCsv(m.csv!)}
