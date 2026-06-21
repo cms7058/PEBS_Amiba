@@ -30,11 +30,17 @@
             }
           }
         ],
-        "tools": [],
+        "tools": [
+          {
+            "tool": "lean",
+            "enabled": true
+          }
+        ],
         "factor": "method",
         "riskProp": "completeness",
         "riskNote": "技术要求是否齐全",
-        "key": "rfq"
+        "key": "rfq",
+        "amibaId": "amb_sales"
       },
       {
         "id": "on_dtf7erd3uptc",
@@ -72,7 +78,8 @@
         "factor": "material",
         "riskProp": "correctness",
         "riskNote": "成本估漏（辅料/工装/年降）",
-        "key": "quote"
+        "key": "quote",
+        "amibaId": "amb_eng"
       },
       {
         "id": "on_bano6lrtuptc",
@@ -101,11 +108,17 @@
             }
           }
         ],
-        "tools": [],
+        "tools": [
+          {
+            "tool": "lean",
+            "enabled": true
+          }
+        ],
         "factor": "method",
         "riskProp": "rationality",
         "riskNote": "盲目承诺交期",
-        "key": "order_review"
+        "key": "order_review",
+        "amibaId": "amb_sales"
       },
       {
         "id": "on_nqg9p43luptc",
@@ -129,9 +142,11 @@
             "betterWhen": "higher",
             "values": {
               "baseline": 88,
-              "current": 92,
+              "current": 84.2,
               "target": 99
-            }
+            },
+            "source": "bom",
+            "capturedAt": "2026-06-21T08:58:28.745349"
           }
         ],
         "tools": [
@@ -143,7 +158,8 @@
         "factor": "material",
         "riskProp": "completeness",
         "riskNote": "缺工序/缺定额",
-        "key": "process_bom"
+        "key": "process_bom",
+        "amibaId": "amb_eng"
       },
       {
         "id": "on_w4jb5xequptc",
@@ -168,9 +184,11 @@
             "betterWhen": "higher",
             "values": {
               "baseline": 76,
-              "current": 84,
+              "current": 100,
               "target": 95
-            }
+            },
+            "source": "aps",
+            "capturedAt": "2026-06-21T11:19:06.565Z"
           },
           {
             "key": "smed",
@@ -179,9 +197,11 @@
             "betterWhen": "lower",
             "values": {
               "baseline": 45,
-              "current": 32,
+              "current": 24,
               "target": 20
-            }
+            },
+            "source": "aps",
+            "capturedAt": "2026-06-21T11:19:06.565Z"
           }
         ],
         "tools": [
@@ -193,7 +213,8 @@
         "factor": "machine",
         "riskProp": "rationality",
         "riskNote": "瓶颈/换线未优化",
-        "key": "planning"
+        "key": "planning",
+        "amibaId": "amb_supply"
       },
       {
         "id": "on_rc3medmwuptc",
@@ -243,7 +264,8 @@
         "factor": "material",
         "riskProp": "correctness",
         "riskNote": "MOQ/提前期错致断料",
-        "key": "procurement"
+        "key": "procurement",
+        "amibaId": "amb_supply"
       },
       {
         "id": "on_ie2ip12muptc",
@@ -296,7 +318,8 @@
         "factor": "material",
         "riskProp": "rationality",
         "riskNote": "未齐套先开工",
-        "key": "kitting"
+        "key": "kitting",
+        "amibaId": "amb_supply"
       },
       {
         "id": "on_sanewbdtuptc",
@@ -320,9 +343,11 @@
             "betterWhen": "higher",
             "values": {
               "baseline": 52,
-              "current": 61,
+              "current": 80,
               "target": 75
-            }
+            },
+            "source": "aps",
+            "capturedAt": "2026-06-21T11:19:06.565Z"
           },
           {
             "key": "labor_value",
@@ -349,7 +374,8 @@
         "factor": "man",
         "riskProp": "correctness",
         "riskNote": "工序参数错",
-        "key": "production"
+        "key": "production",
+        "amibaId": "amb_mfg"
       },
       {
         "id": "on_mgwsz2qkuptc",
@@ -398,7 +424,8 @@
         "factor": "method",
         "riskProp": "completeness",
         "riskNote": "缺检验/缺管控点",
-        "key": "quality"
+        "key": "quality",
+        "amibaId": "amb_quality"
       },
       {
         "id": "on_bl70mnivuptc",
@@ -435,7 +462,8 @@
         "factor": "material",
         "riskProp": "correctness",
         "riskNote": "错料/错标",
-        "key": "warehouse"
+        "key": "warehouse",
+        "amibaId": "amb_logistics"
       },
       {
         "id": "on_xf2tsrmfuptc",
@@ -468,7 +496,8 @@
         "factor": "environment",
         "riskProp": "rationality",
         "riskNote": "急运成本失控",
-        "key": "shipping"
+        "key": "shipping",
+        "amibaId": "amb_logistics"
       },
       {
         "id": "on_0boqfj1suptc",
@@ -513,7 +542,8 @@
         "factor": "method",
         "riskProp": "completeness",
         "riskNote": "缺验收致拖款",
-        "key": "delivery"
+        "key": "delivery",
+        "amibaId": "amb_func"
       },
       {
         "id": "on_g91ypo78uptc",
@@ -550,10 +580,11 @@
         "factor": "method",
         "riskProp": "rationality",
         "riskNote": "经验不沉淀",
-        "key": "review"
+        "key": "review",
+        "amibaId": "amb_func"
       }
     ],
     "createdAt": "2026-06-15T07:47:38.159Z",
-    "updatedAt": "2026-06-15T09:27:43.067Z"
+    "updatedAt": "2026-06-21T11:19:06.574Z"
   }
 ]

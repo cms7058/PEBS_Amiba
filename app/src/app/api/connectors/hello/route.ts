@@ -11,6 +11,7 @@ export async function POST(req: Request) {
   const body = (await req.json().catch(() => null)) as {
     version?: string;
     capabilities?: string[];
+    inboundUrl?: string;
   } | null;
 
   await recordRegistration({
@@ -18,6 +19,7 @@ export async function POST(req: Request) {
     enterpriseId: tok.enterpriseId,
     version: body?.version,
     capabilities: body?.capabilities,
+    inboundUrl: body?.inboundUrl,
   });
 
   return Response.json({ ok: true, source: tok.source, enterpriseId: tok.enterpriseId });

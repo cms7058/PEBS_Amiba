@@ -1,6 +1,6 @@
 import { authConnector } from "../../../lib/connectors";
 import { ingestBatch } from "../../../lib/factory";
-import { applyKpiUpdates, getTemplate, type KpiUpdate } from "../../../lib/otd";
+import { applyKpiUpdates, getTemplate, listTemplates, type KpiUpdate } from "../../../lib/otd";
 import type { IngestEnvelope } from "../../../lib/factory-types";
 
 export const runtime = "nodejs";
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 interface NodeUpdateEnvelope {
   source?: string;
   enterpriseId?: string;
-  templateId: string;
+  templateId?: string;   // 省略时按令牌企业解析生效模板
   updates: KpiUpdate[];
 }
 
@@ -33,16 +33,24 @@ export async function POST(req: Request) {
   }
 
   // --- 新路径：节点 KPI 回填 ---
-  if (body.templateId && Array.isArray(body.updates)) {
-    const tpl = await getTemplate(body.templateId);
+  if (Array.isArray(body.updates) && body.updates.length) {
+    // templateId 省略时，按令牌企业解析「生效模板」(与 /ingest/targets、规划页一致)
+    let templateId = body.templateId;
+    if (!templateId) {
+      const list = await listTemplates(tok.enterpriseId);
+      templateId = list[0]?.id;
+    }
+    if (!templateId) return Response.json({ error: "该企业暂无 OTD 模板" }, { status: 404 });
+
+    const tpl = await getTemplate(templateId);
     if (!tpl) return Response.json({ error: "OTD 模板不存在" }, { status: 404 });
     // 模板必须属于本企业（或是行业库模板）
     if (tpl.enterpriseId && tpl.enterpriseId !== tok.enterpriseId) {
       return Response.json({ error: "模板不属于该企业" }, { status: 403 });
     }
     try {
-      const r = await applyKpiUpdates(body.templateId, body.updates, tok.source);
-      return Response.json({ ok: true, ...r }, { status: 201 });
+      const r = await applyKpiUpdates(templateId, body.updates, tok.source);
+      return Response.json({ ok: true, templateId, ...r }, { status: 201 });
     } catch (e) {
       return Response.json({ error: (e as Error).message }, { status: 400 });
     }

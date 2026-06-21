@@ -443,6 +443,12 @@ function NodeEditor({ node, enterpriseId, connectedTools, onPatch }: {
                       className="w-full rounded border border-border bg-background px-1.5 py-1 text-xs" />
                   ))}
                 </div>
+                {k.source && k.source !== "manual" && (
+                  <div className="mt-1 flex flex-wrap items-center gap-1 text-[10px]">
+                    <span className="rounded bg-[color:var(--primary)]/10 px-1.5 py-0.5 text-[color:var(--primary)]">{k.source.toUpperCase()} 自动回填</span>
+                    {k.capturedAt && <span className="text-muted-foreground">· {new Date(k.capturedAt).toLocaleString("zh-CN")}</span>}
+                  </div>
+                )}
               </div>
             );
           })}
@@ -470,7 +476,7 @@ function NodeEditor({ node, enterpriseId, connectedTools, onPatch }: {
             );
           })}
         </div>
-        <p className="mt-1.5 text-[10px] text-muted-foreground">绿色=已启用且工具已接入；橙色=已启用但工具未接入（去「工具接入」页接入）。</p>
+        <p className="mt-1.5 text-[10px] text-muted-foreground">绿色=已启用且工具已接入；橙色=已启用但工具未接入（到「诊断引擎」诊断结论里按节点接入）。</p>
       </Field>
     </CardBody>
   );

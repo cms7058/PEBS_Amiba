@@ -37,6 +37,7 @@ function seedNodes(): OtdNode[] {
     n(0, "商机/询价 RFQ", "接询价、初判可做性", ["客户图纸/规格"], ["询价登记"], "销售", {
       factor: "method", riskProp: "completeness", riskNote: "技术要求是否齐全",
       kpis: [{ key: "rfq_resp", label: "询价响应时长", unit: "h", betterWhen: "lower", values: { baseline: 48, current: 36, target: 24 } }],
+      tools: [{ tool: "lean", enabled: true }],
     }),
     n(1, "报价/成本估算", "估 BOM、估工时、定价（含年降测算）", ["图纸", "历史成本"], ["报价单", "估算成本"], "销售+工程", {
       factor: "material", riskProp: "correctness", riskNote: "成本估漏（辅料/工装/年降）",
@@ -46,6 +47,7 @@ function seedNodes(): OtdNode[] {
     n(2, "订单评审与接单", "合同/技术/交期三评审", ["客户 PO/预测", "报价"], ["评审记录", "交期承诺"], "商务+计划", {
       factor: "method", riskProp: "rationality", riskNote: "盲目承诺交期",
       kpis: [{ key: "order_acc", label: "接单准确率", unit: "%", betterWhen: "higher", values: { baseline: 85, current: 90, target: 98 } }],
+      tools: [{ tool: "lean", enabled: true }],
     }),
     n(3, "工艺与 BOM 准备", "工艺路线、制造 BOM、工装、定额", ["设计 BOM/图纸"], ["工艺路线", "制造 BOM", "定额"], "工艺", {
       factor: "material", riskProp: "completeness", riskNote: "缺工序/缺定额",

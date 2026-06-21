@@ -14,6 +14,7 @@ import { MaturityPanel } from "../../../../components/diagnosis/MaturityPanel";
 import { Collapsible, MethodGapByNode } from "../../../../components/diagnosis/DiagnosisDetails";
 import { QualityRose } from "../../../../components/diagnosis/QualityRose";
 import { CostGroupedBar } from "../../../../components/diagnosis/CostGroupedBar";
+import { ToolFitPanel } from "../../../../components/diagnosis/ToolFitPanel";
 import type { Diagnosis } from "../../../../lib/diagnosis";
 
 const yuan = (n: number) => "¥" + n.toLocaleString("zh-CN", { maximumFractionDigits: 0 });
@@ -116,6 +117,9 @@ export default function DiagnosisPage() {
                 </CardBody>
               </Card>
             </div>
+
+            {/* 对症工具接入：把工具落到具体问题节点上，由用户就地选择是否接入 */}
+            <ToolFitPanel enterpriseId={entId} diagnosis={d!} />
 
             <Card><CardBody className="flex items-center gap-2 text-xs text-muted-foreground">
               <TrendingUp className="h-4 w-4 text-[color:var(--primary)]" />

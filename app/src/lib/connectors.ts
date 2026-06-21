@@ -22,6 +22,8 @@ export interface ConnectorRegistration {
   enterpriseId: string;
   version?: string;
   capabilities?: string[];
+  /** 工具对外回调地址，供阿米巴反向下发改进任务（Phase 3c） */
+  inboundUrl?: string;
   lastSeenAt: string;
 }
 
@@ -65,6 +67,12 @@ export async function revokeToken(id: string): Promise<void> {
   if (i < 0) return;
   all[i] = { ...all[i], revokedAt: new Date().toISOString() };
   await atomicWriteJSON(TOKENS_FILE, all);
+}
+
+/** 取某企业+某工具当前有效（未吊销）的连接器令牌，供阿米巴反向下发时鉴权到工具 */
+export async function getActiveToken(enterpriseId: string, source: ConnectorSource): Promise<ConnectorToken | null> {
+  const all = await readJSON<ConnectorToken[]>(TOKENS_FILE, []);
+  return all.find((t) => t.enterpriseId === enterpriseId && t.source === source && !t.revokedAt) || null;
 }
 
 /** 校验 Bearer 令牌，返回其绑定的企业与来源；无效/已吊销返回 null */
