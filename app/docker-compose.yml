@@ -7,6 +7,13 @@ services:
         # Baked into the client bundle. Set in .env to your public domain so the
         # mobile QR code on the home page works correctly behind a reverse proxy.
         NEXT_PUBLIC_PUBLIC_URL: "${NEXT_PUBLIC_PUBLIC_URL:-}"
+        # 子工具注册页地址（build 时烘进 bundle）。在 .env 填各工具公网 /register 地址，
+        # 否则诊断引擎里「工具接入/重新接入」会跳到 localhost 默认值。
+        NEXT_PUBLIC_TOOL_WORKTIME_URL: "${NEXT_PUBLIC_TOOL_WORKTIME_URL:-}"
+        NEXT_PUBLIC_TOOL_APS_URL: "${NEXT_PUBLIC_TOOL_APS_URL:-}"
+        NEXT_PUBLIC_TOOL_BOM_URL: "${NEXT_PUBLIC_TOOL_BOM_URL:-}"
+        NEXT_PUBLIC_TOOL_LEAN_URL: "${NEXT_PUBLIC_TOOL_LEAN_URL:-}"
+        NEXT_PUBLIC_TOOL_NESTING_URL: "${NEXT_PUBLIC_TOOL_NESTING_URL:-}"
     image: amoeba-copilot:latest
     container_name: amoeba-copilot
     restart: unless-stopped
