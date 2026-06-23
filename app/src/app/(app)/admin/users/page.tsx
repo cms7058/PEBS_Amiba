@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Loader2, Shield, UserCircle } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Shield, UserCircle, KeyRound, RotateCcw, Copy, Check } from "lucide-react";
 import { PageShell } from "../../../../components/layout/PageShell";
 import { Card, CardBody, CardHeader } from "../../../../components/ui/Card";
 import { Button } from "../../../../components/ui/Button";
 import { Input, Label } from "../../../../components/ui/Input";
 import { Badge } from "../../../../components/ui/Badge";
+import { TOOLS } from "../../../../lib/tools-registry";
+import type { ToolId } from "../../../../lib/otd-types";
 import type { PublicUser, Role } from "../../../../lib/users-types";
+
+interface Grant { id: string; userId: string; tool: ToolId; token: string; status: string }
 
 type DialogState =
   | { mode: "create" }
@@ -26,6 +30,7 @@ export default function UsersPage() {
   const [error, setError] = useState<string | null>(null);
   const [dialog, setDialog] = useState<DialogState>(null);
   const [me, setMe] = useState<{ id: string } | null>(null);
+  const [grants, setGrants] = useState<Grant[]>([]);
 
   async function reload() {
     setLoading(true);
@@ -42,8 +47,16 @@ export default function UsersPage() {
     }
   }
 
+  async function loadGrants() {
+    try {
+      const d = await fetch("/api/platform-grants").then((r) => r.json());
+      setGrants(d.grants || []);
+    } catch { /* ignore */ }
+  }
+
   useEffect(() => {
     reload();
+    loadGrants();
     fetch("/api/auth/me")
       .then((r) => r.json())
       .then((d) => d.user && setMe({ id: d.user.id }))
@@ -86,8 +99,8 @@ export default function UsersPage() {
                   <tr>
                     <th className="px-5 py-2.5 text-left font-medium">用户</th>
                     <th className="px-5 py-2.5 text-left font-medium">角色</th>
+                    <th className="px-5 py-2.5 text-left font-medium">工具令牌（点击激活/停用，可多选）</th>
                     <th className="px-5 py-2.5 text-left font-medium">最近登录</th>
-                    <th className="px-5 py-2.5 text-left font-medium">创建时间</th>
                     <th className="px-5 py-2.5 text-right font-medium">操作</th>
                   </tr>
                 </thead>
@@ -110,11 +123,11 @@ export default function UsersPage() {
                           {ROLE_LABEL[u.role]}
                         </Badge>
                       </td>
-                      <td className="px-5 py-3 text-xs text-muted-foreground">
-                        {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString("zh-CN") : "—"}
+                      <td className="px-5 py-3">
+                        <UserToolGrants user={u} grants={grants.filter((g) => g.userId === u.id)} onChanged={loadGrants} />
                       </td>
                       <td className="px-5 py-3 text-xs text-muted-foreground">
-                        {new Date(u.createdAt).toLocaleDateString("zh-CN")}
+                        {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString("zh-CN") : "—"}
                       </td>
                       <td className="px-5 py-3 text-right">
                         <div className="flex justify-end gap-1">
@@ -152,6 +165,66 @@ export default function UsersPage() {
         />
       )}
     </PageShell>
+  );
+}
+
+const TOOL_SHORT: Record<string, string> = { worktime: "工时", aps: "APS排产", bom: "BOM", lean: "LeanAI", nesting: "套料" };
+
+function UserToolGrants({ user, grants, onChanged }: { user: PublicUser; grants: Grant[]; onChanged: () => void }) {
+  const [saving, setSaving] = useState(false);
+  const [reveal, setReveal] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
+  const active = grants.filter((g) => g.status === "active");
+  const activeTools = new Set(active.map((g) => g.tool));
+
+  async function toggle(tool: ToolId) {
+    const next = new Set(activeTools);
+    if (next.has(tool)) next.delete(tool); else next.add(tool);
+    setSaving(true);
+    try {
+      const res = await fetch("/api/platform-grants", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, tools: [...next] }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || "保存失败");
+      onChanged();
+    } catch (e) { alert((e as Error).message); }
+    finally { setSaving(false); }
+  }
+  async function rotate(id: string) {
+    if (!confirm("轮换令牌？旧令牌立即失效。")) return;
+    await fetch(`/api/platform-grants/${id}`, { method: "PATCH" });
+    onChanged();
+  }
+  function copy(t: string) { navigator.clipboard?.writeText(t); setCopied(t); setTimeout(() => setCopied(null), 1200); }
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex flex-wrap gap-1">
+        {TOOLS.map((t) => {
+          const on = activeTools.has(t.id as ToolId);
+          return (
+            <button key={t.id} disabled={saving} onClick={() => toggle(t.id as ToolId)}
+              className={`rounded-md border px-2 py-0.5 text-[11px] transition disabled:opacity-50 ${on ? "border-[color:var(--primary)] bg-[color:var(--primary)]/10 text-[color:var(--primary)]" : "border-border text-muted-foreground hover:bg-muted"}`}>
+              {on ? "✓ " : ""}{TOOL_SHORT[t.id] || t.id}
+            </button>
+          );
+        })}
+      </div>
+      {active.length > 0 && (
+        <button onClick={() => setReveal((r) => !r)} className="inline-flex items-center gap-1 text-[10px] text-muted-foreground hover:underline">
+          <KeyRound className="h-3 w-3" /> {reveal ? "隐藏令牌" : `查看 ${active.length} 枚令牌`}
+        </button>
+      )}
+      {reveal && active.map((g) => (
+        <div key={g.id} className="flex items-center gap-1.5 text-[10px]">
+          <span className="w-12 text-muted-foreground">{TOOL_SHORT[g.tool] || g.tool}</span>
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono">{g.token}</code>
+          <button onClick={() => copy(g.token)} title="复制" className="text-[color:var(--primary)]">{copied === g.token ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}</button>
+          <button onClick={() => rotate(g.id)} title="轮换" className="text-muted-foreground hover:text-foreground"><RotateCcw className="h-3 w-3" /></button>
+        </div>
+      ))}
+    </div>
   );
 }
 

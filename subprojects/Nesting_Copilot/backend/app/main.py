@@ -423,6 +423,106 @@ def push_amiba_ep(sid: str, body: PushAmibaIn) -> dict:
     return {"envelope": envelope, "push_result": result, "amiba_enabled": amiba.enabled()}
 
 
+# -- 阿米巴：平台令牌登录 + 按产品建计时项目 + 提交回传工时（APS/Lean/worktime 同款）-------
+
+_NEST_CAPS = ["套料利用率", "共边/共线", "余料再利用", "利用率损失成本"]
+
+
+class AmibaRegisterIn(BaseModel):
+    amiba_endpoint: str
+    amiba_token: str
+    enterprise_id: str
+    source: str = "nesting"
+
+
+@app.post("/amiba/register")
+def amiba_register(body: AmibaRegisterIn) -> dict:
+    """阿米巴「接入」带来的连接器令牌：回 hello 上报能力（点亮已注册）。"""
+    from app import amiba_projects
+    amiba_projects.hello(body.amiba_endpoint, body.amiba_token, _NEST_CAPS)
+    return {"ok": True, "enterprise_id": body.enterprise_id}
+
+
+class AmibaPlatformLoginIn(BaseModel):
+    amiba_endpoint: str
+    platform_token: str
+    username: str
+    tool: str = "nesting"
+    enterprise_id: str = ""
+
+
+@app.post("/amiba/platform-login")
+def amiba_platform_login(body: AmibaPlatformLoginIn) -> dict:
+    """仅核验平台令牌（Nesting 无登录门禁，核验通过即放行）。"""
+    from app import amiba_projects
+    res = amiba_projects.verify_platform(body.amiba_endpoint, body.username, body.platform_token, body.tool)
+    if not res.get("valid"):
+        raise HTTPException(401, res.get("reason") or "平台令牌核验失败")
+    return {"ok": True, "displayName": res.get("displayName") or body.username}
+
+
+class AmibaLaunchIn(BaseModel):
+    amiba_endpoint: str
+    platform_token: str
+    username: str
+    tool: str = "nesting"
+    enterprise_id: str
+    enterprise_name: str = ""
+    product_id: str
+    part_no: str = ""
+    product_name: str = ""
+    connector_token: str = ""
+    team: list = []
+
+
+@app.post("/amiba/launch")
+def amiba_launch(body: AmibaLaunchIn) -> dict:
+    """核验平台令牌 → 按产品建排料计时项目（单人进入即自动开始计时）。"""
+    from app import amiba_projects
+    res = amiba_projects.verify_platform(body.amiba_endpoint, body.username, body.platform_token, body.tool)
+    if not res.get("valid"):
+        raise HTTPException(401, res.get("reason") or "平台令牌核验失败")
+    project = amiba_projects.ensure_project(
+        enterprise_id=body.enterprise_id, enterprise_name=body.enterprise_name,
+        product_id=body.product_id, part_no=body.part_no, product_name=body.product_name,
+        amiba_endpoint=body.amiba_endpoint, connector_token=body.connector_token,
+        created_by=body.username, team=body.team)
+    return {"ok": True, "projectId": project["id"], "productName": body.product_name,
+            "partNo": body.part_no, "enterpriseName": body.enterprise_name}
+
+
+@app.get("/amiba/projects/{project_id}")
+def amiba_get_project(project_id: str) -> dict:
+    from app import amiba_projects
+    p = amiba_projects.get_project(project_id)
+    if not p:
+        raise HTTPException(404, "项目不存在")
+    return p
+
+
+@app.post("/amiba/projects/{project_id}/tasks/{task_id}/{action}")
+def amiba_task_action(project_id: str, task_id: str, action: str) -> dict:
+    from app import amiba_projects
+    if action not in ("start", "stop", "done"):
+        raise HTTPException(400, "未知操作")
+    try:
+        p = amiba_projects.task_action(project_id, task_id, action)
+    except ValueError as e:
+        raise HTTPException(404, str(e))
+    if not p:
+        raise HTTPException(404, "项目不存在")
+    return p
+
+
+@app.post("/amiba/projects/{project_id}/submit")
+def amiba_submit_project(project_id: str) -> dict:
+    from app import amiba_projects
+    p = amiba_projects.submit_project(project_id)
+    if not p:
+        raise HTTPException(404, "项目不存在")
+    return p
+
+
 class LLMConfigIn(BaseModel):
     provider: str | None = None                  # 设默认 provider
     configs: dict[str, dict] | None = None        # {name: {api_key?, model?, base_url?}}

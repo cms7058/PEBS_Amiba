@@ -5,7 +5,12 @@ import { SESSION_COOKIE, verifySession } from "./lib/auth";
 const PUBLIC_PATHS = ["/", "/login", "/m/login"];
 // ingest / hello 由子工具用连接器令牌（Bearer）在路由内部自行鉴权，
 // 不能被这里的 session 网关拦截，否则工具上传一律 401。
-const PUBLIC_API = ["/api/auth/login", "/api/auth/invite-login", "/api/ingest", "/api/connectors/hello"];
+const PUBLIC_API = [
+  "/api/auth/login", "/api/auth/invite-login", "/api/ingest", "/api/connectors/hello",
+  // 子工具用令牌（Bearer/平台令牌）在路由内自行鉴权，不能被 session 网关拦截：
+  "/api/platform-auth/verify",   // 工具平台登录核验（平台令牌即凭证）
+  "/api/dispatch/callback",      // 工具回调改进任务进展（连接器令牌）
+];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;

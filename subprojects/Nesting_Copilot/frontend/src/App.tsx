@@ -13,6 +13,7 @@ import {
 import { BarCutting } from "./BarCutting";
 import { InteractiveLayout } from "./InteractiveLayout";
 import { LLMConfigModal } from "./LLMConfig";
+import AmibaProjectBanner from "./AmibaProjectBanner";
 import { SheetNesting } from "./SheetNesting";
 
 interface Msg {
@@ -128,6 +129,7 @@ export function App() {
 
   return (
     <div className="app">
+      <AmibaProjectBanner />
       <header>
         <h1>智能排料 Copilot</h1>
         <span className="tag">板 · 管 · 棒 全料型自动下料</span>

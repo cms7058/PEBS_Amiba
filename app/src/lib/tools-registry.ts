@@ -15,6 +15,8 @@ export interface ToolDef {
   /** 工具自身能力点（用于界面说明） */
   capabilities: string[];
   accent: string; // tailwind 色调 key，用于卡片
+  /** 支持「按产品建项目」工作台：阿米巴侧按产品(订单/零件号)打开该工具工作台并接收回填 */
+  productWorkbench?: boolean;
 }
 
 // 各工具注册页默认地址，可用环境变量覆盖（NEXT_PUBLIC_ 前缀才能在客户端读取）。
@@ -33,6 +35,7 @@ export const TOOLS: ToolDef[] = [
     registerUrl: WORKTIME_URL,
     capabilities: ["工步切分", "循环工时", "工时负荷率", "PMTS 标准工时对比", "异常识别"],
     accent: "blue",
+    productWorkbench: true,
   },
   {
     id: "aps",
@@ -42,6 +45,7 @@ export const TOOLS: ToolDef[] = [
     registerUrl: APS_URL,
     capabilities: ["有限产能排产", "插单重排", "OEE", "产能瓶颈", "排料利用率", "库存周转"],
     accent: "violet",
+    productWorkbench: true,
   },
   {
     id: "bom",
@@ -51,6 +55,7 @@ export const TOOLS: ToolDef[] = [
     registerUrl: BOM_URL,
     capabilities: ["BOM 自动生成", "标准用量", "余料 BOM", "辅料定额", "G6 可视化"],
     accent: "emerald",
+    productWorkbench: true,
   },
   {
     id: "lean",
@@ -60,6 +65,7 @@ export const TOOLS: ToolDef[] = [
     registerUrl: LEAN_URL,
     capabilities: ["流程三性诊断", "VSM 价值流", "鱼骨/Pareto 根因", "8D/DMAIC 报告", "RAG 知识库"],
     accent: "amber",
+    productWorkbench: true,
   },
   {
     id: "nesting",
@@ -69,6 +75,7 @@ export const TOOLS: ToolDef[] = [
     registerUrl: NESTING_URL,
     capabilities: ["套料利用率", "共边/共线", "余料再利用", "利用率损失成本"],
     accent: "emerald",
+    productWorkbench: true,
   },
 ];
 

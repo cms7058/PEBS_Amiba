@@ -18,7 +18,7 @@ const nav = [
 ];
 
 const adminNav = [
-  { href: "/admin/users", label: "用户管理", icon: Users, sub: "账号与权限" },
+  { href: "/admin/users", label: "用户管理", icon: Users, sub: "账号 / 权限 / 工具令牌" },
   { href: "/admin/questions", label: "题库与建议", icon: ListChecks, sub: "诊断题目维护" },
   { href: "/settings", label: "模型与设置", icon: Settings, sub: "大模型 API 配置" },
 ];

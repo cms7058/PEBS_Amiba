@@ -294,3 +294,37 @@ export async function setLLMConfig(
   });
   return r.json();
 }
+
+// ---- 阿米巴对接（平台令牌登录 + 按产品计时项目 + 提交回传工时）----
+// 注意：阿米巴端点在 /amiba/*（vite 原样代理到后端），不走 /api 前缀。
+
+export interface AmibaProject {
+  id: string; enterpriseName?: string; partNo?: string; productName?: string;
+  status: string; totalSeconds: number; manHours: number; laborCost: number; laborRate: number;
+  tasks: { id: string; running: boolean; status: string }[];
+  report?: { ok: boolean; error?: string } | null;
+}
+
+async function amibaPost(path: string, body?: unknown): Promise<any> {
+  const r = await fetch(path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.detail || d.error || `请求失败 ${r.status}`);
+  return d;
+}
+
+export const amibaRegister = (body: Record<string, unknown>) => amibaPost("/amiba/register", body);
+export const amibaPlatformLogin = (body: Record<string, unknown>) => amibaPost("/amiba/platform-login", body);
+export const amibaLaunch = (body: Record<string, unknown>) => amibaPost("/amiba/launch", body);
+export async function amibaProject(id: string): Promise<AmibaProject> {
+  const r = await fetch(`/amiba/projects/${id}`);
+  if (!r.ok) throw new Error("加载失败");
+  return r.json();
+}
+export const amibaProjectTask = (id: string, taskId: string, action: string): Promise<AmibaProject> =>
+  amibaPost(`/amiba/projects/${id}/tasks/${taskId}/${action}`);
+export const amibaProjectSubmit = (id: string): Promise<AmibaProject> =>
+  amibaPost(`/amiba/projects/${id}/submit`);
