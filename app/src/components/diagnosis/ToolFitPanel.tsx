@@ -40,12 +40,18 @@ export function ToolFitPanel({ enterpriseId, diagnosis }: { enterpriseId: string
   // 产品（订单/零件号）：APS/Lean 等按产品建项目的工具，接入时把所选产品一并带给工具
   const [products, setProducts] = useState<{ id: string; partNo: string; name: string }[]>([]);
   const [productSel, setProductSel] = useState<Record<string, string>>({});
+  // 工具生效名称（超管「工具管理」改的名称在此反映）
+  const [toolNames, setToolNames] = useState<Record<string, string>>({});
+  const nameOf = (t: ToolDef) => toolNames[t.id] || t.name;
 
   function loadTasks() {
     fetch(`/api/dispatch?enterpriseId=${enterpriseId}`).then((r) => r.json()).then((d) => setTasks(d.tasks || []));
   }
 
   useEffect(() => {
+    fetch(`/api/tools`).then((r) => r.json()).then((d) =>
+      setToolNames(Object.fromEntries(((d.tools || []) as { id: string; name: string }[]).map((t) => [t.id, t.name]))),
+    ).catch(() => {});
     fetch(`/api/otd?enterpriseId=${enterpriseId}`).then((r) => r.json()).then((d) => {
       const t: OtdTemplate | undefined = d.templates?.[0];
       setNodes(t?.nodes || []);
@@ -164,7 +170,7 @@ export function ToolFitPanel({ enterpriseId, diagnosis }: { enterpriseId: string
                   <div key={tool.id} className="flex flex-col gap-2 rounded-md border border-border bg-card p-2.5">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <div className="text-xs font-medium">{tool.name}</div>
+                        <div className="text-xs font-medium">{nameOf(tool)}</div>
                         <div className="mt-0.5 line-clamp-2 text-[11px] text-muted-foreground">{tool.tagline}</div>
                       </div>
                       <Badge tone={st.tone}>{st.label}</Badge>
@@ -233,7 +239,7 @@ export function ToolFitPanel({ enterpriseId, diagnosis }: { enterpriseId: string
                   <div key={t.id} className="flex flex-wrap items-center gap-2 rounded-md border border-border px-2.5 py-1.5 text-[11px]">
                     <Badge tone={STATUS_TONE[t.status] || "muted"}>{STATUS_LABEL[t.status] || t.status}</Badge>
                     <span className="font-medium">{t.nodeName}</span>
-                    <span className="text-muted-foreground">→ {tool?.name || t.source}</span>
+                    <span className="text-muted-foreground">→ {toolNames[t.source] || tool?.name || t.source}</span>
                     <span className="truncate text-muted-foreground">{t.resultSummary || t.error || t.title}</span>
                     {t.resultUrl && <a href={t.resultUrl} target="_blank" rel="noreferrer" className="ml-auto inline-flex items-center gap-0.5 text-[color:var(--primary)] hover:underline">查看结果 <ExternalLink className="h-3 w-3" /></a>}
                   </div>

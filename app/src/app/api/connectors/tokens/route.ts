@@ -5,6 +5,7 @@ import { buildRegisterRedirect, getTool } from "../../../../lib/tools-registry";
 import { listGrants } from "../../../../lib/platform-grants";
 import { findById } from "../../../../lib/users";
 import { getProduct } from "../../../../lib/products";
+import { effectiveRegisterUrl } from "../../../../lib/tool-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,8 +41,10 @@ export async function POST(req: Request) {
 
   // 阿米巴自身对外地址：优先用配置，否则用当前请求来源
   const amibaEndpoint = process.env.NEXT_PUBLIC_PUBLIC_URL || new URL(req.url).origin;
+  // 注册页地址按超管「工具管理」的运行时覆盖生效（无则回落默认/env）
+  const eff = await effectiveRegisterUrl(tool.id);
   let redirectUrl = buildRegisterRedirect({
-    tool,
+    tool: { ...tool, registerUrl: eff || tool.registerUrl },
     amibaEndpoint,
     token: t.token,
     enterpriseId: ent.id,

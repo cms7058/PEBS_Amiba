@@ -4,6 +4,7 @@ import { getEnterprise } from "../../../../../lib/enterprises";
 import { listGrants } from "../../../../../lib/platform-grants";
 import { getActiveToken, createToken } from "../../../../../lib/connectors";
 import { getTool } from "../../../../../lib/tools-registry";
+import { effectiveRegisterUrl } from "../../../../../lib/tool-config";
 import { findById, findByUsername } from "../../../../../lib/users";
 import type { ConnectorSource } from "../../../../../lib/factory-types";
 
@@ -47,7 +48,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   if (!conn) conn = await createToken({ enterpriseId: ent.id, source: tool, label: `${ent.name} · ${toolDef.name}`, createdBy: s.sub });
 
   const amibaEndpoint = process.env.NEXT_PUBLIC_PUBLIC_URL || new URL(req.url).origin;
-  const base = toolDef.registerUrl.replace(/\/register\/?$/, "");
+  // 注册页地址按超管「工具管理」运行时覆盖生效
+  const effUrl = (await effectiveRegisterUrl(toolDef.id)) || toolDef.registerUrl;
+  const base = effUrl.replace(/\/register\/?$/, "");
   const u = new URL(base + "/amiba/launch");
   u.searchParams.set("amiba_endpoint", amibaEndpoint);
   u.searchParams.set("platform_token", mine.token);

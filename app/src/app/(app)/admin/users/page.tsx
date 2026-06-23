@@ -152,6 +152,8 @@ export default function UsersPage() {
             )}
           </CardBody>
         </Card>
+
+        <ToolManager />
       </div>
 
       {dialog && (
@@ -225,6 +227,63 @@ function UserToolGrants({ user, grants, onChanged }: { user: PublicUser; grants:
         </div>
       ))}
     </div>
+  );
+}
+
+interface EffectiveTool { id: string; name: string; registerUrl: string }
+
+// 超管：配置各子工具的 名称 / 注册网址（运行时生效，无需重新 build）。
+// 各用户的工具开通（勾选）在上方账号列表每行的「工具令牌」处操作。
+function ToolManager() {
+  const [tools, setTools] = useState<EffectiveTool[]>([]);
+  const [draft, setDraft] = useState<Record<string, { name: string; registerUrl: string }>>({});
+  const [saving, setSaving] = useState<string | null>(null);
+  const [saved, setSaved] = useState<string | null>(null);
+
+  async function load() {
+    try {
+      const d = await fetch("/api/tools").then((r) => r.json());
+      const list: EffectiveTool[] = d.tools || [];
+      setTools(list);
+      setDraft(Object.fromEntries(list.map((t) => [t.id, { name: t.name, registerUrl: t.registerUrl }])));
+    } catch { /* ignore */ }
+  }
+  useEffect(() => { load(); }, []);
+
+  async function save(id: string) {
+    setSaving(id); setSaved(null);
+    try {
+      const res = await fetch(`/api/tools/${id}`, {
+        method: "PUT", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(draft[id]),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || "保存失败");
+      setSaved(id); setTimeout(() => setSaved(null), 1500);
+      load();
+    } catch (e) { alert((e as Error).message); }
+    finally { setSaving(null); }
+  }
+
+  return (
+    <Card>
+      <CardHeader title="工具管理" desc="配置各子工具的名称与注册网址（运行时生效，无需重新部署 build）" />
+      <CardBody className="space-y-2">
+        {tools.map((t) => {
+          const d = draft[t.id] || { name: "", registerUrl: "" };
+          return (
+            <div key={t.id} className="flex flex-wrap items-end gap-2 rounded-lg border border-border p-3">
+              <span className="self-center rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">{t.id}</span>
+              <div><Label>工具名称</Label><Input value={d.name} onChange={(e) => setDraft((s) => ({ ...s, [t.id]: { ...s[t.id], name: e.target.value } }))} className="mt-1 w-52" /></div>
+              <div className="min-w-[280px] flex-1"><Label>注册网址（/register）</Label><Input value={d.registerUrl} onChange={(e) => setDraft((s) => ({ ...s, [t.id]: { ...s[t.id], registerUrl: e.target.value } }))} className="mt-1 w-full" placeholder="http://IP:端口/register" /></div>
+              <Button size="sm" onClick={() => save(t.id)} disabled={saving === t.id}>
+                {saving === t.id ? <Loader2 className="h-4 w-4 animate-spin" /> : saved === t.id ? <Check className="h-4 w-4" /> : null} 保存
+              </Button>
+            </div>
+          );
+        })}
+        <p className="text-[10px] text-muted-foreground">改完保存即生效：诊断引擎里点「接入 / 重新接入」会用这里的网址跳转，无需重新部署。各用户的工具开通（勾选）在上方账号列表每行的「工具令牌」处操作。</p>
+      </CardBody>
+    </Card>
   );
 }
 
