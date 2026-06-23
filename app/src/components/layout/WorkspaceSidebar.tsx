@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
   PieChart, Network, Workflow, Stethoscope, Building2, Activity,
-  ChevronLeft, Lock, Check, Loader2,
+  ChevronLeft, Lock, Check, Loader2, Package,
 } from "lucide-react";
 import { Logo } from "../brand/Logo";
 import { cn } from "../../lib/utils";
@@ -69,6 +69,17 @@ export function WorkspaceSidebar({ enterpriseId, enterpriseName }: { enterpriseI
           <div className="min-w-0 flex-1">
             <div className="truncate font-medium leading-tight">总览 · 驾驶舱</div>
             <div className="truncate text-[11px] text-muted-foreground">实时成本归集</div>
+          </div>
+        </Link>
+
+        {/* 产品工作台：按产品(订单/零件号)建项目，子工具接入与工时回填的锚点。始终可点，不参与门控 */}
+        <Link href={`${base}/products`}
+          className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition",
+            pathname.startsWith(`${base}/products`) ? "bg-[color:var(--primary)]/8 text-[color:var(--primary)]" : "text-foreground hover:bg-muted")}>
+          <Package className={cn("h-4 w-4 shrink-0", pathname.startsWith(`${base}/products`) ? "text-[color:var(--primary)]" : "text-muted-foreground")} />
+          <div className="min-w-0 flex-1">
+            <div className="truncate font-medium leading-tight">产品工作台</div>
+            <div className="truncate text-[11px] text-muted-foreground">按产品建项目 · 工具接入</div>
           </div>
         </Link>
 
