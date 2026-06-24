@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Plug, CheckCircle2, Loader2, ExternalLink, Wrench, Send, Package } from "lucide-react";
+import { Plug, CheckCircle2, Loader2, ExternalLink, Wrench, Send } from "lucide-react";
 import { Card, CardBody, CardHeader } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 import { getTool, type ToolDef } from "../../lib/tools-registry";
@@ -98,8 +97,8 @@ export function ToolFitPanel({ enterpriseId, diagnosis }: { enterpriseId: string
 
   async function connect(tool: ToolDef) {
     const source = tool.id;
-    // 按产品建项目的工具（BOM 除外，BOM 走产品页）：接入时必须选定一个产品一并带过去
-    const needsProduct = !!tool.productWorkbench && tool.id !== "bom";
+    // 按产品建项目的工具（含 BOM）：接入时必须选定一个产品一并带过去
+    const needsProduct = !!tool.productWorkbench;
     const productId = productSel[source];
     if (needsProduct && !productId) {
       alert("请先在该工具上选择要作业的产品（订单/零件号）");
@@ -180,9 +179,9 @@ export function ToolFitPanel({ enterpriseId, diagnosis }: { enterpriseId: string
                         <span key={c} className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{c}</span>
                       ))}
                     </div>
-                    {/* APS/Lean 等按产品建项目的工具：接入时选定产品，令牌+产品一并带给工具，
-                        进入工具操作页后直接显示该产品并开始计时（BOM 仍走产品页，不在此选） */}
-                    {tool.productWorkbench && tool.id !== "bom" && (
+                    {/* 按产品建项目的工具（含 BOM）：接入时选定产品，令牌+产品一并带给工具，
+                        进入工具操作页后直接显示该产品并开始计时 */}
+                    {tool.productWorkbench && (
                       <select
                         value={productSel[tool.id] || ""}
                         onChange={(e) => setProductSel((s) => ({ ...s, [tool.id]: e.target.value }))}
@@ -203,13 +202,6 @@ export function ToolFitPanel({ enterpriseId, diagnosis }: { enterpriseId: string
                         : connected ? <><CheckCircle2 className="h-3.5 w-3.5" /> 重新接入 / 换令牌 <ExternalLink className="h-3 w-3" /></>
                         : <><Plug className="h-3.5 w-3.5" /> 接入此工具治理该节点 <ExternalLink className="h-3 w-3" /></>}
                     </button>
-                    {/* BOM 仍走产品页选产品再进工作台（按用户要求 BOM 不动） */}
-                    {connected && tool.id === "bom" && (
-                      <Link href={`/e/${enterpriseId}/products?tool=bom`}
-                        className="inline-flex items-center justify-center gap-1.5 rounded-md border border-[color:var(--primary)]/30 bg-card px-2.5 py-1.5 text-[11px] font-medium text-[color:var(--primary)] transition hover:bg-[color:var(--primary)]/5">
-                        <Package className="h-3.5 w-3.5" /> 打开工作台（按产品）
-                      </Link>
-                    )}
                     {/* 反向下发：已接入的工具可就地下发改进任务 */}
                     {connected && TOOL_ACTION[tool.id] && (
                       <button
