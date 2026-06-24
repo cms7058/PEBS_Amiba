@@ -110,8 +110,9 @@ NEXT_PUBLIC_PUBLIC_URL=https://copilot.your-domain.com
 |---|---|---|
 | `AMIBA_AUTH_SECRET` | ✅ | 用来签 session JWT。`openssl rand -base64 48` 生成 |
 | `AMIBA_ADMIN_PASSWORD` | 可选 | 仅在 `data/users.json` 首次创建时使用；之后改密码请在 `/admin/users` 里改 |
-| `NEXT_PUBLIC_PUBLIC_URL` | 强烈推荐 | 公网域名，二维码使用。**变更需重新 build**（`NEXT_PUBLIC_*` 在打包时烘进客户端 bundle） |
+| `NEXT_PUBLIC_PUBLIC_URL` | 强烈推荐 | 公网域名/IP，二维码 + **子工具回传工时**都用它。**变更需重新 build**（`NEXT_PUBLIC_*` 在打包时烘进 bundle） |
 | `HOST_PORT` | 可选 | 默认 3000；如 80/8080 被占用可改 |
+| `NEXT_PUBLIC_TOOL_*_URL`（5 个） | 可选 | 子工具注册页地址的**初始默认值**（build-time）。**优先用后台「工具管理」运行时配置**，见第十节 |
 
 `AMIBA_DATA_DIR` 不需要设置，容器内已固定为 `/app/data`。
 
@@ -143,10 +144,10 @@ NEXT_PUBLIC_PUBLIC_URL=https://copilot.your-domain.com
 | `suggestions.json` | AI 提出但待审核的建议题目 |
 | `benchmark.json` | 匿名化的行业基准样本（每个诊断 finalize 时追加） |
 
-**升级 / 重建镜像**：
+**升级 / 重建镜像**（详见第九节）：
 ```bash
-git pull         # 或重新 rsync
-./deploy.sh      # 重新 build + rolling update — 数据卷不动
+cd /opt/amoeba-copilot && git pull   # 仓库根目录拉最新
+cd app && ./deploy.sh                 # ★ 在 app/ 子目录里重新 build + rolling update — 数据卷不动
 ```
 
 **备份策略**（建议）：
@@ -196,6 +197,7 @@ docker stats             # 看资源占用
 | 升级后丢用户/数据 | 检查 `docker volume ls` 是否还有 `amoeba_amoeba-data`；如果被 `docker compose down -v` 清了，需从备份恢复 |
 | `pnpm-lock.yaml` 改了 build 失败 | 删 `.next` 与 image，再 `./deploy.sh` |
 | docker stop 卡住等 10 秒 | 已用 tini 处理，正常应该 < 2 秒。若仍慢，看是否被 SSE 长连接挂住 |
+| `docker compose build` 卡在 `load metadata for docker.io/library/node:22-alpine` 报 **500**（如 `mirror.ccs.tencentyun.com`） | **Docker 镜像加速源挂了**（腾讯云内网源常抽风），不是代码问题。换源：把 `/etc/docker/daemon.json` 的 `registry-mirrors` 改成可用源（如 `https://docker.m.daocloud.io`、`https://docker.1panel.live`），`sudo systemctl restart docker`，先 `docker pull node:22-alpine` 验证通过再 build。判据：`docker pull node:22-alpine` 能成功就行 |
 
 ---
 
@@ -221,4 +223,61 @@ docker stats             # 看资源占用
 - [ ] 把 `.env` 文件权限改严：`chmod 600 .env`
 - [ ] 把 `/opt/amoeba-copilot/` 目录加入服务器的 systemd 自启或 docker 默认重启策略（已配置 `restart: unless-stopped`）
 
-部署完成后告诉我 URL，我帮你跑一次 smoke test 清单。
+---
+
+## 九、升级（拉取新版本重新部署）
+
+已部署过、要更新到最新代码时的**实测流程**：
+
+```bash
+cd /opt/amoeba-copilot          # 仓库根目录
+git pull                        # 拉最新代码
+
+cd app                          # ★ deploy.sh / docker-compose.yml / .env 都在 app/ 子目录里
+./deploy.sh backup              # 建议：重建前先备份数据卷（可选但稳妥）
+nano .env                       # 如本次新增了配置项再补（见第十节）；没新增可跳过
+./deploy.sh                     # 重新 build + 滚动更新
+```
+
+要点：
+- **目录认准 `app/`**：`git pull` 在仓库根目录跑，`./deploy.sh` 必须进 `app/` 里跑（deploy.sh 开头会 `cd` 到自己所在目录，找 `.env`/compose 都用相对路径；仓库根目录没有 deploy.sh）。
+- 升级**不动数据卷** `amoeba-data` —— 用户/企业/对话/产品/令牌等全部保留。
+- 新增的 data 文件（`products.json` / `platform-grants.json` / `connector-tokens.json` / `tool-config.json` …）运行时按需创建，无需手动迁移。
+- 没改 `NEXT_PUBLIC_*` 时重建很快（多走 Docker 层缓存）。
+
+---
+
+## 十、子工具接入与工具管理（BOM / 视频工时 / APS / LeanAI / 排料套料）
+
+阿米巴在「**诊断引擎 → 对症工具**」处接入 5 个子工具；接入后浏览器跳到各工具的注册页 `/register`，按产品建项目、计时、把工时回传到阿米巴对应产品。
+
+### 工具注册页地址怎么配（两种方式，优先用 B）
+
+**A · 初始默认值（`.env`，build-time）** —— 这 5 个 `NEXT_PUBLIC_*` 是默认地址，**改了要 `./deploy.sh` 重新 build 才生效**：
+
+```bash
+NEXT_PUBLIC_PUBLIC_URL=http://你的IP:3000              # 阿米巴自身公网地址（工具回传工时要用，必须设对）
+NEXT_PUBLIC_TOOL_WORKTIME_URL=http://你的IP:8000/register
+NEXT_PUBLIC_TOOL_APS_URL=http://你的IP:8787/register
+NEXT_PUBLIC_TOOL_BOM_URL=http://你的IP:3001/register   # 注意 BOM 别用 3000（阿米巴占了）
+NEXT_PUBLIC_TOOL_LEAN_URL=http://你的IP:3741/register
+NEXT_PUBLIC_TOOL_NESTING_URL=http://你的IP:5173/register
+```
+
+**B · 运行时改（推荐）** —— 登录后进 **用户管理 → 工具管理**（超管），逐工具改 **名称 + 注册网址**，保存**即时生效，不用重新 build**。覆盖项存 `data/tool-config.json`。以后 IP/端口变了，后台改一下就行。
+
+### 给各用户开通工具
+用户管理 → 账号列表每行的「**工具令牌**」列，点工具芯片**勾选/取消**（✓ 激活、再点停用）。激活后该用户才有对应工具的平台令牌（`apk_`），能从产品工作台登入工具。
+
+### 进产品工作台
+左侧企业工作区侧栏「总览」下方的「**产品工作台**」菜单进入；或地址栏把 `…/e/<企业id>/diagnosis` 改成 `…/e/<企业id>/products`。先建产品（零件号/订单号），APS/Lean/工时/套料 接入时才能在卡片下拉里选到产品。
+
+### 注意
+- 这 5 个 URL 是**浏览器要跳转的地址**，必须公网可达 —— 云服务器**安全组要放行** 3000/8000/8787/3001/3741/5173 等端口。
+- 暂时没域名就先**全程 HTTP 裸 IP** 跑通；若阿米巴上了 HTTPS 反代，工具页用 `http://IP` 会触发浏览器混合内容拦截 —— 要么工具也上 HTTPS、要么都用裸 IP HTTP，**别混**。
+- 工具卡片按钮：**未接入**显示「接入此工具治理该节点」，**已接入**才显示「重新接入 / 换令牌」（同一个按钮，文字随接入状态变）。
+- 各工具要单独部署、端口对外可达，接入按钮点过去才不会 502（各工具的部署见各自仓库）。
+
+---
+
+部署 / 升级完成后告诉我 URL，我帮你跑一次 smoke test 清单。
